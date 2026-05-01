@@ -17,7 +17,7 @@ const T = {
   border:      "rgba(255,255,255,0.08)",
   borderHov:   "rgba(255,255,255,0.15)",
   text:        "rgba(255,255,255,0.88)",
-  muted:       "rgba(255,255,255,0.42)",
+  muted:       "rgba(255,255,255,0.52)",
   faint:       "rgba(255,255,255,0.22)",
   rust:        "#D4673A",
   rustDim:     "rgba(212,103,58,0.14)",
@@ -30,13 +30,19 @@ const T = {
 
 /* ─── Global styles ──────────────────────────────────────────────────
  *
- * Background layers (front to back):
- *   [3] Diagonal gradient  145deg · dark navy → near-black
- *   [2] Base color         #0C0D11 solid
- *       ::before           SVG feTurbulence grain at 4.5% (film-grain feel)
+ * Background system (Stripe/Linear/Vercel level):
  *
- * Hero glow is rendered as a positioned element inside <Hero>
- * so it stays anchored to the text, not the viewport.
+ *   body              — solid #0A0B0F base (near-black, no gradient banding)
+ *   body::before      — SVG fractalNoise grain at 1.5% opacity (film texture)
+ *   body::after       — single diffused radial glow, top-left anchor, 5% opacity
+ *
+ * Hero glow div       — second soft radial behind heading text only
+ *
+ * Rules:
+ *   • No diagonal gradients (causes visible streaks)
+ *   • No repeating patterns or dots
+ *   • All glow opacity ≤ 6% — background must feel invisible
+ *   • Paragraph text bumped to 52% white for readability
  *
  * ─────────────────────────────────────────────────────────────────── */
 const GlobalStyles = () => (
@@ -44,23 +50,35 @@ const GlobalStyles = () => (
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
 
+    /* ── Layer 1: solid base ── */
     body {
       color: ${T.text};
       font-family: 'DM Sans', sans-serif;
-      background-color: ${T.base};
-      background-image:
-        linear-gradient(145deg, #0e1018 0%, #0C0D11 45%, #080a0d 100%);
-      background-attachment: fixed;
+      background-color: #0A0B0F;
     }
 
+    /* ── Layer 2: grain texture at 1.5% — adds realism without pattern ── */
     body::before {
       content: '';
       position: fixed; inset: 0; z-index: 0;
       pointer-events: none;
       background-image: ${T.noiseUri};
-      background-size: 300px 300px;
+      background-size: 200px 200px;
       background-repeat: repeat;
-      opacity: 0.045;
+      opacity: 0.015;
+    }
+
+    /* ── Layer 3: ambient glow — single diffused ellipse, top-left, 5% ── */
+    body::after {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(
+          ellipse 80% 60% at 15% 20%,
+          rgba(80, 90, 160, 0.05) 0%,
+          transparent 70%
+        );
     }
 
     body > * { position: relative; z-index: 1; }
@@ -184,29 +202,18 @@ With a passion for modern technology and clean code, I've successfully delivered
   ],
   experience: [
     {
-      role: "Senior Software Engineer", company: "Meridian Financial", period: "2022 – Present",
+      role: "Teaching Assistant", company: "Darshan University — Rajkot, IN", period: "12/2024 – 10/2025",
       points: [
-        "Led rebuild of the payments core — zero downtime migration of $2B annual transaction volume.",
-        "Defined API contracts and reviewed PRs across a 12-person backend guild.",
-      ],
-    },
-    {
-      role: "Software Engineer", company: "Devtools Inc.", period: "2020 – 2022",
-      points: [
-        "Built the internal developer platform used by 200+ engineers across 6 product teams.",
-        "Reduced CI pipeline time by 38% through parallelization and smarter caching.",
-      ],
-    },
-    {
-      role: "Junior Software Engineer", company: "Pixel Labs", period: "2018 – 2020",
-      points: [
-        "Shipped 3 major features for a SaaS product growing 20% MoM.",
-        "Introduced end-to-end testing that caught 12 critical regressions before release.",
+        "Assisted in teaching and mentoring undergraduate students in Flutter and JavaScript.",
+        "Conducted practical sessions and guided students in writing efficient, structured code.",
+        "Helped students understand real-world applications of programming through interactive examples and discussions.",
+        "Supported faculty in evaluating assignments, resolving doubts, and ensuring consistent student progress.",
+        "Collaborated with students to build small projects that enhanced their confidence in web development concepts.",
       ],
     },
   ],
   education: [
-    { degree: "B.Sc. Computer Science", school: "University of Edinburgh", year: "2018" },
+    { degree: "B.Tech — Computer Engineering", school: "Darshan University — Rajkot, IN", year: "2023 – 2027" },
   ],
   contact: {
     email: "kagatharatanish@gmail.com",
@@ -315,12 +322,12 @@ function SectionLabel({ label }) {
 function Hero() {
   return (
     <section style={{ minHeight: "100vh", display: "flex", alignItems: "center", padding: "8rem 2rem 4rem", maxWidth: 1120, margin: "0 auto", position: "relative" }}>
-      {/* Single soft radial glow — anchored behind hero text, not viewport */}
+      {/* Hero glow — soft radial behind heading, heavily blurred, 6% opacity */}
       <div aria-hidden="true" style={{
-        position: "absolute", top: "10%", left: "-10%",
-        width: "70vw", height: "60vh",
-        background: "radial-gradient(ellipse at center, rgba(99,102,241,0.07) 0%, transparent 68%)",
-        filter: "blur(40px)",
+        position: "absolute", top: "-5%", left: "-15%",
+        width: "65vw", height: "65vh",
+        background: "radial-gradient(ellipse at 40% 40%, rgba(90,100,180,0.06) 0%, transparent 65%)",
+        filter: "blur(60px)",
         pointerEvents: "none", zIndex: 0,
       }} />
       <div style={{ maxWidth: 720, position: "relative", zIndex: 1 }}>
