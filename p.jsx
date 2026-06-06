@@ -320,7 +320,7 @@ With a passion for modern technology and clean code, I've successfully delivered
 /* ─── Premium Background & Scroll ────────────────────────────────────── */
 function PremiumBackground() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  
+
   useEffect(() => {
     let rafId;
     const handleMouseMove = (e) => {
@@ -337,13 +337,13 @@ function PremiumBackground() {
   }, []);
 
   return (
-    <div aria-hidden="true" style={{ 
+    <div aria-hidden="true" style={{
       position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none', overflow: 'hidden',
       background: 'linear-gradient(-45deg, #050505, #140800, #0a0500, #050505)',
       backgroundSize: '400% 400%',
       animation: 'gradientBG 15s ease infinite'
     }}>
-      
+
       {/* Interactive Cursor Spotlight */}
       <div style={{
         position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
@@ -584,13 +584,15 @@ function Hero() {
   useEffect(() => {
     const el = nameRef.current;
     if (!el) return;
-    el.style.opacity = "0";
-    el.style.transform = "translateY(40px)";
-    setTimeout(() => {
-      el.style.transition = "opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1)";
+
+    // Slight delay ensures the browser paints the initial hidden state first
+    const timer = setTimeout(() => {
+      el.style.transition = "opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1), transform 1.2s cubic-bezier(0.22, 1, 0.36, 1)";
       el.style.opacity = "1";
       el.style.transform = "translateY(0)";
-    }, 100);
+    }, 150);
+
+    return () => clearTimeout(timer);
   }, []);
 
   const firstName = DATA.name.split(" ")[0];
@@ -631,7 +633,10 @@ function Hero() {
         </p>
 
         {/* Giant name */}
-        <div ref={nameRef} style={{ marginBottom: "1.5rem", lineHeight: 0.9 }}>
+        <div ref={nameRef} style={{
+          marginBottom: "1.5rem", lineHeight: 0.9,
+          opacity: 0, transform: "translateY(40px)"
+        }}>
           <div style={{
             fontFamily: "'Bebas Neue', cursive",
             fontSize: "clamp(4.5rem, 14vw, 11rem)",
@@ -737,7 +742,7 @@ function Projects() {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    const xPct = (x / rect.width - 0.5) * 12; 
+    const xPct = (x / rect.width - 0.5) * 12;
     const yPct = -(y / rect.height - 0.5) * 12;
     e.currentTarget.style.setProperty('--rx', `${yPct}deg`);
     e.currentTarget.style.setProperty('--ry', `${xPct}deg`);
@@ -985,8 +990,8 @@ function Experience() {
                         fontWeight: 500,
                         transition: "border-color 0.2s, color 0.2s"
                       }}
-                      onMouseEnter={e => { e.currentTarget.style.borderColor = T.orange; e.currentTarget.style.color = T.text; }}
-                      onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; e.currentTarget.style.color = T.muted; }}>
+                        onMouseEnter={e => { e.currentTarget.style.borderColor = T.orange; e.currentTarget.style.color = T.text; }}
+                        onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; e.currentTarget.style.color = T.muted; }}>
                         {skill}
                       </span>
                     ))}
