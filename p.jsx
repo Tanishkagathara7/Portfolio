@@ -9,18 +9,18 @@ const FontLink = () => (
 
 /* ─── Design Tokens ─────────────────────────────────────────────────── */
 const T = {
-  black:       "#000000",
-  surface:     "#0a0a0a",
+  black: "#000000",
+  surface: "#0a0a0a",
   surfaceCard: "#0f0f0f",
-  border:      "rgba(255,255,255,0.07)",
-  borderHov:   "rgba(245,166,35,0.55)",
-  orange:      "#F5A623",
-  orangeDim:   "rgba(245,166,35,0.12)",
-  orangeGlow:  "rgba(245,166,35,0.08)",
-  text:        "#E5E5E5",
-  muted:       "#888888",
-  faint:       "rgba(255,255,255,0.2)",
-  navBg:       "rgba(0,0,0,0.92)",
+  border: "rgba(255,255,255,0.07)",
+  borderHov: "rgba(245,166,35,0.55)",
+  orange: "#F5A623",
+  orangeDim: "rgba(245,166,35,0.12)",
+  orangeGlow: "rgba(245,166,35,0.08)",
+  text: "#E5E5E5",
+  muted: "#888888",
+  faint: "rgba(255,255,255,0.2)",
+  navBg: "rgba(0,0,0,0.92)",
   noiseUri: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E")`,
 };
 
@@ -73,10 +73,33 @@ const GlobalStyles = () => (
     /* ── Reveal animation ── */
     .reveal {
       opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1), transform 0.65s cubic-bezier(0.16,1,0.3,1);
+      transform: translateY(40px) scale(0.98);
+      transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1), 
+                  transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
     }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal.visible { 
+      opacity: 1; 
+      transform: translateY(0) scale(1); 
+    }
+    .stagger-child {
+      opacity: 0; transform: translateY(30px) scale(0.98);
+      transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1), 
+                  transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
+    }
+    .reveal.visible .stagger-child:not(.project-card) {
+      opacity: 1; transform: translateY(0) scale(1);
+    }
+    /* Special stagger for project card so it doesn't break the 3D perspective */
+    .stagger-child.project-card {
+      opacity: 0; 
+      transform: perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(40px) scale(0.98);
+    }
+    .reveal.visible .stagger-child.project-card {
+      opacity: 1; 
+      transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(var(--ty, 0px)) scale(1);
+    }
     .reveal-delay-1 { transition-delay: 0.1s; }
     .reveal-delay-2 { transition-delay: 0.2s; }
     .reveal-delay-3 { transition-delay: 0.3s; }
@@ -86,10 +109,20 @@ const GlobalStyles = () => (
       background: ${T.surfaceCard};
       border: 1px solid ${T.border};
       padding: 2rem;
-      transition: border-color 0.3s, transform 0.3s;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(var(--ty, 0px));
+      transform-style: preserve-3d;
+      transition: border-color 0.35s, box-shadow 0.35s, transform 0.1s ease-out;
       cursor: default;
       position: relative;
       overflow: hidden;
+      box-shadow: 0 0 0 0 transparent;
+      will-change: transform;
+    }
+    .project-card:not(:hover) {
+      transition: transform 0.6s cubic-bezier(0.16,1,0.3,1), border-color 0.35s, box-shadow 0.35s;
     }
     .project-card::before {
       content: '';
@@ -100,7 +133,11 @@ const GlobalStyles = () => (
       transform-origin: left;
       transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
     }
-    .project-card:hover { border-color: ${T.borderHov}; transform: translateY(-4px); }
+    .project-card:hover { 
+      --ty: -4px;
+      border-color: ${T.borderHov}; 
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(245,166,35,0.08);
+    }
     .project-card:hover::before { transform: scaleX(1); }
 
     /* ── Skill row ── */
@@ -160,10 +197,45 @@ const GlobalStyles = () => (
     @media (max-width: 768px) {
       .desktop-nav { display: none !important; }
     }
+    /* ── Premium Background Keyframes ── */
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @keyframes gridScroll {
+      0% { background-position: 0 0; }
+      100% { background-position: 0 60px; }
+    }
+    @keyframes orbFloat1 {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(15vw, 15vh) scale(1.1); }
+    }
+    @keyframes orbFloat2 {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(-15vw, -10vh) scale(1.15); }
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(1); opacity: 0; }
+      10% { opacity: var(--max-opacity, 0.8); }
+      90% { opacity: var(--max-opacity, 0.8); }
+      100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
+    }
+
     @media (min-width: 769px) {
+      .char-inner { opacity: 1 !important; transform: none !important; }
       .hamburger { display: none !important; }
       .mobile-menu { display: none !important; }
     }
+
+    /* ── Structural overrides to maintain original JSX ── */
+    .tl-line { display: none !important; }
+    .tl-spine-wrapper { 
+      position: absolute !important;
+      left: -28px !important;
+    }
+    .timeline-spine > div > div { position: relative !important; }
+
     @media (max-width: 640px) {
       .hero-stats { flex-direction: column !important; gap: 1.5rem !important; }
       .hero-cta { flex-direction: column !important; }
@@ -174,14 +246,14 @@ const GlobalStyles = () => (
 
 /* ─── Data (unchanged) ───────────────────────────────────────────────── */
 const DATA = {
-  name:    "Tanish Kagathara",
-  role:    "Software Engineer",
+  name: "Tanish Kagathara",
+  role: "Software Engineer",
   tagline: "I build systems that hold up under pressure — and interfaces people actually enjoy using.",
-  about:   `I'm a results-driven Full Stack Developer with hands-on experience in designing and developing responsive web and mobile applications. Specialized in React, Node.js, Next.js, Express, MongoDB, and Flutter. I craft clean, scalable, and user-friendly solutions that solve real-world problems.
+  about: `I'm a results-driven Full Stack Developer with hands-on experience in designing and developing responsive web and mobile applications. Specialized in React, Node.js, Next.js, Express, MongoDB, and Flutter. I craft clean, scalable, and user-friendly solutions that solve real-world problems.
 With a passion for modern technology and clean code, I've successfully delivered multiple projects from concept to production, always focusing on user experience and performance optimization.`,
   skills: {
     Frontend: ["TypeScript", "React", "Next.js", "CSS/Tailwind", "Accessible HTML"],
-    Backend:  ["Node.js", "NestJS", "Python", "MongoDB", "SQL"],
+    Backend: ["Node.js", "NestJS", "Python", "MongoDB", "SQL"],
   },
   projects: [
     {
@@ -208,6 +280,14 @@ With a passion for modern technology and clean code, I've successfully delivered
       github: "https://github.com/Tanishkagathara7/billing_management",
       demo: "https://biiling-stock-mangement.vercel.app/",
     },
+    {
+      title: "Box Cricket Booking",
+      description: "A comprehensive booking platform designed to streamline box cricket turf reservations. It provides users with an intuitive interface to view availability, schedule slots, and manage their bookings seamlessly, ensuring a friction-free user experience.",
+      stack: ["React", "JavaScript", "Booking System", "UI/UX"],
+      impact: "Simplified turf reservations with an intuitive scheduling interface",
+      github: "https://github.com/rag2504/boxcricket-booking",
+      demo: "https://boxcricket-booking.vercel.app/",
+    },
   ],
   experience: [
     {
@@ -230,11 +310,105 @@ With a passion for modern technology and clean code, I've successfully delivered
     linkedin: "https://www.linkedin.com/in/tanish-kagathara-83ba26229/",
   },
   stats: [
-    { value: "2+",   label: "Years\nExperience" },
-    { value: "5+",   label: "Projects\nDelivered" },
+    { value: "2+", label: "Years\nExperience" },
+    { value: "5+", label: "Projects\nDelivered" },
     { value: "100%", label: "Client\nSatisfaction" },
   ],
 };
+
+
+/* ─── Premium Background & Scroll ────────────────────────────────────── */
+function PremiumBackground() {
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  
+  useEffect(() => {
+    let rafId;
+    const handleMouseMove = (e) => {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        setMousePos({ x: e.clientX, y: e.clientY });
+      });
+    };
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, []);
+
+  return (
+    <div aria-hidden="true" style={{ 
+      position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none', overflow: 'hidden',
+      background: 'linear-gradient(-45deg, #050505, #140800, #0a0500, #050505)',
+      backgroundSize: '400% 400%',
+      animation: 'gradientBG 15s ease infinite'
+    }}>
+      
+      {/* Interactive Cursor Spotlight */}
+      <div style={{
+        position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+        background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(245,166,35,0.08), transparent 40%)`,
+        transition: 'background 0.2s ease-out',
+      }} />
+
+      {/* Intense Glowing Orbs */}
+      <div style={{
+        position: 'absolute', top: '-20%', left: '-10%',
+        width: '70vw', height: '70vw',
+        background: 'radial-gradient(circle, rgba(245,166,35,0.06) 0%, transparent 60%)',
+        filter: 'blur(100px)',
+        animation: 'orbFloat1 25s ease-in-out infinite alternate',
+      }} />
+      <div style={{
+        position: 'absolute', bottom: '-20%', right: '-10%',
+        width: '60vw', height: '60vw',
+        background: 'radial-gradient(circle, rgba(255,100,0,0.05) 0%, transparent 60%)',
+        filter: 'blur(120px)',
+        animation: 'orbFloat2 30s ease-in-out infinite alternate-reverse',
+      }} />
+
+      {/* Abstract Noise Overlay */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        backgroundImage: T.noiseUri,
+        backgroundRepeat: 'repeat',
+        backgroundSize: '180px 180px',
+        opacity: 0.04,
+        mixBlendMode: 'overlay',
+      }} />
+    </div>
+  );
+}
+
+function ScrollProgress() {
+  const [progress, setProgress] = useState(0);
+  useEffect(() => {
+    let rafId;
+    const onScroll = () => {
+      rafId = requestAnimationFrame(() => {
+        const h = document.documentElement;
+        const st = h.scrollTop || document.body.scrollTop;
+        const sh = h.scrollHeight || document.body.scrollHeight;
+        const pct = (st / (sh - h.clientHeight)) * 100;
+        setProgress(pct);
+      });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, []);
+  return (
+    <div style={{
+      position: 'fixed', top: 0, left: 0, height: 3, zIndex: 10000,
+      background: `linear-gradient(to right, #F5A623, #ffcc80)`,
+      width: `${progress}%`,
+      boxShadow: `0 0 14px rgba(245,166,35,0.6)`,
+      transition: 'width 0.1s ease-out'
+    }} />
+  );
+}
 
 /* ─── Hooks ──────────────────────────────────────────────────────────── */
 function useReveal() {
@@ -255,26 +429,26 @@ function useReveal() {
 /* ─── Icons ──────────────────────────────────────────────────────────── */
 const GithubIcon = ({ size = 15 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
   </svg>
 );
 const LinkedinIcon = ({ size = 15 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-    <rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+    <rect x="2" y="9" width="4" height="12" /><circle cx="4" cy="4" r="2" />
   </svg>
 );
 const MailIcon = ({ size = 15 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-    <polyline points="22,6 12,13 2,6"/>
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+    <polyline points="22,6 12,13 2,6" />
   </svg>
 );
 const ExternalIcon = ({ size = 13 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-    <polyline points="15 3 21 3 21 9"/>
-    <line x1="10" y1="14" x2="21" y2="3"/>
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+    <polyline points="15 3 21 3 21 9" />
+    <line x1="10" y1="14" x2="21" y2="3" />
   </svg>
 );
 
@@ -333,7 +507,7 @@ function Nav({ menuOpen, setMenuOpen }) {
           {links.map(l => (
             <a key={l} href={`#${l.toLowerCase()}`} className="nav-link">{l}</a>
           ))}
-          <a href={`mailto:${DATA.contact.email}`} className="btn-primary" style={{ marginLeft: "0.5rem" }}>
+          <a href="#contact" className="btn-primary" style={{ marginLeft: "0.5rem" }}>
             Hire Me
           </a>
         </div>
@@ -347,7 +521,7 @@ function Nav({ menuOpen, setMenuOpen }) {
         >
           {[0, 1, 2].map(i => (
             <div key={i} style={{
-              width: 24, height: 1.5, background: T.text, marginBottom: i < 2 ? 6 : 0,
+              width: 22, height: 1.5, background: T.text, marginBottom: i < 2 ? 5 : 0,
               transition: "all 0.25s",
               transform: menuOpen
                 ? (i === 0 ? "rotate(45deg) translate(5px,5px)" : i === 2 ? "rotate(-45deg) translate(5px,-5px)" : "none")
@@ -371,7 +545,7 @@ function Nav({ menuOpen, setMenuOpen }) {
               {l}
             </a>
           ))}
-          <a href={`mailto:${DATA.contact.email}`} className="btn-primary" style={{ textAlign: "center", justifyContent: "center" }}>
+          <a href="#contact" onClick={() => setMenuOpen(false)} className="btn-primary" style={{ textAlign: "center", justifyContent: "center" }}>
             Hire Me
           </a>
         </div>
@@ -383,6 +557,30 @@ function Nav({ menuOpen, setMenuOpen }) {
 /* ─── Hero ───────────────────────────────────────────────────────────── */
 function Hero() {
   const nameRef = useRef(null);
+  const heroContentRef = useRef(null);
+  const glowRef = useRef(null);
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let rafId;
+    const onScroll = () => {
+      rafId = requestAnimationFrame(() => {
+        const y = window.scrollY;
+        if (heroContentRef.current) {
+          heroContentRef.current.style.transform = `translateY(${y * 0.3}px)`;
+          heroContentRef.current.style.opacity = Math.max(1 - y / 700, 0);
+        }
+        if (glowRef.current) {
+          glowRef.current.style.transform = `translateY(${y * 0.5}px)`;
+        }
+      });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, []);
   useEffect(() => {
     const el = nameRef.current;
     if (!el) return;
@@ -396,12 +594,12 @@ function Hero() {
   }, []);
 
   const firstName = DATA.name.split(" ")[0];
-  const lastName  = DATA.name.split(" ")[1];
+  const lastName = DATA.name.split(" ")[1];
 
   return (
     <section style={{
       minHeight: "100vh",
-      background: T.black,
+      background: "transparent",
       display: "flex", flexDirection: "column", justifyContent: "center",
       padding: "9rem 2rem 5rem",
       maxWidth: 1200, margin: "0 auto",
@@ -409,7 +607,7 @@ function Hero() {
     }}>
 
       {/* Orange ambient glow */}
-      <div aria-hidden="true" style={{
+      <div ref={glowRef} aria-hidden="true" style={{
         position: "absolute", top: "10%", right: "-5%",
         width: "50vw", height: "60vh",
         background: "radial-gradient(ellipse at 60% 40%, rgba(245,166,35,0.06) 0%, transparent 65%)",
@@ -417,7 +615,7 @@ function Hero() {
         pointerEvents: "none", zIndex: 0,
       }} />
 
-      <div style={{ position: "relative", zIndex: 1, maxWidth: 900 }}>
+      <div ref={heroContentRef} style={{ position: "relative", zIndex: 1, maxWidth: 900, willChange: 'transform, opacity' }}>
         {/* Pre-label */}
         <p style={{
           fontSize: 12, fontWeight: 600, letterSpacing: "0.2em",
@@ -472,36 +670,14 @@ function Hero() {
           <a href="#contact" className="btn-outline">Get in Touch</a>
         </div>
 
-        {/* Stats row */}
+        {/* Socials */}
         <div className="hero-stats" style={{
           display: "flex", gap: "3.5rem",
           borderTop: `1px solid ${T.border}`,
           paddingTop: "2.5rem",
         }}>
-          {DATA.stats.map((s, i) => (
-            <div key={i}>
-              <div style={{
-                fontFamily: "'Bebas Neue', cursive",
-                fontSize: "clamp(2.2rem, 5vw, 3.5rem)",
-                color: T.orange, lineHeight: 1,
-                marginBottom: "0.35rem",
-              }}>
-                {s.value}
-              </div>
-              <div style={{
-                fontSize: 11, fontWeight: 500,
-                letterSpacing: "0.1em", textTransform: "uppercase",
-                color: T.muted, lineHeight: 1.5,
-                whiteSpace: "pre-line",
-              }}>
-                {s.label}
-              </div>
-            </div>
-          ))}
-
-          {/* Separator + socials */}
-          <div style={{ marginLeft: "auto", display: "flex", gap: "1.5rem", alignItems: "flex-end" }}>
-            <a href={DATA.contact.github}   className="icon-link" target="_blank" rel="noreferrer"><GithubIcon />GitHub</a>
+          <div style={{ display: "flex", gap: "1.5rem", alignItems: "flex-end" }}>
+            <a href={DATA.contact.github} className="icon-link" target="_blank" rel="noreferrer"><GithubIcon />GitHub</a>
             <a href={DATA.contact.linkedin} className="icon-link" target="_blank" rel="noreferrer"><LinkedinIcon />LinkedIn</a>
             <a href={`mailto:${DATA.contact.email}`} className="icon-link"><MailIcon />Email</a>
           </div>
@@ -527,56 +703,25 @@ function About() {
     <>
       <Divider />
       <section id="about" style={{ padding: "7rem 2rem", maxWidth: 1200, margin: "0 auto" }}>
-        <div ref={ref} className="reveal" style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-          gap: "5rem", alignItems: "start",
-        }}>
-
-          {/* Left — about text */}
-          <div>
-            <SectionLabel label="About Me" />
-            <h2 style={{
-              fontFamily: "'Bebas Neue', cursive",
-              fontSize: "clamp(2.4rem, 5vw, 3.8rem)",
-              fontWeight: 400, letterSpacing: "0.03em",
-              color: T.text, lineHeight: 1.05,
-              marginBottom: "2rem",
-            }}>
-              Engineer by discipline,<br />
-              <span style={{ color: T.orange }}>pragmatist</span> by nature.
-            </h2>
-            {DATA.about.split("\n").filter(Boolean).map((p, i) => (
-              <p key={i} style={{
-                fontSize: 15, lineHeight: 1.85,
-                color: T.muted, marginBottom: "1.1rem", fontWeight: 300,
-              }}>{p.trim()}</p>
-            ))}
-          </div>
-
-          {/* Right — skills list */}
-          <div>
-            <SectionLabel label="Skills" />
-            {Object.entries(DATA.skills).map(([cat, items]) => (
-              <div key={cat} style={{ marginBottom: "2.5rem" }}>
-                <p style={{
-                  fontSize: 10, fontWeight: 600, letterSpacing: "0.18em",
-                  textTransform: "uppercase", color: T.faint,
-                  marginBottom: "0.5rem",
-                }}>
-                  — {cat}
-                </p>
-                <div>
-                  {items.map(skill => (
-                    <div key={skill} className="skill-row">
-                      <span className="skill-name">{skill}</span>
-                      <span className="skill-arrow">→</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
+        <div ref={ref} className="reveal" style={{ maxWidth: 800 }}>
+          <SectionLabel label="About Me" />
+          <h2 style={{
+            fontFamily: "'Bebas Neue', cursive",
+            fontSize: "clamp(2.4rem, 5vw, 3.8rem)",
+            fontWeight: 400, letterSpacing: "0.03em",
+            color: T.text, lineHeight: 1.05,
+            marginBottom: "2rem",
+          }}>
+            Engineer by discipline,<br />
+            <span style={{ color: T.orange }}>pragmatist</span> by nature.
+          </h2>
+          {DATA.about.split("\n").filter(Boolean).map((p, i) => (
+            <p key={i} className="stagger-child" style={{
+              fontSize: 15, lineHeight: 1.85,
+              color: T.muted, marginBottom: "1.1rem", fontWeight: 300,
+              transitionDelay: `${i * 0.15}s`
+            }}>{p.trim()}</p>
+          ))}
         </div>
       </section>
     </>
@@ -586,10 +731,27 @@ function About() {
 /* ─── Projects ───────────────────────────────────────────────────────── */
 function Projects() {
   const ref = useReveal();
+
+  const handleMouseMove = (e) => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const xPct = (x / rect.width - 0.5) * 12; 
+    const yPct = -(y / rect.height - 0.5) * 12;
+    e.currentTarget.style.setProperty('--rx', `${yPct}deg`);
+    e.currentTarget.style.setProperty('--ry', `${xPct}deg`);
+  };
+
+  const handleMouseLeave = (e) => {
+    e.currentTarget.style.setProperty('--rx', `0deg`);
+    e.currentTarget.style.setProperty('--ry', `0deg`);
+  };
+
   return (
     <>
       <Divider />
-      <section id="projects" style={{ padding: "7rem 2rem", background: T.surface }}>
+      <section id="projects" style={{ padding: "7rem 2rem", background: "rgba(10, 10, 10, 0.3)" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <SectionLabel label="Projects" />
           <h2 style={{
@@ -604,11 +766,12 @@ function Projects() {
 
           <div ref={ref} className="reveal" style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
             gap: "1.5rem",
           }}>
-            {DATA.projects.map(p => (
-              <article key={p.title} className="project-card">
+            {DATA.projects.map((p, idx) => (
+              <article key={p.title} className="project-card stagger-child" style={{ transitionDelay: `${idx * 0.15}s` }}
+                onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
 
                 {/* Header */}
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "1.25rem" }}>
@@ -649,36 +812,39 @@ function Projects() {
                   {p.description}
                 </p>
 
-                {/* Impact badge */}
-                <div style={{
-                  display: "inline-flex", alignItems: "center", gap: 8,
-                  background: T.orangeDim, padding: "6px 12px",
-                  border: `1px solid rgba(245,166,35,0.2)`,
-                  marginBottom: "1.25rem",
-                }}>
-                  <span style={{
-                    width: 6, height: 6, borderRadius: "50%",
-                    background: T.orange, flexShrink: 0, display: "inline-block",
-                  }} />
-                  <span style={{ fontSize: 12, color: T.orange, fontWeight: 400 }}>{p.impact}</span>
-                </div>
+                {/* Footer wrapper so badge and tags align to bottom */}
+                <div style={{ marginTop: "auto" }}>
+                  {/* Impact badge */}
+                  <div style={{
+                    display: "inline-flex", alignItems: "center", gap: 8,
+                    background: T.orangeDim, padding: "6px 12px",
+                    border: `1px solid rgba(245,166,35,0.2)`,
+                    marginBottom: "1.25rem",
+                  }}>
+                    <span style={{
+                      width: 6, height: 6, borderRadius: "50%",
+                      background: T.orange, flexShrink: 0, display: "inline-block",
+                    }} />
+                    <span style={{ fontSize: 12, color: T.orange, fontWeight: 400 }}>{p.impact}</span>
+                  </div>
 
-                {/* Stack tags */}
-                <div style={{
-                  display: "flex", flexWrap: "wrap", gap: 6,
-                  borderTop: `1px solid ${T.border}`, paddingTop: "1rem",
-                }}>
-                  {p.stack.map(t => (
-                    <span key={t} style={{
-                      fontSize: 11, fontWeight: 500,
-                      letterSpacing: "0.06em", textTransform: "uppercase",
-                      color: T.muted, padding: "4px 10px",
-                      border: `1px solid ${T.border}`,
-                      background: "rgba(255,255,255,0.03)",
-                    }}>
-                      {t}
-                    </span>
-                  ))}
+                  {/* Stack tags */}
+                  <div style={{
+                    display: "flex", flexWrap: "wrap", gap: 6,
+                    borderTop: `1px solid ${T.border}`, paddingTop: "1rem",
+                  }}>
+                    {p.stack.map(t => (
+                      <span key={t} style={{
+                        fontSize: 11, fontWeight: 500,
+                        letterSpacing: "0.06em", textTransform: "uppercase",
+                        color: T.muted, padding: "4px 10px",
+                        border: `1px solid ${T.border}`,
+                        background: "rgba(255,255,255,0.03)",
+                      }}>
+                        {t}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </article>
             ))}
@@ -721,7 +887,7 @@ function Experience() {
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: "2.5rem" }}>
               {DATA.experience.map((e, i) => (
-                <div key={i} style={{ display: "flex", gap: "1.5rem" }}>
+                <div key={i} className="stagger-child" style={{ display: "flex", gap: "1.5rem", transitionDelay: `${i * 0.15}s` }}>
                   {/* Timeline spine */}
                   <div style={{ display: "flex", flexDirection: "column", alignItems: "center", paddingTop: 4 }}>
                     <div style={{
@@ -767,10 +933,11 @@ function Experience() {
               — Education
             </p>
             {DATA.education.map((e, i) => (
-              <div key={i} style={{
+              <div key={i} className="stagger-child" style={{
                 borderLeft: `2px solid ${T.orange}`,
                 paddingLeft: "1.5rem",
                 position: "relative",
+                transitionDelay: `${i * 0.15}s`
               }}>
                 <div style={{
                   position: "absolute", left: -5, top: 0,
@@ -789,33 +956,40 @@ function Experience() {
               </div>
             ))}
 
-            {/* Skills progress bars */}
-            <div style={{ marginTop: "3.5rem" }}>
-              <p style={{
+            {/* Skills List */}
+            <div style={{ marginTop: "4rem" }}>
+              <p className="stagger-child" style={{
                 fontSize: 10, fontWeight: 600, letterSpacing: "0.18em",
-                textTransform: "uppercase", color: T.faint, marginBottom: "1.5rem",
+                textTransform: "uppercase", color: T.faint, marginBottom: "2rem",
               }}>
-                — Core Proficiency
+                — Skills
               </p>
-              {[
-                { name: "React / Next.js",  pct: 90 },
-                { name: "Node.js / Express", pct: 85 },
-                { name: "TypeScript",        pct: 82 },
-                { name: "MongoDB / SQL",     pct: 78 },
-                { name: "Python",            pct: 70 },
-              ].map(bar => (
-                <div key={bar.name} style={{ marginBottom: "1.1rem" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-                    <span style={{ fontSize: 12.5, color: T.text, fontWeight: 400 }}>{bar.name}</span>
-                    <span style={{ fontSize: 12, color: T.orange, fontWeight: 600 }}>{bar.pct}%</span>
-                  </div>
-                  <div style={{ height: 2, background: T.border, width: "100%", position: "relative" }}>
-                    <div style={{
-                      position: "absolute", left: 0, top: 0, height: "100%",
-                      width: `${bar.pct}%`,
-                      background: `linear-gradient(to right, ${T.orange}, #ffb84d)`,
-                      boxShadow: `0 0 8px rgba(245,166,35,0.5)`,
-                    }} />
+              {Object.entries(DATA.skills).map(([cat, items], idx) => (
+                <div key={cat} className="stagger-child" style={{ marginBottom: "2.5rem", transitionDelay: `${idx * 0.15}s` }}>
+                  <p style={{
+                    fontSize: 11, fontWeight: 600, letterSpacing: "0.1em",
+                    textTransform: "uppercase", color: T.muted,
+                    marginBottom: "1rem",
+                  }}>
+                    {cat}
+                  </p>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "0.8rem" }}>
+                    {items.map(skill => (
+                      <span key={skill} style={{
+                        padding: "10px 16px",
+                        background: "rgba(255,255,255,0.03)",
+                        border: `1px solid rgba(255,255,255,0.06)`,
+                        borderRadius: "4px",
+                        fontSize: 13,
+                        color: T.muted,
+                        fontWeight: 500,
+                        transition: "border-color 0.2s, color 0.2s"
+                      }}
+                      onMouseEnter={e => { e.currentTarget.style.borderColor = T.orange; e.currentTarget.style.color = T.text; }}
+                      onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; e.currentTarget.style.color = T.muted; }}>
+                        {skill}
+                      </span>
+                    ))}
                   </div>
                 </div>
               ))}
@@ -861,7 +1035,7 @@ function Contact() {
   return (
     <>
       <Divider />
-      <section id="contact" style={{ padding: "7rem 2rem 4rem", background: T.black, position: "relative", overflow: "hidden" }}>
+      <section id="contact" style={{ padding: "7rem 2rem 4rem", background: "transparent", position: "relative", overflow: "hidden" }}>
 
         {/* Glow */}
         <div aria-hidden="true" style={{
@@ -911,7 +1085,7 @@ function Contact() {
 
             {/* Right — form */}
             <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-              <div>
+              <div className="stagger-child" style={{ transitionDelay: '0.1s' }}>
                 <label htmlFor="cf-name" style={labelStyle}>Name</label>
                 <input id="cf-name" name="name" type="text" placeholder="Your name" required
                   value={form.name} onChange={handleChange} style={inputStyle}
@@ -919,7 +1093,7 @@ function Contact() {
                   onBlur={e => { e.target.style.borderColor = T.border; e.target.style.background = "rgba(255,255,255,0.03)"; }}
                 />
               </div>
-              <div>
+              <div className="stagger-child" style={{ transitionDelay: '0.2s' }}>
                 <label htmlFor="cf-email" style={labelStyle}>Email</label>
                 <input id="cf-email" name="email" type="email" placeholder="your@email.com" required
                   value={form.email} onChange={handleChange} style={inputStyle}
@@ -927,7 +1101,7 @@ function Contact() {
                   onBlur={e => { e.target.style.borderColor = T.border; e.target.style.background = "rgba(255,255,255,0.03)"; }}
                 />
               </div>
-              <div>
+              <div className="stagger-child" style={{ transitionDelay: '0.3s' }}>
                 <label htmlFor="cf-message" style={labelStyle}>Message</label>
                 <textarea id="cf-message" name="message" placeholder="Your message here..." required rows={6}
                   value={form.message} onChange={handleChange}
@@ -971,7 +1145,7 @@ function Contact() {
             </span>
             <div style={{ display: "flex", gap: "1.5rem" }}>
               {[
-                { href: DATA.contact.github,   icon: <GithubIcon /> },
+                { href: DATA.contact.github, icon: <GithubIcon /> },
                 { href: DATA.contact.linkedin, icon: <LinkedinIcon /> },
               ].map(({ href, icon }, i) => (
                 <a key={i} href={href} target="_blank" rel="noreferrer"
@@ -996,8 +1170,9 @@ export default function Portfolio() {
     <>
       <FontLink />
       <GlobalStyles />
+      <PremiumBackground />
       <Nav menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-      <main>
+      <main style={{ position: "relative", zIndex: 1 }}>
         <Hero />
         <About />
         <Projects />
