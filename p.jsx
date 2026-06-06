@@ -1,169 +1,178 @@
 import { useState, useEffect, useRef } from "react";
 
-/* ─── Google Fonts ─────────────────────────────────────────────────── */
+/* ─── Google Fonts ──────────────────────────────────────────────────── */
 const FontLink = () => (
   <style>{`
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Syne:wght@400;600;700;800&display=swap');
   `}</style>
 );
 
-/* ─── Design tokens ──────────────────────────────────────────────────
- * Dark palette: near-black base + rust accent + indigo glow
- * ─────────────────────────────────────────────────────────────────── */
+/* ─── Design Tokens ─────────────────────────────────────────────────── */
 const T = {
-  base:        "#0C0D11",
-  surface:     "rgba(255,255,255,0.042)",
-  surfaceHov:  "rgba(255,255,255,0.065)",
-  border:      "rgba(255,255,255,0.08)",
-  borderHov:   "rgba(255,255,255,0.15)",
-  text:        "rgba(255,255,255,0.88)",
-  muted:       "rgba(255,255,255,0.52)",
-  faint:       "rgba(255,255,255,0.22)",
-  rust:        "#D4673A",
-  rustDim:     "rgba(212,103,58,0.14)",
-  navBg:       "rgba(12,13,17,0.85)",
-  sectionAlt:  "rgba(255,255,255,0.016)",
-  tag:         "rgba(255,255,255,0.065)",
-  tagText:     "rgba(255,255,255,0.52)",
-  noiseUri:    `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E")`,
+  black:       "#000000",
+  surface:     "#0a0a0a",
+  surfaceCard: "#0f0f0f",
+  border:      "rgba(255,255,255,0.07)",
+  borderHov:   "rgba(245,166,35,0.55)",
+  orange:      "#F5A623",
+  orangeDim:   "rgba(245,166,35,0.12)",
+  orangeGlow:  "rgba(245,166,35,0.08)",
+  text:        "#E5E5E5",
+  muted:       "#888888",
+  faint:       "rgba(255,255,255,0.2)",
+  navBg:       "rgba(0,0,0,0.92)",
+  noiseUri: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E")`,
 };
 
-/* ─── Global styles ──────────────────────────────────────────────────
- *
- * Background system (Stripe/Linear/Vercel level):
- *
- *   body              — solid #0A0B0F base (near-black, no gradient banding)
- *   body::before      — SVG fractalNoise grain at 1.5% opacity (film texture)
- *   body::after       — single diffused radial glow, top-left anchor, 5% opacity
- *
- * Hero glow div       — second soft radial behind heading text only
- *
- * Rules:
- *   • No diagonal gradients (causes visible streaks)
- *   • No repeating patterns or dots
- *   • All glow opacity ≤ 6% — background must feel invisible
- *   • Paragraph text bumped to 52% white for readability
- *
- * ─────────────────────────────────────────────────────────────────── */
+/* ─── Global Styles ─────────────────────────────────────────────────── */
 const GlobalStyles = () => (
   <style>{`
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
 
-    /* ── Layer 1: solid base ── */
     body {
+      background-color: ${T.black};
       color: ${T.text};
       font-family: 'DM Sans', sans-serif;
-      background-color: #0A0B0F;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
-    /* ── Layer 2: grain texture at 1.5% — adds realism without pattern ── */
+    /* Grain texture overlay */
     body::before {
       content: '';
       position: fixed; inset: 0; z-index: 0;
       pointer-events: none;
       background-image: ${T.noiseUri};
-      background-size: 200px 200px;
+      background-size: 180px 180px;
       background-repeat: repeat;
-      opacity: 0.015;
-    }
-
-    /* ── Layer 3: ambient glow — single diffused ellipse, top-left, 5% ── */
-    body::after {
-      content: '';
-      position: fixed; inset: 0; z-index: 0;
-      pointer-events: none;
-      background:
-        radial-gradient(
-          ellipse 80% 60% at 15% 20%,
-          rgba(80, 90, 160, 0.05) 0%,
-          transparent 70%
-        );
+      opacity: 0.028;
     }
 
     body > * { position: relative; z-index: 1; }
 
-    ::-webkit-scrollbar { width: 4px; }
-    ::-webkit-scrollbar-track { background: ${T.base}; }
-    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: ${T.black}; }
+    ::-webkit-scrollbar-thumb { background: ${T.orange}; border-radius: 0; }
 
     a { color: inherit; text-decoration: none; }
-    ::selection { background: ${T.rust}; color: #fff; }
+    ::selection { background: ${T.orange}; color: #000; }
 
+    /* ── Nav links ── */
     .nav-link {
-      position: relative; font-size: 13px; font-weight: 400;
-      letter-spacing: 0.04em; color: ${T.muted}; transition: color 0.2s;
+      position: relative;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px; font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: ${T.muted};
+      transition: color 0.2s;
     }
-    .nav-link::after {
-      content: ''; position: absolute; bottom: -2px; left: 0;
-      width: 0; height: 1px; background: ${T.rust}; transition: width 0.25s ease;
-    }
-    .nav-link:hover { color: ${T.text}; }
-    .nav-link:hover::after { width: 100%; }
+    .nav-link:hover { color: ${T.orange}; }
 
+    /* ── Reveal animation ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1), transform 0.65s cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ── Project cards ── */
     .project-card {
-      background: ${T.surface};
+      background: ${T.surfaceCard};
       border: 1px solid ${T.border};
-      border-radius: 4px; padding: 2rem;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      transition: background 0.25s, border-color 0.25s, transform 0.25s;
+      padding: 2rem;
+      transition: border-color 0.3s, transform 0.3s;
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: ${T.orange};
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+    }
+    .project-card:hover { border-color: ${T.borderHov}; transform: translateY(-4px); }
+    .project-card:hover::before { transform: scaleX(1); }
+
+    /* ── Skill row ── */
+    .skill-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 0;
+      border-bottom: 1px solid ${T.border};
+      transition: background 0.2s;
       cursor: default;
     }
-    .project-card:hover {
-      background: ${T.surfaceHov};
-      border-color: ${T.borderHov};
-      transform: translateY(-3px);
-    }
+    .skill-row:hover .skill-name { color: ${T.orange}; }
+    .skill-name { font-size: 14px; font-weight: 400; color: ${T.text}; transition: color 0.2s; letter-spacing: 0.02em; }
+    .skill-arrow { color: ${T.orange}; font-size: 14px; font-weight: 600; }
 
+    /* ── Buttons ── */
     .btn-primary {
-      display: inline-block; background: ${T.rust}; color: #fff;
-      padding: 13px 28px; font-family: 'DM Sans', sans-serif;
-      font-size: 13px; font-weight: 500; letter-spacing: 0.06em;
-      text-transform: uppercase; border: none; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 8px;
+      background: ${T.orange}; color: #000;
+      padding: 13px 28px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      border: none; cursor: pointer;
       transition: background 0.2s, transform 0.15s;
     }
-    .btn-primary:hover { background: #e07040; }
+    .btn-primary:hover { background: #ffb84d; }
     .btn-primary:active { transform: scale(0.98); }
 
     .btn-outline {
-      display: inline-block; background: transparent; color: ${T.text};
-      padding: 12px 28px; font-family: 'DM Sans', sans-serif;
-      font-size: 13px; font-weight: 500; letter-spacing: 0.06em;
-      text-transform: uppercase; border: 1px solid ${T.border}; cursor: pointer;
-      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent; color: ${T.text};
+      padding: 12px 28px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      border: 1px solid rgba(255,255,255,0.18); cursor: pointer;
+      transition: border-color 0.2s, color 0.2s, transform 0.15s;
     }
-    .btn-outline:hover { background: rgba(255,255,255,0.06); border-color: ${T.borderHov}; }
+    .btn-outline:hover { border-color: ${T.orange}; color: ${T.orange}; }
     .btn-outline:active { transform: scale(0.98); }
 
-    .skill-tag {
-      display: inline-block; background: ${T.tag}; color: ${T.tagText};
-      font-size: 11.5px; font-weight: 400; letter-spacing: 0.03em;
-      padding: 5px 10px; border-radius: 2px;
-      border: 1px solid rgba(255,255,255,0.06);
-    }
-
+    /* ── Icon links ── */
     .icon-link {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
       color: ${T.muted}; transition: color 0.2s;
     }
-    .icon-link:hover { color: ${T.rust}; }
+    .icon-link:hover { color: ${T.orange}; }
 
-    .tl-dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: ${T.rust}; flex-shrink: 0; margin-top: 6px;
+    /* ── Section divider ── */
+    .section-divider {
+      width: 100%; height: 1px;
+      background: linear-gradient(to right, transparent, ${T.border} 20%, ${T.border} 80%, transparent);
     }
 
-    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.55s ease, transform 0.55s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-
-    @media (max-width: 768px) { .desktop-nav { display: none !important; } }
-    @media (min-width: 769px) { .hamburger { display: none !important; } .mobile-menu { display: none !important; } }
+    /* ── Mobile ── */
+    @media (max-width: 768px) {
+      .desktop-nav { display: none !important; }
+    }
+    @media (min-width: 769px) {
+      .hamburger { display: none !important; }
+      .mobile-menu { display: none !important; }
+    }
+    @media (max-width: 640px) {
+      .hero-stats { flex-direction: column !important; gap: 1.5rem !important; }
+      .hero-cta { flex-direction: column !important; }
+      .hero-cta a { width: 100%; text-align: center; justify-content: center; }
+    }
   `}</style>
 );
 
-/* ─── Data ───────────────────────────────────────────────────────────── */
+/* ─── Data (unchanged) ───────────────────────────────────────────────── */
 const DATA = {
   name:    "Tanish Kagathara",
   role:    "Software Engineer",
@@ -220,6 +229,11 @@ With a passion for modern technology and clean code, I've successfully delivered
     github: "https://github.com",
     linkedin: "https://www.linkedin.com/in/tanish-kagathara-83ba26229/",
   },
+  stats: [
+    { value: "2+",   label: "Years\nExperience" },
+    { value: "5+",   label: "Projects\nDelivered" },
+    { value: "100%", label: "Client\nSatisfaction" },
+  ],
 };
 
 /* ─── Hooks ──────────────────────────────────────────────────────────── */
@@ -230,413 +244,12 @@ function useReveal() {
     if (!el) return;
     const obs = new IntersectionObserver(
       ([e]) => { if (e.isIntersecting) { el.classList.add("visible"); obs.disconnect(); } },
-      { threshold: 0.12 }
+      { threshold: 0.08 }
     );
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
   return ref;
-}
-
-/* ─── Nav ────────────────────────────────────────────────────────────── */
-function Nav({ menuOpen, setMenuOpen }) {
-  const [scrolled, setScrolled] = useState(false);
-  useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", fn);
-    return () => window.removeEventListener("scroll", fn);
-  }, []);
-
-  const links = ["About", "Projects", "Experience", "Contact"];
-
-  return (
-    <header style={{
-      position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
-      background: scrolled ? T.navBg : "transparent",
-      backdropFilter: scrolled ? "blur(16px)" : "none",
-      WebkitBackdropFilter: scrolled ? "blur(16px)" : "none",
-      borderBottom: scrolled ? `1px solid ${T.border}` : "none",
-      transition: "all 0.3s ease",
-    }}>
-      <nav style={{
-        maxWidth: 1120, margin: "0 auto", padding: "0 2rem",
-        height: 64, display: "flex", alignItems: "center", justifyContent: "space-between",
-      }}>
-        <a href="#" style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, fontWeight: 600, letterSpacing: "-0.01em", color: T.text }}>
-          {DATA.name.split(" ")[0]}<span style={{ color: T.rust }}>.</span>
-        </a>
-
-        <div className="desktop-nav" style={{ display: "flex", gap: "2.5rem", alignItems: "center" }}>
-          {links.map(l => <a key={l} href={`#${l.toLowerCase()}`} className="nav-link">{l}</a>)}
-          <a href={`mailto:${DATA.contact.email}`} className="btn-primary" style={{ marginLeft: "0.5rem" }}>Hire me</a>
-        </div>
-
-        <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)}
-          style={{ background: "none", border: "none", cursor: "pointer", padding: 4 }}
-          aria-label="Toggle menu">
-          {[0, 1, 2].map(i => (
-            <div key={i} style={{
-              width: 22, height: 1.5, background: T.text, marginBottom: i < 2 ? 5 : 0,
-              transition: "all 0.2s",
-              transform: menuOpen ? (i === 0 ? "rotate(45deg) translate(4px,4px)" : i === 2 ? "rotate(-45deg) translate(4px,-4px)" : "none") : "none",
-              opacity: menuOpen && i === 1 ? 0 : 1,
-            }} />
-          ))}
-        </button>
-      </nav>
-
-      {menuOpen && (
-        <div className="mobile-menu" style={{
-          display: "flex", flexDirection: "column", gap: "1.5rem",
-          background: T.navBg, backdropFilter: "blur(16px)", padding: "2rem",
-          borderTop: `1px solid ${T.border}`,
-        }}>
-          {links.map(l => (
-            <a key={l} href={`#${l.toLowerCase()}`} onClick={() => setMenuOpen(false)}
-              style={{ fontSize: 15, color: T.text }}>{l}</a>
-          ))}
-          <a href={`mailto:${DATA.contact.email}`} className="btn-primary" style={{ textAlign: "center" }}>Hire me</a>
-        </div>
-      )}
-    </header>
-  );
-}
-
-/* ─── Shared helpers ─────────────────────────────────────────────────── */
-const Divider = () => (
-  <div style={{ maxWidth: 1120, margin: "0 auto", padding: "0 2rem" }}>
-    <div style={{ height: 1, background: `linear-gradient(to right, transparent, ${T.border} 20%, ${T.border} 80%, transparent)` }} />
-  </div>
-);
-
-function SectionLabel({ label }) {
-  return (
-    <p style={{ fontSize: 11, fontWeight: 500, letterSpacing: "0.14em", textTransform: "uppercase", color: T.muted, marginBottom: "1rem", display: "flex", alignItems: "center", gap: 8 }}>
-      <span style={{ display: "inline-block", width: 16, height: 1, background: T.muted }} />
-      {label}
-    </p>
-  );
-}
-
-/* ─── Hero ───────────────────────────────────────────────────────────── */
-function Hero() {
-  return (
-    <section style={{ minHeight: "100vh", display: "flex", alignItems: "center", padding: "8rem 2rem 4rem", maxWidth: 1120, margin: "0 auto", position: "relative" }}>
-      {/* Hero glow — soft radial behind heading, heavily blurred, 6% opacity */}
-      <div aria-hidden="true" style={{
-        position: "absolute", top: "-5%", left: "-15%",
-        width: "65vw", height: "65vh",
-        background: "radial-gradient(ellipse at 40% 40%, rgba(90,100,180,0.06) 0%, transparent 65%)",
-        filter: "blur(60px)",
-        pointerEvents: "none", zIndex: 0,
-      }} />
-      <div style={{ maxWidth: 720, position: "relative", zIndex: 1 }}>
-        <p style={{ fontSize: 12, fontWeight: 500, letterSpacing: "0.14em", textTransform: "uppercase", color: T.rust, marginBottom: "1.5rem", display: "flex", alignItems: "center", gap: 8 }}>
-          <span style={{ display: "inline-block", width: 24, height: 1, background: T.rust }} />
-          {DATA.role}
-        </p>
-
-        <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2.8rem, 6vw, 5rem)", fontWeight: 600, lineHeight: 1.08, letterSpacing: "-0.02em", color: T.text, marginBottom: "1.75rem" }}>
-          {DATA.name}
-        </h1>
-
-        <p style={{ fontSize: "clamp(1.05rem, 2vw, 1.2rem)", fontWeight: 300, lineHeight: 1.65, color: T.muted, maxWidth: 560, marginBottom: "2.5rem" }}>
-          {DATA.tagline}
-        </p>
-
-        <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-          <a href="#projects" className="btn-primary">View Work</a>
-          <a href="#contact"  className="btn-outline">Get in Touch</a>
-        </div>
-
-        <div style={{ display: "flex", gap: "1.5rem", marginTop: "3.5rem", alignItems: "center" }}>
-          <a href={DATA.contact.github}   className="icon-link" target="_blank" rel="noreferrer"><GithubIcon />   GitHub</a>
-          <a href={DATA.contact.linkedin} className="icon-link" target="_blank" rel="noreferrer"><LinkedinIcon /> LinkedIn</a>
-          <a href={`mailto:${DATA.contact.email}`} className="icon-link"><MailIcon /> Email</a>
-        </div>
-      </div>
-
-      <div style={{ position: "absolute", bottom: "2.5rem", right: "2rem", display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
-        <div style={{ width: 1, height: 48, background: `linear-gradient(to bottom, ${T.border}, transparent)` }} />
-        <span style={{ fontSize: 10, letterSpacing: "0.12em", textTransform: "uppercase", color: T.faint, writingMode: "vertical-lr" }}>scroll</span>
-      </div>
-    </section>
-  );
-}
-
-/* ─── About ──────────────────────────────────────────────────────────── */
-function About() {
-  const ref = useReveal();
-  return (
-    <>
-      <Divider />
-      <section id="about" style={{ padding: "6rem 2rem", maxWidth: 1120, margin: "0 auto" }}>
-        <div ref={ref} className="reveal" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "4rem", alignItems: "start" }}>
-          <div>
-            <SectionLabel label="About" />
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 3.5vw, 2.4rem)", fontWeight: 600, lineHeight: 1.2, marginBottom: "1.5rem", letterSpacing: "-0.015em", color: T.text }}>
-              Engineer by discipline,<br /><em style={{ fontStyle: "italic", color: T.rust }}>pragmatist</em> by nature.
-            </h2>
-            {DATA.about.split("\n").filter(Boolean).map((p, i) => (
-              <p key={i} style={{ fontSize: 15.5, lineHeight: 1.78, color: T.muted, marginBottom: "1rem", fontWeight: 300 }}>{p.trim()}</p>
-            ))}
-          </div>
-
-          <div>
-            <SectionLabel label="Skills" />
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.75rem" }}>
-              {Object.entries(DATA.skills).map(([cat, items]) => (
-                <div key={cat}>
-                  <p style={{ fontSize: 11, fontWeight: 500, letterSpacing: "0.1em", textTransform: "uppercase", color: T.faint, marginBottom: "0.75rem" }}>{cat}</p>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-                    {items.map(s => <span key={s} className="skill-tag">{s}</span>)}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-    </>
-  );
-}
-
-/* ─── Projects ───────────────────────────────────────────────────────── */
-function Projects() {
-  const ref = useReveal();
-  return (
-    <>
-      <Divider />
-      <section id="projects" style={{ padding: "6rem 2rem", background: T.sectionAlt }}>
-        <div style={{ maxWidth: 1120, margin: "0 auto" }}>
-          <SectionLabel label="Projects" />
-          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 3.5vw, 2.4rem)", fontWeight: 600, letterSpacing: "-0.015em", marginBottom: "3rem", color: T.text }}>
-            Things I've built
-          </h2>
-
-          <div ref={ref} className="reveal" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "1.25rem" }}>
-            {DATA.projects.map(p => (
-              <article key={p.title} className="project-card">
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "1rem" }}>
-                  <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, fontWeight: 600, lineHeight: 1.3, letterSpacing: "-0.01em", flex: 1, paddingRight: 12, color: T.text }}>
-                    <a href={p.demo} target="_blank" rel="noreferrer" style={{ color: "inherit", textDecoration: "none", transition: "color 0.2s" }} onMouseEnter={e => e.currentTarget.style.color = T.rust} onMouseLeave={e => e.currentTarget.style.color = "inherit"}>{p.title}</a>
-                  </h3>
-                  <div style={{ display: "flex", gap: 10, flexShrink: 0 }}>
-                    <a href={p.github} target="_blank" rel="noreferrer" style={{ color: "rgba(255,255,255,0.6)", transition: "color 0.2s" }} onMouseEnter={e => e.currentTarget.style.color = "#fff"} onMouseLeave={e => e.currentTarget.style.color = "rgba(255,255,255,0.6)"} aria-label="GitHub"><GithubIcon size={20} /></a>
-                    <a href={p.demo}   target="_blank" rel="noreferrer" style={{ color: "rgba(255,255,255,0.6)", transition: "color 0.2s" }} onMouseEnter={e => e.currentTarget.style.color = "#fff"} onMouseLeave={e => e.currentTarget.style.color = "rgba(255,255,255,0.6)"} aria-label="Demo"><ExternalIcon size={18} /></a>
-                  </div>
-                </div>
-
-                <p style={{ fontSize: 14, lineHeight: 1.72, color: T.muted, fontWeight: 300, marginBottom: "1.25rem" }}>
-                  {p.description}
-                </p>
-
-                <div style={{ display: "inline-flex", alignItems: "center", gap: 7, background: T.rustDim, color: T.rust, padding: "5px 10px", borderRadius: 2, marginBottom: "1.25rem", border: "1px solid rgba(212,103,58,0.2)" }}>
-                  <span style={{ fontSize: 10, fontWeight: 500, letterSpacing: "0.1em", textTransform: "uppercase" }}>Impact</span>
-                  <span style={{ fontSize: 12.5 }}>{p.impact}</span>
-                </div>
-
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 5, borderTop: `1px solid ${T.border}`, paddingTop: "1rem" }}>
-                  {p.stack.map(t => <span key={t} className="skill-tag">{t}</span>)}
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-    </>
-  );
-}
-
-/* ─── Experience ─────────────────────────────────────────────────────── */
-function Experience() {
-  const ref = useReveal();
-  return (
-    <>
-      <Divider />
-      <section id="experience" style={{ padding: "6rem 2rem", maxWidth: 1120, margin: "0 auto" }}>
-        <SectionLabel label="Experience" />
-        <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 3.5vw, 2.4rem)", fontWeight: 600, letterSpacing: "-0.015em", marginBottom: "3rem", color: T.text }}>
-          Where I've worked
-        </h2>
-
-        <div ref={ref} className="reveal" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "3rem" }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: "2.5rem" }}>
-            {DATA.experience.map((e, i) => (
-              <div key={i} style={{ display: "flex", gap: "1.25rem" }}>
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                  <div className="tl-dot" />
-                  {i < DATA.experience.length - 1 && <div style={{ width: 1, flex: 1, background: T.border, marginTop: 8 }} />}
-                </div>
-                <div style={{ paddingBottom: "1rem" }}>
-                  <p style={{ fontSize: 11, letterSpacing: "0.08em", textTransform: "uppercase", color: T.faint, marginBottom: 4 }}>{e.period}</p>
-                  <h3 style={{ fontSize: 16, fontWeight: 500, marginBottom: 2, color: T.text }}>{e.role}</h3>
-                  <p style={{ fontSize: 13.5, color: T.rust, marginBottom: "0.75rem" }}>{e.company}</p>
-                  <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 6 }}>
-                    {e.points.map((pt, j) => (
-                      <li key={j} style={{ fontSize: 13.5, lineHeight: 1.65, color: T.muted, fontWeight: 300, display: "flex", gap: 8 }}>
-                        <span style={{ color: T.rust, flexShrink: 0, marginTop: 2 }}>—</span>{pt}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div>
-            <p style={{ fontSize: 11, fontWeight: 500, letterSpacing: "0.1em", textTransform: "uppercase", color: T.faint, marginBottom: "1.5rem" }}>Education</p>
-            {DATA.education.map((e, i) => (
-              <div key={i} style={{ borderLeft: `2px solid ${T.rust}`, paddingLeft: "1.25rem" }}>
-                <p style={{ fontSize: 11, letterSpacing: "0.08em", textTransform: "uppercase", color: T.faint, marginBottom: 4 }}>{e.year}</p>
-                <h3 style={{ fontSize: 16, fontWeight: 500, marginBottom: 3, color: T.text }}>{e.degree}</h3>
-                <p style={{ fontSize: 13.5, color: T.muted, fontWeight: 300 }}>{e.school}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    </>
-  );
-}
-
-/* ─── Contact ────────────────────────────────────────────────────────── */
-function Contact() {
-  const ref = useReveal();
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
-  const [status, setStatus] = useState(null); // null | "sending" | "sent" | "error"
-
-  const handleChange = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
-
-  const handleSubmit = e => {
-    e.preventDefault();
-    setStatus("sending");
-    // Opens default mail client with pre-filled fields
-    const subject = encodeURIComponent(`Message from ${form.name}`);
-    const body = encodeURIComponent(`Name: ${form.name}\nEmail: ${form.email}\n\n${form.message}`);
-    window.location.href = `mailto:${DATA.contact.email}?subject=${subject}&body=${body}`;
-    setTimeout(() => { setStatus("sent"); setForm({ name: "", email: "", message: "" }); }, 800);
-  };
-
-  const inputStyle = {
-    width: "100%", background: "rgba(255,255,255,0.04)",
-    border: `1px solid ${T.border}`, borderRadius: 4,
-    padding: "13px 16px", color: T.text,
-    fontFamily: "'DM Sans', sans-serif", fontSize: 14, fontWeight: 300,
-    outline: "none", transition: "border-color 0.2s, background 0.2s",
-  };
-
-  const labelStyle = {
-    display: "block", fontSize: 12, fontWeight: 500,
-    letterSpacing: "0.08em", textTransform: "uppercase",
-    color: T.muted, marginBottom: "0.5rem",
-  };
-
-  return (
-    <>
-      <Divider />
-      <section id="contact" style={{ padding: "6rem 2rem 8rem", background: "rgba(0,0,0,0.18)", position: "relative", overflow: "hidden" }}>
-        <div ref={ref} className="reveal" style={{ maxWidth: 1120, margin: "0 auto", position: "relative" }}>
-          <p style={{ fontSize: 11, fontWeight: 500, letterSpacing: "0.14em", textTransform: "uppercase", color: T.rust, marginBottom: "1.5rem", display: "flex", alignItems: "center", gap: 8 }}>
-            <span style={{ display: "inline-block", width: 24, height: 1, background: T.rust }} />
-            Contact
-          </p>
-
-          {/* Two-column layout */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "5rem", alignItems: "start" }}>
-
-            {/* Left — copy */}
-            <div>
-              <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 600, color: T.text, lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: "1.5rem" }}>
-                Let's build something<br /><em style={{ fontStyle: "italic", color: T.rust }}>worth shipping.</em>
-              </h2>
-              <p style={{ fontSize: 15, fontWeight: 300, color: T.muted, marginBottom: "2.5rem", lineHeight: 1.75 }}>
-                Open to new opportunities and collaborations. If you're working on something interesting, I'd love to hear from you.
-              </p>
-              <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-                <a href={`mailto:${DATA.contact.email}`} className="icon-link" style={{ fontSize: 13, textTransform: "none", letterSpacing: "0.02em" }}><MailIcon /> {DATA.contact.email}</a>
-                <a href={DATA.contact.linkedin} target="_blank" rel="noreferrer" className="icon-link" style={{ fontSize: 13, textTransform: "none", letterSpacing: "0.02em" }}><LinkedinIcon /> LinkedIn</a>
-                <a href={DATA.contact.github} target="_blank" rel="noreferrer" className="icon-link" style={{ fontSize: 13, textTransform: "none", letterSpacing: "0.02em" }}><GithubIcon /> GitHub</a>
-              </div>
-            </div>
-
-            {/* Right — form */}
-            <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-              <div>
-                <label htmlFor="cf-name" style={labelStyle}>Name</label>
-                <input
-                  id="cf-name" name="name" type="text"
-                  placeholder="Your name" required
-                  value={form.name} onChange={handleChange}
-                  style={inputStyle}
-                  onFocus={e => { e.target.style.borderColor = T.rust; e.target.style.background = "rgba(255,255,255,0.06)"; }}
-                  onBlur={e => { e.target.style.borderColor = T.border; e.target.style.background = "rgba(255,255,255,0.04)"; }}
-                />
-              </div>
-              <div>
-                <label htmlFor="cf-email" style={labelStyle}>Email</label>
-                <input
-                  id="cf-email" name="email" type="email"
-                  placeholder="your@email.com" required
-                  value={form.email} onChange={handleChange}
-                  style={inputStyle}
-                  onFocus={e => { e.target.style.borderColor = T.rust; e.target.style.background = "rgba(255,255,255,0.06)"; }}
-                  onBlur={e => { e.target.style.borderColor = T.border; e.target.style.background = "rgba(255,255,255,0.04)"; }}
-                />
-              </div>
-              <div>
-                <label htmlFor="cf-message" style={labelStyle}>Message</label>
-                <textarea
-                  id="cf-message" name="message"
-                  placeholder="Your message here..." required rows={6}
-                  value={form.message} onChange={handleChange}
-                  style={{ ...inputStyle, resize: "vertical", minHeight: 140 }}
-                  onFocus={e => { e.target.style.borderColor = T.rust; e.target.style.background = "rgba(255,255,255,0.06)"; }}
-                  onBlur={e => { e.target.style.borderColor = T.border; e.target.style.background = "rgba(255,255,255,0.04)"; }}
-                />
-              </div>
-              <button type="submit" disabled={status === "sending"}
-                style={{
-                  width: "100%", padding: "15px 28px",
-                  background: status === "sent" ? "rgba(212,103,58,0.15)" : T.rust,
-                  border: status === "sent" ? `1px solid ${T.rust}` : "none",
-                  color: "#fff", fontFamily: "'DM Sans', sans-serif",
-                  fontSize: 14, fontWeight: 500, letterSpacing: "0.06em",
-                  textTransform: "uppercase", borderRadius: 4, cursor: status === "sending" ? "wait" : "pointer",
-                  transition: "background 0.2s, transform 0.15s",
-                  display: "flex", alignItems: "center", justifyContent: "center", gap: 10,
-                }}
-                onMouseEnter={e => { if (status !== "sent") e.currentTarget.style.background = "#e07040"; }}
-                onMouseLeave={e => { if (status !== "sent") e.currentTarget.style.background = T.rust; }}
-              >
-                {status === "sending" ? "Opening mail client…" : status === "sent" ? "✓ Message ready to send" : <>Send Message <span style={{ fontSize: 16 }}>→</span></>}
-              </button>
-            </form>
-          </div>
-
-          {/* Footer bar */}
-          <div style={{ borderTop: `1px solid ${T.border}`, marginTop: "5rem", paddingTop: "2rem", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem", alignItems: "center" }}>
-            <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 16, color: T.faint }}>
-              {DATA.name.split(" ")[0]}<span style={{ color: T.rust }}>.</span>
-            </span>
-            <span style={{ fontSize: 12, color: T.faint, letterSpacing: "0.04em" }}>
-              © {new Date().getFullYear()} · Built with care
-            </span>
-            <div style={{ display: "flex", gap: "1.5rem" }}>
-              {[{ href: DATA.contact.github, icon: <GithubIcon /> }, { href: DATA.contact.linkedin, icon: <LinkedinIcon /> }].map(({ href, icon }, i) => (
-                <a key={i} href={href} target="_blank" rel="noreferrer"
-                  style={{ color: T.faint, transition: "color 0.2s" }}
-                  onMouseEnter={e => e.currentTarget.style.color = T.text}
-                  onMouseLeave={e => e.currentTarget.style.color = T.faint}>
-                  {icon}
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-    </>
-  );
 }
 
 /* ─── Icons ──────────────────────────────────────────────────────────── */
@@ -664,6 +277,717 @@ const ExternalIcon = ({ size = 13 }) => (
     <line x1="10" y1="14" x2="21" y2="3"/>
   </svg>
 );
+
+/* ─── Shared helpers ─────────────────────────────────────────────────── */
+const Divider = () => <div className="section-divider" />;
+
+function SectionLabel({ label }) {
+  return (
+    <p style={{
+      fontSize: 11, fontWeight: 600, letterSpacing: "0.18em",
+      textTransform: "uppercase", color: T.orange,
+      marginBottom: "1.25rem",
+      display: "flex", alignItems: "center", gap: 10,
+    }}>
+      <span style={{ color: T.orange, fontSize: 16, lineHeight: 1 }}>●</span>
+      {label}
+    </p>
+  );
+}
+
+/* ─── Nav ────────────────────────────────────────────────────────────── */
+function Nav({ menuOpen, setMenuOpen }) {
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const fn = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", fn);
+    return () => window.removeEventListener("scroll", fn);
+  }, []);
+
+  const links = ["About", "Projects", "Experience", "Contact"];
+
+  return (
+    <header style={{
+      position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
+      background: scrolled ? T.navBg : "transparent",
+      backdropFilter: scrolled ? "blur(20px)" : "none",
+      WebkitBackdropFilter: scrolled ? "blur(20px)" : "none",
+      borderBottom: scrolled ? `1px solid ${T.border}` : "none",
+      transition: "all 0.35s ease",
+    }}>
+      <nav style={{
+        maxWidth: 1200, margin: "0 auto", padding: "0 2rem",
+        height: 68, display: "flex", alignItems: "center", justifyContent: "space-between",
+      }}>
+        {/* Logo */}
+        <a href="#" style={{
+          fontFamily: "'Bebas Neue', cursive",
+          fontSize: 26, letterSpacing: "0.08em",
+          color: T.text, lineHeight: 1,
+        }}>
+          {DATA.name.split(" ")[0]}<span style={{ color: T.orange }}>.</span>
+        </a>
+
+        {/* Desktop nav */}
+        <div className="desktop-nav" style={{ display: "flex", gap: "2rem", alignItems: "center" }}>
+          {links.map(l => (
+            <a key={l} href={`#${l.toLowerCase()}`} className="nav-link">{l}</a>
+          ))}
+          <a href={`mailto:${DATA.contact.email}`} className="btn-primary" style={{ marginLeft: "0.5rem" }}>
+            Hire Me
+          </a>
+        </div>
+
+        {/* Hamburger */}
+        <button
+          className="hamburger"
+          onClick={() => setMenuOpen(!menuOpen)}
+          style={{ background: "none", border: "none", cursor: "pointer", padding: 4 }}
+          aria-label="Toggle menu"
+        >
+          {[0, 1, 2].map(i => (
+            <div key={i} style={{
+              width: 24, height: 1.5, background: T.text, marginBottom: i < 2 ? 6 : 0,
+              transition: "all 0.25s",
+              transform: menuOpen
+                ? (i === 0 ? "rotate(45deg) translate(5px,5px)" : i === 2 ? "rotate(-45deg) translate(5px,-5px)" : "none")
+                : "none",
+              opacity: menuOpen && i === 1 ? 0 : 1,
+            }} />
+          ))}
+        </button>
+      </nav>
+
+      {/* Mobile menu */}
+      {menuOpen && (
+        <div className="mobile-menu" style={{
+          display: "flex", flexDirection: "column", gap: "1.5rem",
+          background: T.navBg, backdropFilter: "blur(20px)",
+          padding: "2rem", borderTop: `1px solid ${T.border}`,
+        }}>
+          {links.map(l => (
+            <a key={l} href={`#${l.toLowerCase()}`} onClick={() => setMenuOpen(false)}
+              style={{ fontSize: 13, fontWeight: 500, letterSpacing: "0.1em", textTransform: "uppercase", color: T.text }}>
+              {l}
+            </a>
+          ))}
+          <a href={`mailto:${DATA.contact.email}`} className="btn-primary" style={{ textAlign: "center", justifyContent: "center" }}>
+            Hire Me
+          </a>
+        </div>
+      )}
+    </header>
+  );
+}
+
+/* ─── Hero ───────────────────────────────────────────────────────────── */
+function Hero() {
+  const nameRef = useRef(null);
+  useEffect(() => {
+    const el = nameRef.current;
+    if (!el) return;
+    el.style.opacity = "0";
+    el.style.transform = "translateY(40px)";
+    setTimeout(() => {
+      el.style.transition = "opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1)";
+      el.style.opacity = "1";
+      el.style.transform = "translateY(0)";
+    }, 100);
+  }, []);
+
+  const firstName = DATA.name.split(" ")[0];
+  const lastName  = DATA.name.split(" ")[1];
+
+  return (
+    <section style={{
+      minHeight: "100vh",
+      background: T.black,
+      display: "flex", flexDirection: "column", justifyContent: "center",
+      padding: "9rem 2rem 5rem",
+      maxWidth: 1200, margin: "0 auto",
+      position: "relative",
+    }}>
+
+      {/* Orange ambient glow */}
+      <div aria-hidden="true" style={{
+        position: "absolute", top: "10%", right: "-5%",
+        width: "50vw", height: "60vh",
+        background: "radial-gradient(ellipse at 60% 40%, rgba(245,166,35,0.06) 0%, transparent 65%)",
+        filter: "blur(80px)",
+        pointerEvents: "none", zIndex: 0,
+      }} />
+
+      <div style={{ position: "relative", zIndex: 1, maxWidth: 900 }}>
+        {/* Pre-label */}
+        <p style={{
+          fontSize: 12, fontWeight: 600, letterSpacing: "0.2em",
+          textTransform: "uppercase", color: T.orange,
+          marginBottom: "1.5rem",
+          display: "flex", alignItems: "center", gap: 10,
+        }}>
+          <span style={{
+            display: "inline-block", width: 32, height: 1.5,
+            background: T.orange,
+          }} />
+          {DATA.role}
+        </p>
+
+        {/* Giant name */}
+        <div ref={nameRef} style={{ marginBottom: "1.5rem", lineHeight: 0.9 }}>
+          <div style={{
+            fontFamily: "'Bebas Neue', cursive",
+            fontSize: "clamp(4.5rem, 14vw, 11rem)",
+            fontWeight: 400,
+            letterSpacing: "0.02em",
+            color: T.text,
+            display: "block",
+          }}>
+            {firstName}
+          </div>
+          <div style={{
+            fontFamily: "'Bebas Neue', cursive",
+            fontSize: "clamp(4.5rem, 14vw, 11rem)",
+            fontWeight: 400,
+            letterSpacing: "0.02em",
+            color: T.orange,
+            display: "block",
+          }}>
+            {lastName}
+          </div>
+        </div>
+
+        {/* Tagline */}
+        <p style={{
+          fontSize: "clamp(1rem, 1.8vw, 1.15rem)",
+          fontWeight: 300, lineHeight: 1.7,
+          color: T.muted, maxWidth: 520,
+          marginBottom: "2.5rem",
+        }}>
+          {DATA.tagline}
+        </p>
+
+        {/* CTA buttons */}
+        <div className="hero-cta" style={{ display: "flex", gap: "1rem", flexWrap: "wrap", marginBottom: "4rem" }}>
+          <a href="#projects" className="btn-primary">View Work →</a>
+          <a href="#contact" className="btn-outline">Get in Touch</a>
+        </div>
+
+        {/* Stats row */}
+        <div className="hero-stats" style={{
+          display: "flex", gap: "3.5rem",
+          borderTop: `1px solid ${T.border}`,
+          paddingTop: "2.5rem",
+        }}>
+          {DATA.stats.map((s, i) => (
+            <div key={i}>
+              <div style={{
+                fontFamily: "'Bebas Neue', cursive",
+                fontSize: "clamp(2.2rem, 5vw, 3.5rem)",
+                color: T.orange, lineHeight: 1,
+                marginBottom: "0.35rem",
+              }}>
+                {s.value}
+              </div>
+              <div style={{
+                fontSize: 11, fontWeight: 500,
+                letterSpacing: "0.1em", textTransform: "uppercase",
+                color: T.muted, lineHeight: 1.5,
+                whiteSpace: "pre-line",
+              }}>
+                {s.label}
+              </div>
+            </div>
+          ))}
+
+          {/* Separator + socials */}
+          <div style={{ marginLeft: "auto", display: "flex", gap: "1.5rem", alignItems: "flex-end" }}>
+            <a href={DATA.contact.github}   className="icon-link" target="_blank" rel="noreferrer"><GithubIcon />GitHub</a>
+            <a href={DATA.contact.linkedin} className="icon-link" target="_blank" rel="noreferrer"><LinkedinIcon />LinkedIn</a>
+            <a href={`mailto:${DATA.contact.email}`} className="icon-link"><MailIcon />Email</a>
+          </div>
+        </div>
+      </div>
+
+      {/* Scroll indicator */}
+      <div style={{
+        position: "absolute", bottom: "2.5rem", right: "2rem",
+        display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
+      }}>
+        <div style={{ width: 1, height: 56, background: `linear-gradient(to bottom, ${T.orange}, transparent)` }} />
+        <span style={{ fontSize: 9, letterSpacing: "0.14em", textTransform: "uppercase", color: T.muted, writingMode: "vertical-lr" }}>scroll</span>
+      </div>
+    </section>
+  );
+}
+
+/* ─── About ──────────────────────────────────────────────────────────── */
+function About() {
+  const ref = useReveal();
+  return (
+    <>
+      <Divider />
+      <section id="about" style={{ padding: "7rem 2rem", maxWidth: 1200, margin: "0 auto" }}>
+        <div ref={ref} className="reveal" style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+          gap: "5rem", alignItems: "start",
+        }}>
+
+          {/* Left — about text */}
+          <div>
+            <SectionLabel label="About Me" />
+            <h2 style={{
+              fontFamily: "'Bebas Neue', cursive",
+              fontSize: "clamp(2.4rem, 5vw, 3.8rem)",
+              fontWeight: 400, letterSpacing: "0.03em",
+              color: T.text, lineHeight: 1.05,
+              marginBottom: "2rem",
+            }}>
+              Engineer by discipline,<br />
+              <span style={{ color: T.orange }}>pragmatist</span> by nature.
+            </h2>
+            {DATA.about.split("\n").filter(Boolean).map((p, i) => (
+              <p key={i} style={{
+                fontSize: 15, lineHeight: 1.85,
+                color: T.muted, marginBottom: "1.1rem", fontWeight: 300,
+              }}>{p.trim()}</p>
+            ))}
+          </div>
+
+          {/* Right — skills list */}
+          <div>
+            <SectionLabel label="Skills" />
+            {Object.entries(DATA.skills).map(([cat, items]) => (
+              <div key={cat} style={{ marginBottom: "2.5rem" }}>
+                <p style={{
+                  fontSize: 10, fontWeight: 600, letterSpacing: "0.18em",
+                  textTransform: "uppercase", color: T.faint,
+                  marginBottom: "0.5rem",
+                }}>
+                  — {cat}
+                </p>
+                <div>
+                  {items.map(skill => (
+                    <div key={skill} className="skill-row">
+                      <span className="skill-name">{skill}</span>
+                      <span className="skill-arrow">→</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+/* ─── Projects ───────────────────────────────────────────────────────── */
+function Projects() {
+  const ref = useReveal();
+  return (
+    <>
+      <Divider />
+      <section id="projects" style={{ padding: "7rem 2rem", background: T.surface }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <SectionLabel label="Projects" />
+          <h2 style={{
+            fontFamily: "'Bebas Neue', cursive",
+            fontSize: "clamp(2.4rem, 5vw, 3.8rem)",
+            fontWeight: 400, letterSpacing: "0.03em",
+            color: T.text, marginBottom: "3.5rem",
+            lineHeight: 1.05,
+          }}>
+            Things I've <span style={{ color: T.orange }}>Built</span>
+          </h2>
+
+          <div ref={ref} className="reveal" style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+            gap: "1.5rem",
+          }}>
+            {DATA.projects.map(p => (
+              <article key={p.title} className="project-card">
+
+                {/* Header */}
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "1.25rem" }}>
+                  <h3 style={{
+                    fontFamily: "'Syne', sans-serif",
+                    fontSize: 18, fontWeight: 700, lineHeight: 1.3,
+                    color: T.text, flex: 1, paddingRight: 12,
+                  }}>
+                    <a
+                      href={p.demo} target="_blank" rel="noreferrer"
+                      style={{ color: "inherit", transition: "color 0.2s" }}
+                      onMouseEnter={e => e.currentTarget.style.color = T.orange}
+                      onMouseLeave={e => e.currentTarget.style.color = T.text}
+                    >
+                      {p.title}
+                    </a>
+                  </h3>
+                  <div style={{ display: "flex", gap: 10, flexShrink: 0 }}>
+                    <a href={p.github} target="_blank" rel="noreferrer"
+                      style={{ color: T.muted, transition: "color 0.2s" }}
+                      onMouseEnter={e => e.currentTarget.style.color = T.orange}
+                      onMouseLeave={e => e.currentTarget.style.color = T.muted}
+                      aria-label="GitHub">
+                      <GithubIcon size={18} />
+                    </a>
+                    <a href={p.demo} target="_blank" rel="noreferrer"
+                      style={{ color: T.muted, transition: "color 0.2s" }}
+                      onMouseEnter={e => e.currentTarget.style.color = T.orange}
+                      onMouseLeave={e => e.currentTarget.style.color = T.muted}
+                      aria-label="Demo">
+                      <ExternalIcon size={17} />
+                    </a>
+                  </div>
+                </div>
+
+                {/* Description */}
+                <p style={{ fontSize: 13.5, lineHeight: 1.78, color: T.muted, fontWeight: 300, marginBottom: "1.25rem" }}>
+                  {p.description}
+                </p>
+
+                {/* Impact badge */}
+                <div style={{
+                  display: "inline-flex", alignItems: "center", gap: 8,
+                  background: T.orangeDim, padding: "6px 12px",
+                  border: `1px solid rgba(245,166,35,0.2)`,
+                  marginBottom: "1.25rem",
+                }}>
+                  <span style={{
+                    width: 6, height: 6, borderRadius: "50%",
+                    background: T.orange, flexShrink: 0, display: "inline-block",
+                  }} />
+                  <span style={{ fontSize: 12, color: T.orange, fontWeight: 400 }}>{p.impact}</span>
+                </div>
+
+                {/* Stack tags */}
+                <div style={{
+                  display: "flex", flexWrap: "wrap", gap: 6,
+                  borderTop: `1px solid ${T.border}`, paddingTop: "1rem",
+                }}>
+                  {p.stack.map(t => (
+                    <span key={t} style={{
+                      fontSize: 11, fontWeight: 500,
+                      letterSpacing: "0.06em", textTransform: "uppercase",
+                      color: T.muted, padding: "4px 10px",
+                      border: `1px solid ${T.border}`,
+                      background: "rgba(255,255,255,0.03)",
+                    }}>
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+/* ─── Experience ─────────────────────────────────────────────────────── */
+function Experience() {
+  const ref = useReveal();
+  return (
+    <>
+      <Divider />
+      <section id="experience" style={{ padding: "7rem 2rem", maxWidth: 1200, margin: "0 auto" }}>
+        <SectionLabel label="Experience & Education" />
+        <h2 style={{
+          fontFamily: "'Bebas Neue', cursive",
+          fontSize: "clamp(2.4rem, 5vw, 3.8rem)",
+          fontWeight: 400, letterSpacing: "0.03em",
+          color: T.text, marginBottom: "4rem", lineHeight: 1.05,
+        }}>
+          Where I've <span style={{ color: T.orange }}>Worked</span>
+        </h2>
+
+        <div ref={ref} className="reveal" style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+          gap: "5rem",
+        }}>
+          {/* Experience timeline */}
+          <div>
+            <p style={{
+              fontSize: 10, fontWeight: 600, letterSpacing: "0.18em",
+              textTransform: "uppercase", color: T.faint, marginBottom: "2rem",
+            }}>
+              — Work Experience
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: "2.5rem" }}>
+              {DATA.experience.map((e, i) => (
+                <div key={i} style={{ display: "flex", gap: "1.5rem" }}>
+                  {/* Timeline spine */}
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", paddingTop: 4 }}>
+                    <div style={{
+                      width: 10, height: 10, borderRadius: "50%",
+                      background: T.orange, flexShrink: 0,
+                      boxShadow: `0 0 12px ${T.orange}`,
+                    }} />
+                    {i < DATA.experience.length - 1 && (
+                      <div style={{ width: 1, flex: 1, background: T.border, marginTop: 8 }} />
+                    )}
+                  </div>
+                  {/* Content */}
+                  <div>
+                    <p style={{
+                      fontSize: 11, fontWeight: 600, letterSpacing: "0.1em",
+                      textTransform: "uppercase", color: T.orange,
+                      marginBottom: 6,
+                    }}>
+                      {e.period}
+                    </p>
+                    <h3 style={{ fontSize: 17, fontWeight: 600, color: T.text, marginBottom: 4 }}>{e.role}</h3>
+                    <p style={{ fontSize: 13, color: T.muted, marginBottom: "1rem", fontStyle: "italic" }}>{e.company}</p>
+                    <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 8 }}>
+                      {e.points.map((pt, j) => (
+                        <li key={j} style={{ fontSize: 13.5, lineHeight: 1.7, color: T.muted, fontWeight: 300, display: "flex", gap: 10 }}>
+                          <span style={{ color: T.orange, flexShrink: 0, marginTop: 2 }}>—</span>
+                          {pt}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Education */}
+          <div>
+            <p style={{
+              fontSize: 10, fontWeight: 600, letterSpacing: "0.18em",
+              textTransform: "uppercase", color: T.faint, marginBottom: "2rem",
+            }}>
+              — Education
+            </p>
+            {DATA.education.map((e, i) => (
+              <div key={i} style={{
+                borderLeft: `2px solid ${T.orange}`,
+                paddingLeft: "1.5rem",
+                position: "relative",
+              }}>
+                <div style={{
+                  position: "absolute", left: -5, top: 0,
+                  width: 10, height: 10, borderRadius: "50%",
+                  background: T.orange, boxShadow: `0 0 10px ${T.orange}`,
+                }} />
+                <p style={{
+                  fontFamily: "'Bebas Neue', cursive",
+                  fontSize: 22, color: T.orange, letterSpacing: "0.06em",
+                  marginBottom: 8,
+                }}>
+                  {e.year}
+                </p>
+                <h3 style={{ fontSize: 17, fontWeight: 600, color: T.text, marginBottom: 4 }}>{e.degree}</h3>
+                <p style={{ fontSize: 13.5, color: T.muted, fontWeight: 300 }}>{e.school}</p>
+              </div>
+            ))}
+
+            {/* Skills progress bars */}
+            <div style={{ marginTop: "3.5rem" }}>
+              <p style={{
+                fontSize: 10, fontWeight: 600, letterSpacing: "0.18em",
+                textTransform: "uppercase", color: T.faint, marginBottom: "1.5rem",
+              }}>
+                — Core Proficiency
+              </p>
+              {[
+                { name: "React / Next.js",  pct: 90 },
+                { name: "Node.js / Express", pct: 85 },
+                { name: "TypeScript",        pct: 82 },
+                { name: "MongoDB / SQL",     pct: 78 },
+                { name: "Python",            pct: 70 },
+              ].map(bar => (
+                <div key={bar.name} style={{ marginBottom: "1.1rem" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                    <span style={{ fontSize: 12.5, color: T.text, fontWeight: 400 }}>{bar.name}</span>
+                    <span style={{ fontSize: 12, color: T.orange, fontWeight: 600 }}>{bar.pct}%</span>
+                  </div>
+                  <div style={{ height: 2, background: T.border, width: "100%", position: "relative" }}>
+                    <div style={{
+                      position: "absolute", left: 0, top: 0, height: "100%",
+                      width: `${bar.pct}%`,
+                      background: `linear-gradient(to right, ${T.orange}, #ffb84d)`,
+                      boxShadow: `0 0 8px rgba(245,166,35,0.5)`,
+                    }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+/* ─── Contact ────────────────────────────────────────────────────────── */
+function Contact() {
+  const ref = useReveal();
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [status, setStatus] = useState(null);
+
+  const handleChange = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    setStatus("sending");
+    const subject = encodeURIComponent(`Message from ${form.name}`);
+    const body = encodeURIComponent(`Name: ${form.name}\nEmail: ${form.email}\n\n${form.message}`);
+    window.location.href = `mailto:${DATA.contact.email}?subject=${subject}&body=${body}`;
+    setTimeout(() => { setStatus("sent"); setForm({ name: "", email: "", message: "" }); }, 800);
+  };
+
+  const inputStyle = {
+    width: "100%", background: "rgba(255,255,255,0.03)",
+    border: `1px solid ${T.border}`,
+    padding: "14px 16px", color: T.text,
+    fontFamily: "'DM Sans', sans-serif", fontSize: 14, fontWeight: 300,
+    outline: "none", transition: "border-color 0.2s, background 0.2s",
+    borderRadius: 0,
+  };
+  const labelStyle = {
+    display: "block", fontSize: 11, fontWeight: 600,
+    letterSpacing: "0.12em", textTransform: "uppercase",
+    color: T.muted, marginBottom: "0.6rem",
+  };
+
+  return (
+    <>
+      <Divider />
+      <section id="contact" style={{ padding: "7rem 2rem 4rem", background: T.black, position: "relative", overflow: "hidden" }}>
+
+        {/* Glow */}
+        <div aria-hidden="true" style={{
+          position: "absolute", bottom: "-10%", left: "-5%",
+          width: "50vw", height: "50vh",
+          background: `radial-gradient(ellipse at 30% 60%, ${T.orangeGlow} 0%, transparent 65%)`,
+          filter: "blur(80px)", pointerEvents: "none",
+        }} />
+
+        <div ref={ref} className="reveal" style={{ maxWidth: 1200, margin: "0 auto", position: "relative" }}>
+          <SectionLabel label="Contact" />
+
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+            gap: "5rem", alignItems: "start",
+          }}>
+            {/* Left */}
+            <div>
+              <h2 style={{
+                fontFamily: "'Bebas Neue', cursive",
+                fontSize: "clamp(2.8rem, 5.5vw, 4.5rem)",
+                fontWeight: 400, letterSpacing: "0.03em",
+                color: T.text, lineHeight: 1.0, marginBottom: "1.5rem",
+              }}>
+                Let's build something<br />
+                <span style={{ color: T.orange }}>worth shipping.</span>
+              </h2>
+              <p style={{ fontSize: 15, fontWeight: 300, color: T.muted, lineHeight: 1.8, marginBottom: "2.5rem" }}>
+                Open to new opportunities and collaborations. If you're working on something interesting, I'd love to hear from you.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: "1.1rem" }}>
+                <a href={`mailto:${DATA.contact.email}`} className="icon-link"
+                  style={{ fontSize: 13, textTransform: "none", letterSpacing: "0.02em" }}>
+                  <MailIcon /> {DATA.contact.email}
+                </a>
+                <a href={DATA.contact.linkedin} target="_blank" rel="noreferrer" className="icon-link"
+                  style={{ fontSize: 13, textTransform: "none", letterSpacing: "0.02em" }}>
+                  <LinkedinIcon /> LinkedIn
+                </a>
+                <a href={DATA.contact.github} target="_blank" rel="noreferrer" className="icon-link"
+                  style={{ fontSize: 13, textTransform: "none", letterSpacing: "0.02em" }}>
+                  <GithubIcon /> GitHub
+                </a>
+              </div>
+            </div>
+
+            {/* Right — form */}
+            <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+              <div>
+                <label htmlFor="cf-name" style={labelStyle}>Name</label>
+                <input id="cf-name" name="name" type="text" placeholder="Your name" required
+                  value={form.name} onChange={handleChange} style={inputStyle}
+                  onFocus={e => { e.target.style.borderColor = T.orange; e.target.style.background = "rgba(245,166,35,0.04)"; }}
+                  onBlur={e => { e.target.style.borderColor = T.border; e.target.style.background = "rgba(255,255,255,0.03)"; }}
+                />
+              </div>
+              <div>
+                <label htmlFor="cf-email" style={labelStyle}>Email</label>
+                <input id="cf-email" name="email" type="email" placeholder="your@email.com" required
+                  value={form.email} onChange={handleChange} style={inputStyle}
+                  onFocus={e => { e.target.style.borderColor = T.orange; e.target.style.background = "rgba(245,166,35,0.04)"; }}
+                  onBlur={e => { e.target.style.borderColor = T.border; e.target.style.background = "rgba(255,255,255,0.03)"; }}
+                />
+              </div>
+              <div>
+                <label htmlFor="cf-message" style={labelStyle}>Message</label>
+                <textarea id="cf-message" name="message" placeholder="Your message here..." required rows={6}
+                  value={form.message} onChange={handleChange}
+                  style={{ ...inputStyle, resize: "vertical", minHeight: 140 }}
+                  onFocus={e => { e.target.style.borderColor = T.orange; e.target.style.background = "rgba(245,166,35,0.04)"; }}
+                  onBlur={e => { e.target.style.borderColor = T.border; e.target.style.background = "rgba(255,255,255,0.03)"; }}
+                />
+              </div>
+              <button
+                type="submit" disabled={status === "sending"}
+                className="btn-primary"
+                style={{
+                  width: "100%", justifyContent: "center",
+                  background: status === "sent" ? "transparent" : T.orange,
+                  color: status === "sent" ? T.orange : "#000",
+                  border: status === "sent" ? `1px solid ${T.orange}` : "none",
+                  padding: "16px 28px", fontSize: 13,
+                  cursor: status === "sending" ? "wait" : "pointer",
+                }}
+              >
+                {status === "sending" ? "Opening mail client…" : status === "sent" ? "✓ Message ready to send" : "Send Message →"}
+              </button>
+            </form>
+          </div>
+
+          {/* Footer */}
+          <div style={{
+            borderTop: `1px solid ${T.border}`,
+            marginTop: "6rem", paddingTop: "2rem",
+            display: "flex", justifyContent: "space-between",
+            flexWrap: "wrap", gap: "1rem", alignItems: "center",
+          }}>
+            <span style={{
+              fontFamily: "'Bebas Neue', cursive",
+              fontSize: 22, letterSpacing: "0.08em", color: T.faint,
+            }}>
+              {DATA.name.split(" ")[0]}<span style={{ color: T.orange }}>.</span>
+            </span>
+            <span style={{ fontSize: 12, color: T.muted, letterSpacing: "0.06em" }}>
+              © {new Date().getFullYear()} · Built with care
+            </span>
+            <div style={{ display: "flex", gap: "1.5rem" }}>
+              {[
+                { href: DATA.contact.github,   icon: <GithubIcon /> },
+                { href: DATA.contact.linkedin, icon: <LinkedinIcon /> },
+              ].map(({ href, icon }, i) => (
+                <a key={i} href={href} target="_blank" rel="noreferrer"
+                  style={{ color: T.muted, transition: "color 0.2s" }}
+                  onMouseEnter={e => e.currentTarget.style.color = T.orange}
+                  onMouseLeave={e => e.currentTarget.style.color = T.muted}>
+                  {icon}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
 
 /* ─── App ────────────────────────────────────────────────────────────── */
 export default function Portfolio() {
