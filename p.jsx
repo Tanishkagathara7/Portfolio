@@ -248,7 +248,7 @@ const GlobalStyles = () => (
 const DATA = {
   name: "Tanish Kagathara",
   role: "Software Engineer",
-  tagline: "I build systems that hold up under pressure — and interfaces people actually enjoy using.",
+  tagline: "I build systems that hold up under pressure and interfaces people actually enjoy using.",
   about: `I'm a results-driven Full Stack Developer with hands-on experience in designing and developing responsive web and mobile applications. Specialized in React, Node.js, Next.js, Express, MongoDB, and Flutter. I craft clean, scalable, and user-friendly solutions that solve real-world problems.
 With a passion for modern technology and clean code, I've successfully delivered multiple projects from concept to production, always focusing on user experience and performance optimization.`,
   skills: {
