@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Title & SEO Meta -->
+  <title>Tanish - Full Stack Developer Portfolio</title>
+  <meta name="description"
+    content="Portfolio of Tanish Kagathara, a Software Engineer specializing in React, Node.js, Next.js, Express, MongoDB, and React Native.">
+  <meta name="keywords"
+    content="Tanish Kagathara, Software Engineer, React, Node.js, Next.js, Express, MongoDB, React Native, Portfolio">
+  <meta name="author" content="Tanish Kagathara">
+
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css?v=11">
+</head>
+
+<body class="pixel-grid">
+
+  <!-- Header Section -->
+  <header id="header">
+    <div class="container flex justify-between items-center">
+      <div class="logo-container logo-shake-trigger">
+        <a href="#hero" class="logo-text">
+          <span class="accent">Tanish</span>.dev
+        </a>
+      </div>
+
+      <!-- Nav Links -->
+      <nav>
+        <ul class="nav-links" id="nav-links">
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#certs">Education</a></li>
+          <li><a href="#terminal">Terminal</a></li>
+        </ul>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <!-- Theme Toggle -->
+        <button id="theme-toggle" class="theme-btn" title="Toggle Theme" aria-label="Toggle dark/light theme">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+            id="sun-icon">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+            id="moon-icon" class="hidden">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
+
+        <!-- Music Synth Button -->
+        <div class="music-player" title="Play 8-Bit Chiptune Synth">
+          <button id="music-toggle" class="disc-btn" aria-label="Play/Pause retro music">
+            <!-- Retro Vinyl SVG with asymmetric shine reflection to show rotation -->
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%;">
+              <circle cx="50" cy="50" r="48" fill="#111" stroke="#eee" stroke-width="2" />
+
+              <!-- Off-center shiny reflections -->
+              <path d="M 50 50 L 85 15 A 48 48 0 0 1 98 50 Z" fill="rgba(255, 255, 255, 0.15)" />
+              <path d="M 50 50 L 15 85 A 48 48 0 0 1 2 50 Z" fill="rgba(255, 255, 255, 0.15)" />
+
+              <circle cx="50" cy="50" r="38" fill="none" stroke="#333" stroke-width="1" stroke-dasharray="5 3" />
+              <circle cx="50" cy="50" r="28" fill="none" stroke="#444" stroke-width="1" />
+              <circle cx="50" cy="50" r="18" fill="hsl(45, 100%, 55%)" />
+
+              <!-- Off-center retro pixel block on vinyl label -->
+              <rect x="42" y="38" width="6" height="6" fill="#fff" />
+
+              <circle cx="50" cy="50" r="6" fill="#000" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button id="menu-toggle" class="menu-btn" aria-label="Open Mobile Navigation Menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section container" id="hero">
+    <div class="grid grid-cols-1 grid-cols-2 gap-8 items-center">
+      <div class="reveal active">
+        <div class="hero-tag">SOFTWARE ENGINEER & DEVELOPER</div>
+        <h1 class="hero-title">Tanish Kagathara</h1>
+        <p class="hero-tagline">Software Engineer | Full Stack Developer</p>
+        <p class="hero-summary">
+          I'm a results-driven Full Stack Developer with hands-on experience in designing and developing responsive web
+          and mobile applications. Specialized in React, Node.js, Next.js, Express, MongoDB, and React Native. I craft
+          clean, scalable, and user-friendly solutions that solve real-world problems.
+        </p>
+        <div class="hero-buttons">
+          <button id="contact-btn" class="pixel-button">Contact Me</button>
+          <a href="https://github.com/Tanishkagathara7" target="_blank" rel="noopener noreferrer"
+            class="pixel-button secondary">GitHub</a>
+          <a href="https://www.linkedin.com/in/tanish-kagathara-83ba26229/" target="_blank" rel="noopener noreferrer"
+            class="pixel-button secondary">LinkedIn</a>
+        </div>
+      </div>
+
+      <!-- Profile Picture Container -->
+      <div class="hero-profile-container reveal active">
+        <div class="profile-frame">
+          <img src="profile-pic (1).png" alt="Tanish Kagathara" class="profile-img">
+        </div>
+        <div class="badge-tag">ONLINE</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Divider -->
+  <div class="pixel-divider">
+    <div class="pixel-dot"></div>
+    <div class="pixel-dot"></div>
+    <div class="pixel-bar"></div>
+    <div class="pixel-dot"></div>
+    <div class="pixel-dot"></div>
+  </div>
+
+  <!-- Skills Section -->
+  <section class="skills-section container py-16" id="skills">
+    <h2 class="reveal">Technical Skills</h2>
+    <div class="skills-grid reveal">
+
+      <!-- Left Column: Skill Meters -->
+      <div class="pixel-card">
+        <h3 class="mb-6">> Skill Levels</h3>
+
+        <div class="skill-bar-wrapper">
+          <div class="skill-info">
+            <span>Frontend (React, Next.js, TS, Laravel)</span>
+            <span class="percentage">95%</span>
+          </div>
+          <div class="skill-bar-outer">
+            <div class="skill-bar-inner" data-width="95%"></div>
+          </div>
+        </div>
+
+        <div class="skill-bar-wrapper">
+          <div class="skill-info">
+            <span>Backend (Node.js, NestJS, Python, PHP)</span>
+            <span class="percentage">90%</span>
+          </div>
+          <div class="skill-bar-outer">
+            <div class="skill-bar-inner" data-width="90%"></div>
+          </div>
+        </div>
+
+        <div class="skill-bar-wrapper">
+          <div class="skill-info">
+            <span>Databases (MongoDB, SQL)</span>
+            <span class="percentage">85%</span>
+          </div>
+          <div class="skill-bar-outer">
+            <div class="skill-bar-inner" data-width="85%"></div>
+          </div>
+        </div>
+
+        <div class="skill-bar-wrapper">
+          <div class="skill-info">
+            <span>Mobile (React Native)</span>
+            <span class="percentage">80%</span>
+          </div>
+          <div class="skill-bar-outer">
+            <div class="skill-bar-inner" data-width="80%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Detail Stack Cloud -->
+      <div class="pixel-card flex flex-col justify-between">
+        <div>
+          <h3 class="mb-4">> Technology Stack</h3>
+          <p class="mb-4" style="font-size: 1.15rem; color: hsl(var(--muted-text));">
+            Technologies I use for core development workflows:
+          </p>
+          <div class="tag-cloud">
+            <span class="pixel-tag">TypeScript</span>
+            <span class="pixel-tag">React</span>
+            <span class="pixel-tag">Next.js</span>
+            <span class="pixel-tag">Tailwind CSS</span>
+            <span class="pixel-tag">Node.js</span>
+            <span class="pixel-tag">NestJS</span>
+            <span class="pixel-tag">Python</span>
+            <span class="pixel-tag">MongoDB</span>
+            <span class="pixel-tag">SQL</span>
+            <span class="pixel-tag">React Native</span>
+            <span class="pixel-tag">JavaScript</span>
+            <span class="pixel-tag">Express</span>
+            <span class="pixel-tag">PHP</span>
+            <span class="pixel-tag">Laravel</span>
+          </div>
+        </div>
+
+        <div class="mt-8">
+          <p
+            style="font-weight:bold; font-size: 1.1rem; border: 2px dashed hsl(var(--border)); padding: 0.5rem; text-align:center;">
+            B.Tech — Computer Engineering @ Darshan University
+          </p>
+        </div>
+      </div>iv>
+
+    </div>
+  </section>
+
+  <!-- Divider -->
+  <div class="pixel-divider">
+    <div class="pixel-dot"></div>
+    <div class="pixel-dot"></div>
+    <div class="pixel-bar"></div>
+    <div class="pixel-dot"></div>
+    <div class="pixel-dot"></div>
+  </div>
+
+  <!-- Experience Section -->
+  <section class="experience-section container py-16" id="experience">
+    <h2 class="reveal">Work Experience</h2>
+
+    <div class="timeline reveal">
+
+      <!-- Experience Item 1 -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="pixel-card timeline-card hoverable">
+          <div class="timeline-header">
+            <div>
+              <h3 class="role-title">Full Stack Developer</h3>
+              <p class="company-name">Techmatrix — Rajkot, IN</p>
+            </div>
+            <p class="timeline-date">Present</p>
+          </div>
+          <ul class="timeline-bullets">
+            <li>Developing and maintaining robust full-stack web applications.</li>
+            <li>Collaborating with teams to ship high-quality features and optimize performance.</li>
+            <li>Ensuring overall application quality, scalability, and responsiveness.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Experience Item 2 -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="pixel-card timeline-card hoverable">
+          <div class="timeline-header">
+            <div>
+              <h3 class="role-title">Teaching Assistant</h3>
+              <p class="company-name">Darshan University — Rajkot, IN</p>
+            </div>
+            <p class="timeline-date">Dec 2024 - Oct 2025</p>
+          </div>
+          <ul class="timeline-bullets">
+            <li>Assisted in teaching and mentoring undergraduate students in React Native and JavaScript.</li>
+            <li>Conducted practical sessions and guided students in writing efficient, structured code.</li>
+            <li>Helped students understand real-world applications of programming through interactive examples and
+              discussions.</li>
+            <li>Supported faculty in evaluating assignments, resolving doubts, and ensuring consistent student progress.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Divider -->
+  <div class="pixel-divider">
+    <div class="pixel-dot"></div>
+    <div class="pixel-dot"></div>
+    <div class="pixel-bar"></div>
+    <div class="pixel-dot"></div>
+    <div class="pixel-dot"></div>
+  </div>
+
+  <!-- Projects Section -->
+  <section class="projects-section container py-16" id="projects">
+    <h2 class="reveal">Featured Projects</h2>
+
+    <div class="projects-grid reveal">
+      <!-- Project Slot 1 -->
+      <div class="pixel-card project-card hoverable active-project">
+        <div class="slot-number">#01</div>
+        <div class="slot-content align-left">
+          <div class="project-tags">
+            <span class="proj-tag">React</span>
+            <span class="proj-tag">JavaScript</span>
+            <span class="proj-tag">Data Viz</span>
+          </div>
+          <h3>Chess Result Tracker</h3>
+          <p class="project-brief">A chess results tracking and analysis system that processes game data and presents
+            structured insights on player performance.</p>
+        </div>
+        <div class="project-actions">
+          <a href="https://chess-results-xi.vercel.app/" target="_blank" rel="noopener noreferrer"
+            class="pixel-button">Launch</a>
+          <button class="pixel-button secondary details-trigger-btn" data-target="chess-modal">Details</button>
+        </div>
+      </div>
+
+      <!-- Project Slot 2 -->
+      <div class="pixel-card project-card hoverable active-project">
+        <div class="slot-number">#02</div>
+        <div class="slot-content align-left">
+          <div class="project-tags">
+            <span class="proj-tag">React</span>
+            <span class="proj-tag">JavaScript</span>
+            <span class="proj-tag">NLP</span>
+          </div>
+          <h3>Plagiarism Control</h3>
+          <p class="project-brief">A plagiarism detection web application that analyzes textual similarity between
+            inputs and generates a similarity score.</p>
+        </div>
+        <div class="project-actions">
+          <a href="https://plagiarism-control.vercel.app/" target="_blank" rel="noopener noreferrer"
+            class="pixel-button">Launch</a>
+          <button class="pixel-button secondary details-trigger-btn" data-target="plagiarism-modal">Details</button>
+        </div>
+      </div>
+
+      <!-- Project Slot 3 -->
+      <div class="pixel-card project-card hoverable active-project">
+        <div class="slot-number">#03</div>
+        <div class="slot-content align-left">
+          <div class="project-tags">
+            <span class="proj-tag">React</span>
+            <span class="proj-tag">JavaScript</span>
+            <span class="proj-tag">System</span>
+          </div>
+          <h3>Billing & Inventory Management</h3>
+          <p class="project-brief">Developed a billing and inventory management system to streamline product tracking,
+            stock updates, and transaction handling.</p>
+        </div>
+        <div class="project-actions">
+          <a href="https://biiling-stock-mangement.vercel.app/" target="_blank" rel="noopener noreferrer"
+            class="pixel-button">Launch</a>
+          <button class="pixel-button secondary details-trigger-btn" data-target="billing-modal">Details</button>
+        </div>
+      </div>
+
+      <!-- Project Slot 4 -->
+      <div class="pixel-card project-card hoverable active-project">
+        <div class="slot-number">#04</div>
+        <div class="slot-content align-left">
+          <div class="project-tags">
+            <span class="proj-tag">React</span>
+            <span class="proj-tag">JavaScript</span>
+            <span class="proj-tag">Booking</span>
+          </div>
+          <h3>Box Cricket Booking</h3>
+          <p class="project-brief">A comprehensive booking platform designed to streamline box cricket turf
+            reservations.</p>
+        </div>
+        <div class="project-actions">
+          <a href="https://boxcricket-booking.vercel.app/" target="_blank" rel="noopener noreferrer"
+            class="pixel-button">Launch</a>
+          <button class="pixel-button secondary details-trigger-btn" data-target="cricket-modal">Details</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Divider -->
+  <div class="pixel-divider">
+    <div class="pixel-dot"></div>
+    <div class="pixel-dot"></div>
+    <div class="pixel-bar"></div>
+    <div class="pixel-dot"></div>
+    <div class="pixel-dot"></div>
+  </div>
+
+  <!-- Certifications & Achievements Section -->
+  <section class="certs-section container py-16" id="certs">
+    <h2 class="reveal">Education & Stats</h2>
+
+    <div class="certs-grid reveal">
+      <!-- Certification 1 -->
+      <div class="pixel-card cert-card hoverable">
+        <div class="cert-icon">🎓</div>
+        <div class="cert-info">
+          <h3>B.Tech — Computer Engineering</h3>
+          <p>Darshan University — Rajkot, IN (2023 – 2027)</p>
+        </div>
+      </div>
+
+      <!-- Certification 2 -->
+      <div class="pixel-card cert-card hoverable">
+        <div class="cert-icon">💼</div>
+        <div class="cert-info">
+          <h3>Passionate Developer</h3>
+          <p>Actively building scalable full-stack web and mobile applications.</p>
+        </div>
+      </div>
+
+      <!-- Certification 3 -->
+      <div class="pixel-card cert-card hoverable">
+        <div class="cert-icon">🚀</div>
+        <div class="cert-info">
+          <h3>5+ Projects Delivered</h3>
+          <p>Consistently delivering solutions with 100% Client Satisfaction.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Divider -->
+  <div class="pixel-divider">
+    <div class="pixel-dot"></div>
+    <div class="pixel-dot"></div>
+    <div class="pixel-bar"></div>
+    <div class="pixel-dot"></div>
+    <div class="pixel-dot"></div>
+  </div>
+
+  <!-- Console Terminal Section -->
+  <section class="container py-16" id="terminal">
+    <div class="terminal-section reveal">
+      <h2 style="text-align:center; margin-bottom: 2rem;">Interactive Terminal</h2>
+
+      <!-- Terminal Emulator Window -->
+      <div class="terminal-container">
+        <div class="terminal-header-bar">
+          <div class="terminal-buttons">
+            <span class="term-btn red"></span>
+            <span class="term-btn yellow"></span>
+            <span class="term-btn green"></span>
+          </div>
+          <span>Tanish@portfolio: ~</span>
+          <span>x</span>
+        </div>
+
+        <div class="terminal-body" id="term-body">
+          <div class="terminal-history" id="term-history">
+            <div class="terminal-output-line">Welcome to Tanish's Retro Shell v1.0.0</div>
+            <div class="terminal-output-line">Type <span style="color:#FFC700; font-weight:bold;">help</span> to see a
+              list of available commands.</div>
+            <div class="terminal-output-line"></div>
+          </div>
+
+          <div class="terminal-input-container">
+            <span class="terminal-prompt">Tanish@portfolio:~$</span>
+            <input type="text" id="term-input" class="terminal-input" autocomplete="off" spellcheck="false"
+              aria-label="Terminal input prompt">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-content">
+      <div>
+        <div class="footer-logo">Tanish<span>Kagathara</span></div>
+        <p style="margin-top:0.5rem; font-size:1.15rem; color: hsl(var(--muted-text));">Software Engineer specializing
+          in robust web and mobile application development.</p>
+      </div>
+
+      <!-- Social Buttons -->
+      <ul class="social-links">
+        <li>
+          <a href="mailto:kagatharatanish@gmail.com" class="social-btn" title="Email Tanish" aria-label="Email Address">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+              <polyline points="22,6 12,13 2,6" />
+            </svg>
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/Tanishkagathara7" target="_blank" rel="noopener noreferrer" class="social-btn"
+            title="GitHub" aria-label="GitHub Profile">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path
+                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+            </svg>
+          </a>
+        </li>
+        <li>
+          <a href="https://www.linkedin.com/in/tanish-kagathara-83ba26229/" target="_blank" rel="noopener noreferrer"
+            class="social-btn" title="LinkedIn" aria-label="LinkedIn Profile">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+              <rect x="2" y="9" width="4" height="12" />
+              <circle cx="4" cy="4" r="2" />
+            </svg>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="container"
+      style="text-align: center; margin-top: 2rem; font-size: 1rem; color: hsl(var(--muted-text));">
+      <p>Â© 2026 Tanish. Built in retro 8-bit style. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Contact Modal -->
+  <div id="contact-modal" class="modal-overlay">
+    <div class="pixel-card modal-container">
+      <div class="modal-header-bar">
+        <span>CONTACT_ME.EXE</span>
+        <button id="close-modal" class="modal-close-btn" aria-label="Close modal">X</button>
+      </div>
+      <div class="modal-body">
+        <h3 class="modal-title">> Get in Touch</h3>
+        <p class="modal-desc">Feel free to reach out via email or phone. I'm open to discussing new opportunities or
+          collaborations.</p>
+
+        <div class="contact-details">
+          <div class="contact-item">
+            <span class="contact-icon">ðŸ“§</span>
+            <div class="contact-info">
+              <span class="contact-label">EMAIL</span>
+              <a href="mailto:kagatharatanish@gmail.com" class="contact-link">kagatharatanish@gmail.com</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <span class="contact-icon">ðŸ“ž</span>
+            <div class="contact-info">
+              <span class="contact-label">PHONE</span>
+              <a href="tel:+919328978130" class="contact-link">+91 9328978130</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer-buttons">
+          <a href="mailto:kagatharatanish@gmail.com" class="pixel-button">Email Me</a>
+          <button id="close-modal-btn" class="pixel-button secondary">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Project 1 Details Modal -->
+  <div id="chess-modal" class="modal-overlay">
+    <div class="pixel-card modal-container project-detail-modal">
+      <div class="modal-header-bar">
+        <span>CHESS_TRACKER.EXE</span>
+        <button class="modal-close-btn close-project-modal" aria-label="Close modal">X</button>
+      </div>
+      <div class="modal-body scrollable-modal-body">
+        <h3 class="modal-title">> Chess Result Tracker</h3>
+        <p class="modal-desc">A chess results tracking and analysis system that processes game data and presents
+          structured insights on player performance.</p>
+
+        <h4 class="modal-subtitle-small">🔍 How It Works</h4>
+        <ul class="modal-bullets-list">
+          <li><strong>Data Handling</strong> — Implements data transformation logic to categorize match outcomes (wins,
+            losses, draws) efficiently.</li>
+          <li><strong>Trend Visualization</strong> — Visualizes trends using a clean, intuitive interface focused on
+            usability.</li>
+          <li><strong>Structured Insights</strong> — Structured game insights with clear win/loss/draw trend analysis.
+          </li>
+        </ul>
+
+        <div class="modal-footer-buttons">
+          <a href="https://chess-results-xi.vercel.app/" target="_blank" rel="noopener noreferrer"
+            class="pixel-button">Launch App</a>
+          <button class="pixel-button secondary close-project-modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project 2 Details Modal -->
+  <div id="plagiarism-modal" class="modal-overlay">
+    <div class="pixel-card modal-container project-detail-modal">
+      <div class="modal-header-bar">
+        <span>PLAGIARISM_CTRL.EXE</span>
+        <button class="modal-close-btn close-project-modal" aria-label="Close modal">X</button>
+      </div>
+      <div class="modal-body scrollable-modal-body">
+        <h3 class="modal-title">> Plagiarism Control</h3>
+        <p class="modal-desc">A plagiarism detection web application that analyzes textual similarity between inputs and
+          generates a similarity score.</p>
+
+        <h4 class="modal-subtitle-small">🔍 How It Works</h4>
+        <ul class="modal-bullets-list">
+          <li><strong>Text Processing</strong> — Implements text processing and comparison logic to identify overlapping
+            patterns.</li>
+          <li><strong>Real-time Feedback</strong> — Designed a clean, responsive interface to provide real-time
+            feedback.</li>
+          <li><strong>Similarity Scoring</strong> — Real-time similarity scoring with pattern-level duplication
+            detection.</li>
+        </ul>
+
+        <div class="modal-footer-buttons">
+          <a href="https://plagiarism-control.vercel.app/" target="_blank" rel="noopener noreferrer"
+            class="pixel-button">Launch App</a>
+          <button class="pixel-button secondary close-project-modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project 3 Details Modal -->
+  <div id="billing-modal" class="modal-overlay">
+    <div class="pixel-card modal-container project-detail-modal">
+      <div class="modal-header-bar">
+        <span>BILLING_SYS.EXE</span>
+        <button class="modal-close-btn close-project-modal" aria-label="Close modal">X</button>
+      </div>
+      <div class="modal-body scrollable-modal-body">
+        <h3 class="modal-title">> Billing & Inventory Management</h3>
+        <p class="modal-desc">Developed a billing and inventory management system to streamline product tracking, stock
+          updates, and transaction handling.</p>
+
+        <h4 class="modal-subtitle-small">🔍 How It Works</h4>
+        <ul class="modal-bullets-list">
+          <li><strong>Data Management</strong> — Implemented structured data management for items, pricing, and
+            quantities.</li>
+          <li><strong>Real-time Stock</strong> — Enables efficient billing workflows and real-time stock monitoring.
+          </li>
+          <li><strong>Responsive Interface</strong> — Designed a clean and responsive interface focused on usability.
+          </li>
+        </ul>
+
+        <div class="modal-footer-buttons">
+          <a href="https://biiling-stock-mangement.vercel.app/" target="_blank" rel="noopener noreferrer"
+            class="pixel-button">Launch App</a>
+          <button class="pixel-button secondary close-project-modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project 4 Details Modal -->
+  <div id="cricket-modal" class="modal-overlay">
+    <div class="pixel-card modal-container project-detail-modal">
+      <div class="modal-header-bar">
+        <span>CRICKET_BOOKING.EXE</span>
+        <button class="modal-close-btn close-project-modal" aria-label="Close modal">X</button>
+      </div>
+      <div class="modal-body scrollable-modal-body">
+        <h3 class="modal-title">> Box Cricket Booking</h3>
+        <p class="modal-desc">A comprehensive booking platform designed to streamline box cricket turf reservations.</p>
+
+        <h4 class="modal-subtitle-small">🔍 How It Works</h4>
+        <ul class="modal-bullets-list">
+          <li><strong>Intuitive Interface</strong> — Provides users with an intuitive interface to view availability and
+            schedule slots.</li>
+          <li><strong>Seamless Booking</strong> — Users can manage their bookings seamlessly, ensuring a friction-free
+            experience.</li>
+        </ul>
+
+        <div class="modal-footer-buttons">
+          <a href="https://boxcricket-booking.vercel.app/" target="_blank" rel="noopener noreferrer"
+            class="pixel-button">Launch App</a>
+          <button class="pixel-button secondary close-project-modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="script.js?v=5"></script>
+</body>
+
+</html>
