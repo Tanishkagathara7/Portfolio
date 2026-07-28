@@ -5,45 +5,45 @@
 
 /* CSS Variables */
 :root {
-  --foreground-rgb: 22, 25, 30;
-  --background-start-rgb: 250, 248, 245;
+  --foreground-rgb: 244, 244, 244;
+  --background-start-rgb: 9, 11, 20;
   --pixel-size: 4px;
 
-  /* Theme color HSL coordinates */
-  --background: 40 25% 97%;      /* Warm Cream */
-  --card: 0 0% 100%;
-  --foreground: 220 18% 18%;     /* Charcoal */
-  --border: 220 15% 30%;
-  --primary: 258 55% 84%;        /* Lavender */
-  --secondary: 42 85% 90%;       /* Banana Cream */
-  --accent: 18 82% 86%;          /* Soft Peach */
-  --accent-blue: 198 70% 84%;    /* Soft Sky */
-  --success: 145 35% 78%;        /* Sage Green */
-  --muted: 220 15% 94%;
-  --muted-text: 220 10% 45%;
+  /* Theme color HSL coordinates - Cyberpunk */
+  --background: 231 38% 7%;      /* #090B14 */
+  --card: 231 30% 10%;
+  --foreground: 0 0% 95%;        /* #F4F4F4 */
+  --border: 231 20% 20%;
+  --primary: 195 100% 70%;       /* #68D8FF Cyan */
+  --secondary: 252 100% 71%;     /* #8B6EFF Purple */
+  --accent: 252 100% 71%;        /* Purple */
+  --accent-blue: 195 100% 70%;   /* Cyan */
+  --success: 145 35% 78%;
+  --muted: 231 30% 12%;
+  --muted-text: 231 10% 65%;
 
-  --shadow-color: rgba(22, 25, 30, 0.08); /* Modern light shadow */
-  --crt-glow-start: 258 55% 84%;
-  --crt-glow-end: 224 22% 10%;
+  --shadow-color: rgba(104, 216, 255, 0.15); /* Cyan shadow */
+  --crt-glow-start: 195 100% 70%;
+  --crt-glow-end: 252 100% 71%;
 }
 
 /* Dark Theme Variables */
 .dark {
-  --background: 224 22% 10%;
-  --card: 224 20% 14%;
-  --foreground: 220 15% 90%;
-  --border: 220 15% 55%;
-  --primary: 258 42% 68%;
-  --secondary: 42 45% 58%;
-  --accent: 18 62% 70%;
-  --accent-blue: 198 45% 68%;
-  --success: 145 28% 60%;
-  --muted: 224 18% 18%;
-  --muted-text: 220 10% 65%;
+  --background: 231 38% 7%;
+  --card: 231 30% 10%;
+  --foreground: 0 0% 95%;
+  --border: 231 20% 20%;
+  --primary: 195 100% 70%;
+  --secondary: 252 100% 71%;
+  --accent: 252 100% 71%;
+  --accent-blue: 195 100% 70%;
+  --success: 145 35% 78%;
+  --muted: 231 30% 12%;
+  --muted-text: 231 10% 65%;
 
-  --shadow-color: rgba(0, 0, 0, 0.35); /* Modern dark shadow */
-  --crt-glow-start: 258 42% 68%;
-  --crt-glow-end: 224 22% 10%;
+  --shadow-color: rgba(104, 216, 255, 0.15);
+  --crt-glow-start: 195 100% 70%;
+  --crt-glow-end: 252 100% 71%;
 }
 
 /* Global Reset & Base Styling */
@@ -243,10 +243,11 @@ h6 {
   left: 0;
   bottom: 0;
   right: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.04) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.012), rgba(0, 255, 0, 0.006), rgba(0, 0, 255, 0.012));
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
   z-index: 9999;
-  background-size: 100% 3px, 3px 100%;
+  background-size: 100% 2px, 3px 100%;
   pointer-events: none;
+  opacity: 0.03; /* Extremely faint scanlines, approx 3% overall visual weight */
 }
 
 /* Pixel Card Container */
@@ -1612,3 +1613,125 @@ footer p {
     font-size: 1.15rem;
   }
 }
+/* --- NEW PREMIUM OVERRIDES --- */
+
+/* Pixel Buttons enhancements */
+.pixel-button {
+  transition: transform 150ms ease, box-shadow 150ms ease, background-color 150ms ease, filter 150ms ease;
+}
+
+.pixel-button:hover {
+  transform: translateY(-2px) scale(1.02);
+  filter: brightness(1.1);
+  box-shadow: 0 0 15px hsla(var(--primary), 0.5), 0 0 5px hsla(var(--accent), 0.5);
+  animation: btn-flicker 0.15s infinite alternate;
+}
+
+.pixel-button:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow: 0 0 5px hsla(var(--primary), 0.5);
+}
+
+@keyframes btn-flicker {
+  0% { opacity: 1; }
+  100% { opacity: 0.9; text-shadow: 1px 0 2px hsla(var(--accent), 0.5); }
+}
+
+/* Profile Image enhancements */
+.hero-profile-container {
+  animation: none; /* override previous float */
+}
+
+.profile-frame {
+  animation: profile-float 6s ease-in-out infinite;
+}
+
+.profile-frame::after {
+  content: "";
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  width: 20%;
+  height: 10%;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  transform: rotate(-45deg);
+  pointer-events: none;
+}
+
+.profile-img {
+  border: 4px solid hsl(var(--primary));
+  box-shadow: 0 0 20px hsla(var(--primary), 0.3), inset 0 0 10px hsla(var(--accent), 0.3);
+  animation: profile-breathe 4s ease-in-out infinite;
+  position: relative;
+}
+
+@keyframes profile-breathe {
+  0%, 100% { box-shadow: 0 0 15px hsla(var(--primary), 0.4), inset 0 0 10px hsla(var(--accent), 0.2); border-color: hsl(var(--primary)); }
+  50% { box-shadow: 0 0 35px hsla(var(--accent), 0.6), inset 0 0 20px hsla(var(--primary), 0.4); border-color: hsl(var(--accent)); }
+}
+
+@keyframes profile-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Section Reveals enhancement (Smooth fade-up) */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Boot Sequence */
+#boot-sequence {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background-color: #090B14;
+  color: #68D8FF;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 10%;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 1.5rem;
+  line-height: 2.5;
+  transition: opacity 0.5s ease-out;
+  pointer-events: none;
+}
+#boot-sequence p {
+  opacity: 0;
+  animation: boot-text-reveal 0.5s forwards;
+  margin: 0;
+}
+#boot-sequence p:nth-child(1) { animation-delay: 0.2s; }
+#boot-sequence p:nth-child(2) { animation-delay: 0.7s; }
+#boot-sequence p:nth-child(3) { animation-delay: 1.2s; }
+#boot-sequence p:nth-child(4) { animation-delay: 1.6s; color: #8B6EFF; }
+
+@keyframes boot-text-reveal {
+  0% { opacity: 0; transform: translateX(-10px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+.boot-hidden {
+  opacity: 0 !important;
+}
+
+/* Canvas Background */
+#retro-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -2;
+  pointer-events: none;
+}
+
