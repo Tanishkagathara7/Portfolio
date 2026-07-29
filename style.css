@@ -1425,6 +1425,11 @@ footer p {
    ========================================== */
 @media (max-width: 768px) {
 
+  /* Hero Section */
+  .hero-section {
+    padding-top: 10rem !important;
+  }
+
   /* Scale down hero typography to fit small screens nicely */
   .hero-title {
     font-size: 1.8rem;
@@ -1520,7 +1525,7 @@ footer p {
 
   /* Hero Section */
   .hero-section {
-    padding-top: 8.5rem !important;
+    padding-top: 11rem !important;
     padding-bottom: 2rem;
   }
 
