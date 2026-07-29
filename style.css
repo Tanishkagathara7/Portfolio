@@ -161,6 +161,12 @@ h6 {
   }
 }
 
+@media (min-width: 992px) {
+  .lg-grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 .gap-2 {
   gap: 0.5rem;
 }
@@ -481,7 +487,7 @@ header.scrolled {
 }
 
 /* Mobile Menu overlay */
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .nav-links {
     display: none;
     position: fixed;
@@ -1415,9 +1421,9 @@ footer p {
 }
 
 /* ==========================================
-   Responsive Mobile Overrides (width <= 768px)
+   Responsive Mobile Overrides (width <= 767px)
    ========================================== */
-@media (max-width: 768px) {
+@media (max-width: 767px) {
 
   /* Scale down hero typography to fit small screens nicely */
   .hero-title {
@@ -1502,29 +1508,20 @@ footer p {
    Responsive Overrides for Smaller Screens
    ========================================== */
 
-/* Tablet & Smaller Devices (<= 768px) */
-@media (max-width: 768px) {
+/* Tablet & Smaller Devices (<= 767px) */
+@media (max-width: 767px) {
   .container {
     padding: 0 1rem;
   }
 }
 
-/* Mobile Devices (<= 576px) */
-@media (max-width: 576px) {
+/* Mobile Devices (<= 575px) */
+@media (max-width: 575px) {
 
   /* Hero Section */
   .hero-section {
     padding-top: 8.5rem !important;
     padding-bottom: 2rem;
-  }
-
-  .hero-title {
-    font-size: 1.1rem !important;
-    margin-top: 1.5rem !important;
-  }
-
-  .container {
-    padding: 0 1.25rem !important;
   }
 
   .hero-buttons {
@@ -1592,8 +1589,12 @@ footer p {
   }
 }
 
-/* Very Small Mobile Devices (<= 480px) */
-@media (max-width: 480px) {
+/* Very Small Mobile Devices (<= 479px) */
+@media (max-width: 479px) {
+
+  .container {
+    padding: 0 1.25rem !important;
+  }
 
   .logo-text {
     font-size: 0.85rem;
@@ -1691,6 +1692,11 @@ footer p {
 
   .projects-grid {
     gap: 1.5rem;
+  }
+
+  .hero-title {
+    font-size: 1rem !important;
+    margin-top: 1.5rem !important;
   }
 
   .hero-profile-container {
