@@ -1514,7 +1514,7 @@ footer p {
 
   /* Hero Section */
   .hero-section {
-    padding-top: 6.5rem;
+    padding-top: 7.5rem;
     padding-bottom: 2rem;
   }
 
@@ -1587,11 +1587,11 @@ footer p {
 @media (max-width: 480px) {
 
   .container {
-    padding: 0 0.5rem;
+    padding: 0 1rem;
   }
 
   .logo-text {
-    font-size: 0.75rem;
+    font-size: 0.85rem;
   }
 
   .header-actions {
@@ -1689,7 +1689,7 @@ footer p {
   }
 
   .hero-title {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
 
   .hero-profile-container {

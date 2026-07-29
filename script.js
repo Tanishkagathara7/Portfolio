@@ -156,6 +156,40 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Music Prompt Modal Logic
+  const musicModal = document.getElementById("music-modal");
+  const startMusicBtn = document.getElementById("start-music-btn");
+  const skipMusicBtn = document.getElementById("skip-music-btn");
+  const closeMusicModal = document.getElementById("close-music-modal");
+
+  if (musicModal && !sessionStorage.getItem("musicPromptShown")) {
+    // Show after the boot sequence completes (boot takes ~2.7s)
+    setTimeout(() => {
+      musicModal.classList.add("active");
+      sessionStorage.setItem("musicPromptShown", "true");
+    }, 3000); 
+  }
+
+  const hideMusicModal = () => {
+    if (musicModal) musicModal.classList.remove("active");
+  };
+
+  if (startMusicBtn) {
+    startMusicBtn.addEventListener("click", () => {
+      startMusic();
+      hideMusicModal();
+    });
+  }
+
+  if (skipMusicBtn) {
+    skipMusicBtn.addEventListener("click", hideMusicModal);
+  }
+  
+  if (closeMusicModal) {
+    closeMusicModal.addEventListener("click", hideMusicModal);
+  }
+
+
 
   // ==========================================
   // 6. Interactive CLI Terminal Widget
