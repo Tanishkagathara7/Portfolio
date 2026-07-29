@@ -89,38 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================================
   // 4. Scroll Reveal Animations & Skill Bars
   // ==========================================
-  const reveals = document.querySelectorAll(".reveal");
-  const skillBars = document.querySelectorAll(".skill-bar-inner");
-
-  const revealOnScroll = () => {
-    const windowHeight = window.innerHeight;
-    reveals.forEach(reveal => {
-      const revealTop = reveal.getBoundingClientRect().top;
-      const revealPoint = 100;
-      if (revealTop < windowHeight - revealPoint) {
-        reveal.classList.add("active");
-      }
-    });
-  };
-
-  // Skill Bar animation using IntersectionObserver
-  const skillObserver = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const bar = entry.target;
-        const targetWidth = bar.getAttribute("data-width");
-        bar.style.width = targetWidth;
-        observer.unobserve(bar);
-      }
-    });
-  }, { threshold: 0.1 });
-
-  skillBars.forEach(bar => {
-    skillObserver.observe(bar);
-  });
-
-  window.addEventListener("scroll", revealOnScroll);
-  revealOnScroll(); // Trigger initial check
+  // Legacy CSS reveal logic removed. Animations are now handled by GSAP in animations.js
 
   // ==========================================
   // 5. 8-Bit Chiptune Song Player (Local MP3)

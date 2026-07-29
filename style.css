@@ -9,9 +9,9 @@
   --background-start-rgb: 9, 11, 20;
   --pixel-size: 4px;
 
-  /* Theme color HSL coordinates - Light Retro */
-  --background: 210 20% 98%;
-  /* #f8f9fa */
+  /* Theme color HSL coordinates - Light */
+  --background: 213 33% 97%;
+  /* #f4f7fb */
   --card: 210 20% 94%;
   --foreground: 231 38% 10%;
   /* Dark text */
@@ -34,7 +34,7 @@
 
 /* Dark Theme Variables */
 .dark {
-  --background: 231 38% 7%;
+  --background: 230 37% 3%;
   --card: 231 30% 10%;
   --foreground: 0 0% 95%;
   --border: 231 20% 20%;
@@ -60,7 +60,7 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  /* Removed scroll-behavior: smooth; to allow Lenis to handle it */
 }
 
 html,
@@ -237,29 +237,74 @@ h6 {
   width: 100%;
 }
 
-/* Pixel Art Grid Background & CRT Lines */
-.pixel-grid {
-  position: relative;
-  background-size: var(--pixel-size) var(--pixel-size);
-  background-image:
-    linear-gradient(to right, hsla(var(--foreground), 0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, hsla(var(--foreground), 0.02) 1px, transparent 1px);
-}
-
-.pixel-grid::before {
-  content: " ";
-  display: block;
+/* Premium Digital Terrain Background Containers */
+#bg-container {
   position: fixed;
   top: 0;
   left: 0;
-  bottom: 0;
-  right: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-  z-index: 9999;
-  background-size: 100% 2px, 3px 100%;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
   pointer-events: none;
-  opacity: 0.03;
-  /* Extremely faint scanlines, approx 3% overall visual weight */
+  background-color: hsl(var(--background));
+  overflow: hidden;
+}
+
+#webgl-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+#bg-glow {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40vh;
+  background: linear-gradient(to top, rgba(59, 130, 246, 0.15), transparent);
+  filter: blur(40px);
+  z-index: 2;
+  transition: background 0.3s ease;
+}
+
+.dark #bg-glow {
+  background: linear-gradient(to top, rgba(75, 0, 130, 0.12), transparent);
+}
+
+@keyframes scanline-move {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+#bg-scanline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 15vh;
+  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.03) 50%, transparent);
+  z-index: 3;
+  pointer-events: none;
+  animation: scanline-move 30s linear infinite;
+}
+
+.dark #bg-scanline {
+  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.03) 50%, transparent);
+}
+
+#bg-grain {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 4;
+  opacity: 0.02;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
 /* Pixel Card Container */
@@ -270,7 +315,29 @@ h6 {
   border-radius: 12px;
   padding: 1.5rem;
   image-rendering: pixelated;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease, border-color 0.3s ease;
+  transform-style: preserve-3d;
+  will-change: transform, opacity, box-shadow;
+  /* Removed CSS transitions for hover so GSAP can take over */
+}
+
+/* Premium Scroll Progress Bar */
+#scroll-progress-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.05);
+  z-index: 9999;
+  pointer-events: none;
+}
+
+#scroll-progress-bar {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)));
+  box-shadow: 0 0 10px hsl(var(--primary));
+  transform-origin: left;
 }
 
 .pixel-card.hoverable:hover {
@@ -1068,18 +1135,7 @@ footer p {
   display: inline-block;
 }
 
-/* Scroll Animation classes */
-.reveal {
-  position: relative;
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.reveal.active {
-  opacity: 1;
-  transform: translateY(0);
-}
+/* Removed scroll reveal CSS classes to allow GSAP integration */
 
 /* Contact Modal Styles */
 .modal-overlay {
@@ -1812,16 +1868,7 @@ footer p {
 }
 
 /* Section Reveals enhancement (Smooth fade-up) */
-.reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.reveal.active {
-  opacity: 1;
-  transform: translateY(0);
-}
+/* Removed scroll reveal CSS classes to allow GSAP integration */
 
 /* Boot Sequence */
 #boot-sequence {
