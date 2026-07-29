@@ -35,7 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // -- Layer Data --
 
     // Colors
-    const colors = {
+    // Colors
+    const darkColors = {
         bg: '#090B14',
         grid: 'rgba(100, 130, 255, 0.08)',
         gridGlow: 'rgba(104, 216, 255, 0.4)',
@@ -44,6 +45,19 @@ document.addEventListener('DOMContentLoaded', () => {
         white: '#F4F4F4'
     };
 
+    const lightColors = {
+        bg: '#F8F9FA',
+        grid: 'rgba(0, 0, 50, 0.05)',
+        gridGlow: 'rgba(104, 216, 255, 0.2)',
+        cyan: '#008bb3',
+        purple: '#5e43cc',
+        white: '#333333'
+    };
+
+    function getColors() {
+        return document.body.classList.contains('dark') ? darkColors : lightColors;
+    }
+
     // Layer 2: Stars
     const starCount = Math.floor((width * height) / 15000); // Sparse
     const stars = Array.from({ length: starCount }).map(() => ({
@@ -51,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
         y: Math.random() * height,
         baseX: Math.random() * width,
         baseY: Math.random() * height,
-        color: [colors.white, colors.cyan, colors.purple][Math.floor(Math.random() * 3)],
+        colorKey: ['white', 'cyan', 'purple'][Math.floor(Math.random() * 3)],
         blinkOffset: Math.random() * Math.PI * 2,
         blinkSpeed: 0.5 + Math.random() * 1.5,
         floatOffset: Math.random() * Math.PI * 2
@@ -81,6 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let lastTime = performance.now();
 
     function render(time) {
+        const colors = getColors();
         const dt = (time - lastTime) / 1000; // seconds
         lastTime = time;
 
@@ -177,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             ctx.globalAlpha = alpha * 0.8;
-            ctx.fillStyle = star.color;
+            ctx.fillStyle = colors[star.colorKey];
             ctx.fillRect(star.x, star.y, 2, 2);
         });
         ctx.globalAlpha = 1.0;

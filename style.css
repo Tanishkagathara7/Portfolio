@@ -5,33 +5,35 @@
 
 /* CSS Variables */
 :root {
-  --foreground-rgb: 9, 11, 20;
-  --background-start-rgb: 240, 241, 246;
+  --foreground-rgb: 244, 244, 244;
+  --background-start-rgb: 9, 11, 20;
   --pixel-size: 4px;
 
   /* Theme color HSL coordinates - Light Retro */
-  --background: 231 30% 96%;
-  --card: 0 0% 100%;
-  --foreground: 231 38% 7%;
-  --border: 231 20% 85%;
+  --background: 210 20% 98%;
+  /* #f8f9fa */
+  --card: 210 20% 94%;
+  --foreground: 231 38% 10%;
+  /* Dark text */
+  --border: 210 20% 85%;
   --primary: 195 100% 35%;
-  --secondary: 252 100% 55%;
-  --accent: 252 100% 55%;
+  /* Deep Cyan */
+  --secondary: 252 100% 50%;
+  /* Deep Purple */
+  --accent: 252 100% 50%;
   --accent-blue: 195 100% 35%;
-  --success: 145 60% 40%;
-  --muted: 231 20% 90%;
+  --success: 145 35% 40%;
+  --muted: 210 20% 90%;
   --muted-text: 231 10% 40%;
 
-  --shadow-color: rgba(104, 216, 255, 0.3);
-  --crt-glow-start: 195 100% 35%;
-  --crt-glow-end: 252 100% 55%;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  /* Soft shadow */
+  --crt-glow-start: 195 100% 40%;
+  --crt-glow-end: 252 100% 50%;
 }
 
 /* Dark Theme Variables */
 .dark {
-  --foreground-rgb: 244, 244, 244;
-  --background-start-rgb: 9, 11, 20;
-  
   --background: 231 38% 7%;
   --card: 231 30% 10%;
   --foreground: 0 0% 95%;
