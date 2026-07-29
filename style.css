@@ -5,37 +5,33 @@
 
 /* CSS Variables */
 :root {
-  --foreground-rgb: 244, 244, 244;
-  --background-start-rgb: 9, 11, 20;
+  --foreground-rgb: 9, 11, 20;
+  --background-start-rgb: 240, 241, 246;
   --pixel-size: 4px;
 
-  /* Theme color HSL coordinates - Cyberpunk */
-  --background: 231 38% 7%;
-  /* #090B14 */
-  --card: 231 30% 10%;
-  --foreground: 0 0% 95%;
-  /* #F4F4F4 */
-  --border: 231 20% 20%;
-  --primary: 195 100% 70%;
-  /* #68D8FF Cyan */
-  --secondary: 252 100% 71%;
-  /* #8B6EFF Purple */
-  --accent: 252 100% 71%;
-  /* Purple */
-  --accent-blue: 195 100% 70%;
-  /* Cyan */
-  --success: 145 35% 78%;
-  --muted: 231 30% 12%;
-  --muted-text: 231 10% 65%;
+  /* Theme color HSL coordinates - Light Retro */
+  --background: 231 30% 96%;
+  --card: 0 0% 100%;
+  --foreground: 231 38% 7%;
+  --border: 231 20% 85%;
+  --primary: 195 100% 35%;
+  --secondary: 252 100% 55%;
+  --accent: 252 100% 55%;
+  --accent-blue: 195 100% 35%;
+  --success: 145 60% 40%;
+  --muted: 231 20% 90%;
+  --muted-text: 231 10% 40%;
 
-  --shadow-color: rgba(104, 216, 255, 0.15);
-  /* Cyan shadow */
-  --crt-glow-start: 195 100% 70%;
-  --crt-glow-end: 252 100% 71%;
+  --shadow-color: rgba(104, 216, 255, 0.3);
+  --crt-glow-start: 195 100% 35%;
+  --crt-glow-end: 252 100% 55%;
 }
 
 /* Dark Theme Variables */
 .dark {
+  --foreground-rgb: 244, 244, 244;
+  --background-start-rgb: 9, 11, 20;
+  
   --background: 231 38% 7%;
   --card: 231 30% 10%;
   --foreground: 0 0% 95%;
