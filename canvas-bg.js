@@ -3,12 +3,12 @@
 document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('retro-bg');
     if (!canvas) return;
-    
+
     const ctx = canvas.getContext('2d', { alpha: false }); // Optimize for no transparency to background
     let width, height;
     let frameId;
     let scrollY = window.scrollY;
-    
+
     // Check for reduced motion
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     resize();
 
     // -- Layer Data --
-    
+
     // Colors
     const colors = {
         bg: '#090B14',
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
         purple: '#8B6EFF',
         white: '#F4F4F4'
     };
-    
+
     // Layer 2: Stars
     const starCount = Math.floor((width * height) / 15000); // Sparse
     const stars = Array.from({ length: starCount }).map(() => ({
@@ -112,11 +112,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const parallaxY = scrollY * 0.2;
         const vpX = width / 2;
         const vpY = height * 0.3 - parallaxY; // Vanishing point moves with scroll
-        
+
         ctx.strokeStyle = colors.grid;
         ctx.lineWidth = 1;
         ctx.beginPath();
-        
+
         // Vertical lines radiating from vanishing point
         const numVLines = 30;
         for (let i = -numVLines; i <= numVLines; i++) {
@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Subtle float
             star.x = star.baseX + Math.sin(time * 0.001 + star.floatOffset) * 10;
             star.y = star.baseY + Math.cos(time * 0.0013 + star.floatOffset) * 10 - scrollY * 0.1;
-            
+
             // Wrapping
             if (star.y < 0) star.y += height;
             if (star.y > height) star.y -= height;
@@ -243,10 +243,10 @@ document.addEventListener('DOMContentLoaded', () => {
             let hx = padding;
             let hy = padding;
             const tw = ctx.measureText(currentHud).width;
-            
+
             if (hudCorner === 1 || hudCorner === 3) hx = width - padding - tw;
             if (hudCorner === 2 || hudCorner === 3) hy = height - padding;
-            
+
             ctx.fillText(currentHud, hx, hy);
             ctx.globalAlpha = 1.0;
         }
