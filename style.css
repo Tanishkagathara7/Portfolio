@@ -1518,6 +1518,15 @@ footer p {
     padding-bottom: 2rem;
   }
 
+  .hero-title {
+    font-size: 1.1rem !important;
+    margin-top: 1.5rem !important;
+  }
+
+  .container {
+    padding: 0 1.25rem !important;
+  }
+
   .hero-buttons {
     flex-direction: column;
     width: 100%;
@@ -1585,10 +1594,6 @@ footer p {
 
 /* Very Small Mobile Devices (<= 480px) */
 @media (max-width: 480px) {
-
-  .container {
-    padding: 0 1.25rem !important;
-  }
 
   .logo-text {
     font-size: 0.85rem;
@@ -1686,11 +1691,6 @@ footer p {
 
   .projects-grid {
     gap: 1.5rem;
-  }
-
-  .hero-title {
-    font-size: 1rem !important;
-    margin-top: 1.5rem !important;
   }
 
   .hero-profile-container {
