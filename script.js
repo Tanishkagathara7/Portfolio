@@ -2,6 +2,11 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   
+  // Initialize Lucide Icons
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+
   // Force scroll to top on page reload/refresh and clear hash to start from the beginning
   if (history.scrollRestoration) {
     history.scrollRestoration = 'manual';

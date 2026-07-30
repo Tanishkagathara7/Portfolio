@@ -10,45 +10,40 @@
   --pixel-size: 4px;
 
   /* Theme color HSL coordinates - Light */
-  --background: 213 33% 97%;
-  /* #f4f7fb */
-  --card: 210 20% 94%;
-  --foreground: 231 38% 10%;
-  /* Dark text */
-  --border: 210 20% 85%;
-  --primary: 195 100% 35%;
-  /* Deep Cyan */
-  --secondary: 252 100% 50%;
-  /* Deep Purple */
-  --accent: 252 100% 50%;
-  --accent-blue: 195 100% 35%;
+  --background: 210 20% 98%;
+  --card: 0 0% 100%;
+  --foreground: 220 15% 15%;
+  --border: 220 15% 90%;
+  --primary: 210 80% 50%;
+  --secondary: 235 60% 65%;
+  --accent: 210 80% 50%;
+  --accent-blue: 210 80% 50%;
   --success: 145 35% 40%;
-  --muted: 210 20% 90%;
-  --muted-text: 231 10% 40%;
+  --muted: 210 20% 94%;
+  --muted-text: 220 15% 40%;
 
-  --shadow-color: rgba(0, 0, 0, 0.1);
-  /* Soft shadow */
-  --crt-glow-start: 195 100% 40%;
-  --crt-glow-end: 252 100% 50%;
+  --shadow-color: rgba(0, 0, 0, 0.04);
+  --crt-glow-start: 210 80% 50%;
+  --crt-glow-end: 235 60% 65%;
 }
 
 /* Dark Theme Variables */
 .dark {
-  --background: 230 37% 3%;
-  --card: 231 30% 10%;
-  --foreground: 0 0% 95%;
-  --border: 231 20% 20%;
-  --primary: 195 100% 70%;
-  --secondary: 252 100% 71%;
-  --accent: 252 100% 71%;
-  --accent-blue: 195 100% 70%;
+  --background: 230 20% 8%;
+  --card: 230 20% 11%;
+  --foreground: 210 20% 90%;
+  --border: 230 20% 18%;
+  --primary: 190 90% 60%;
+  --secondary: 250 60% 65%;
+  --accent: 250 60% 65%;
+  --accent-blue: 190 90% 60%;
   --success: 145 35% 78%;
-  --muted: 231 30% 12%;
-  --muted-text: 231 10% 65%;
+  --muted: 230 20% 14%;
+  --muted-text: 210 20% 65%;
 
-  --shadow-color: rgba(104, 216, 255, 0.15);
-  --crt-glow-start: 195 100% 70%;
-  --crt-glow-end: 252 100% 71%;
+  --shadow-color: rgba(0, 0, 0, 0.4);
+  --crt-glow-start: 190 90% 60%;
+  --crt-glow-end: 250 60% 65%;
 }
 
 /* Global Reset & Base Styling */
@@ -309,9 +304,9 @@ h6 {
 
 /* Pixel Card Container */
 .pixel-card {
-  border: 4px solid hsl(var(--border));
+  border: 1px solid hsla(var(--border), 0.8);
   background-color: hsl(var(--card));
-  box-shadow: 0 8px 24px var(--shadow-color);
+  box-shadow: 0 4px 12px var(--shadow-color), 0 1px 3px rgba(0,0,0,0.05);
   border-radius: 12px;
   padding: 1.5rem;
   image-rendering: pixelated;
@@ -350,7 +345,7 @@ h6 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: hsl(var(--primary));
+  background-color: hsl(var(--secondary));
   color: #12151c !important;
   border: 3px solid hsl(var(--border));
   border-radius: 8px;
@@ -384,9 +379,9 @@ h6 {
 }
 
 .pixel-button.secondary:hover {
-  background-color: hsla(var(--primary), 0.12);
+  background-color: hsla(var(--secondary), 0.12);
   color: hsl(var(--foreground)) !important;
-  border-color: hsl(var(--primary));
+  border-color: hsl(var(--secondary));
   transform: translateY(-2px);
   box-shadow: 0 6px 16px var(--shadow-color);
 }
@@ -547,7 +542,11 @@ header.scrolled {
   background: transparent;
   border: 3px solid hsl(var(--border));
   border-radius: 8px;
-  padding: 0.5rem;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
   color: hsl(var(--foreground));
 }
 
@@ -572,7 +571,7 @@ header.scrolled {
   }
 
   .menu-btn {
-    display: block;
+    display: flex;
   }
 }
 
@@ -609,8 +608,7 @@ header.scrolled {
 
 .hero-tagline {
   font-size: 1.6rem;
-  color: hsl(var(--primary));
-  /* Lavender instead of bright red */
+  color: hsl(var(--secondary));
   font-family: 'Press Start 2P', monospace;
   margin-bottom: 1.5rem;
 }
@@ -681,7 +679,8 @@ header.scrolled {
 .badge-tag {
   position: absolute;
   bottom: -15px;
-  left: -15px;
+  left: 50%;
+  transform: translateX(-50%);
   background-color: hsl(var(--secondary));
   /* Banana Cream badge background */
   border: 3px solid hsl(var(--border));
@@ -727,6 +726,7 @@ header.scrolled {
   display: grid;
   grid-template-columns: 1fr;
   gap: 2rem;
+  align-items: start;
 }
 
 @media (min-width: 992px) {
@@ -749,44 +749,114 @@ header.scrolled {
 
 .skill-bar-outer {
   width: 100%;
-  height: 24px;
-  background-color: hsl(var(--muted));
-  border: 2px solid hsl(var(--border));
-  border-radius: 6px;
+  height: 16px;
+  background-color: transparent;
+  border: 1px solid hsl(var(--border));
   padding: 2px;
   overflow: hidden;
 }
 
+@keyframes fillBar {
+  0% { width: 0; }
+  100% { /* Reaches inline width */ }
+}
+
 .skill-bar-inner {
   height: 100%;
-  background-color: hsl(var(--primary));
-  width: 0;
-  border-radius: 4px;
-  transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: fillBar 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.tech-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.tech-group-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.75rem;
+  color: hsl(var(--secondary));
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.05em;
+  opacity: 0.9;
 }
 
 .tag-cloud {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
-  margin-top: 1rem;
 }
 
 .pixel-tag {
-  background-color: hsl(var(--secondary));
-  /* Banana Cream badge background */
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: hsla(var(--secondary), 0.08);
   color: hsl(var(--foreground));
-  padding: 0.3rem 0.8rem;
+  padding: 0.35rem 0.85rem;
   font-weight: bold;
-  font-size: 1.1rem;
-  border: 2px solid hsl(var(--border));
+  font-size: 1.15rem;
+  border: 1px solid hsla(var(--border), 0.4);
   border-radius: 6px;
-  transition: transform 250ms ease, background-color 250ms ease, filter 250ms ease;
+  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1), background-color 300ms ease, box-shadow 300ms ease, border-color 300ms ease;
+  box-shadow: 0 1px 2px var(--shadow-color);
+}
+
+.pixel-tag.core-tech {
+  background-color: hsla(var(--secondary), 0.15);
+  border: 1px solid hsla(var(--secondary), 0.3);
 }
 
 .pixel-tag:hover {
   transform: translateY(-2px);
-  filter: brightness(0.92);
+  background-color: hsla(var(--secondary), 0.25);
+  border-color: hsla(var(--secondary), 0.6);
+  box-shadow: 0 4px 10px var(--shadow-color);
+}
+
+.tech-icon {
+  width: 15px;
+  height: 15px;
+  opacity: 0.7;
+  background-color: currentColor;
+  -webkit-mask: var(--icon-url) no-repeat center / contain;
+  mask: var(--icon-url) no-repeat center / contain;
+  display: inline-block;
+}
+
+.edu-footer {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px dashed hsla(var(--border), 0.6);
+}
+
+.edu-content {
+  margin-top: 0.75rem;
+}
+
+.edu-icon {
+  width: 28px;
+  height: 28px;
+  color: hsl(var(--primary));
+  opacity: 0.8;
+}
+
+.edu-degree {
+  font-weight: bold;
+  font-size: 1.25rem;
+  line-height: 1.3;
+}
+
+.edu-school {
+  font-size: 1.1rem;
+  color: hsl(var(--muted-text));
+  line-height: 1.3;
+}
+
+.reveal-stagger {
+  opacity: 0;
+  transform: translateY(15px);
 }
 
 /* Experience Section */
@@ -912,13 +982,46 @@ header.scrolled {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
   flex-shrink: 0;
   transition: transform 250ms ease;
 }
 
-.cert-card:hover .cert-icon {
-  transform: rotate(8deg);
+.cert-icon svg {
+  width: 32px;
+  height: 32px;
+  stroke: hsl(var(--foreground));
+  stroke-width: 2;
+}
+
+@keyframes float-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes rocket-launch {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(4px, -4px) scale(1.1); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+@keyframes briefcase-swing {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(15deg); }
+  50% { transform: rotate(0deg); }
+  75% { transform: rotate(-15deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.cert-card:hover .cert-icon svg.lucide-graduation-cap {
+  animation: float-bounce 1s ease-in-out infinite;
+}
+
+.cert-card:hover .cert-icon svg.lucide-briefcase {
+  animation: briefcase-swing 1.2s ease-in-out infinite;
+}
+
+.cert-card:hover .cert-icon svg.lucide-rocket {
+  animation: rocket-launch 1s ease-in-out infinite;
 }
 
 .cert-info h3 {

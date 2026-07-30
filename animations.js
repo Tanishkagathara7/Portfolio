@@ -113,6 +113,16 @@ function initAnimations() {
             );
         }
 
+        // --- D.5 Staggered reveals (e.g. tech categories) ---
+        const staggerReveals = section.querySelectorAll('.reveal-stagger');
+        if (staggerReveals.length > 0) {
+            tl.fromTo(staggerReveals,
+                { opacity: 0, y: 20 },
+                { opacity: 1, y: 0, duration: 0.8, ease: "power3.out", stagger: 0.1 },
+                "-=0.8"
+            );
+        }
+
         // --- E. Dividers ---
         if (dividers.length > 0) {
             tl.fromTo(dividers,
@@ -125,27 +135,7 @@ function initAnimations() {
 
     // 4. Specific Component Animations
     
-    // Skill Bars
-    const skillBars = document.querySelectorAll('.skill-bar-inner');
-    skillBars.forEach(bar => {
-        const targetWidth = bar.getAttribute('data-width');
-        // Reset to 0
-        bar.style.width = "0%";
-        
-        ScrollTrigger.create({
-            trigger: bar,
-            start: "top 90%",
-            onEnter: () => {
-                gsap.to(bar, {
-                    width: targetWidth,
-                    duration: 1.5,
-                    ease: "power4.out",
-                    delay: 0.2
-                });
-            },
-            once: true
-        });
-    });
+
 
     // Terminal Loading Animation
     const terminal = document.querySelector('.terminal-container');

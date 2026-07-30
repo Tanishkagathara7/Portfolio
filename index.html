@@ -14,7 +14,7 @@
   <meta name="author" content="Tanish Kagathara">
 
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="style.css?v=14">
+  <link rel="stylesheet" href="style.css?v=21">
 </head>
 
 <body class="pixel-grid">
@@ -133,8 +133,8 @@
       <div class="hero-profile-container reveal active">
         <div class="profile-frame">
           <img src="profile-pic (1).png" alt="Tanish Kagathara" class="profile-img">
+          <div class="badge-tag">ONLINE</div>
         </div>
-        <div class="badge-tag">ONLINE</div>
       </div>
     </div>
   </section>
@@ -163,7 +163,9 @@
             <span class="percentage">95%</span>
           </div>
           <div class="skill-bar-outer">
-            <div class="skill-bar-inner" data-width="95%"></div>
+            <div class="skill-bar-inner"
+              style="width: 95%; background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--secondary))); animation-delay: 0.2s;">
+            </div>
           </div>
         </div>
 
@@ -173,7 +175,9 @@
             <span class="percentage">90%</span>
           </div>
           <div class="skill-bar-outer">
-            <div class="skill-bar-inner" data-width="90%"></div>
+            <div class="skill-bar-inner"
+              style="width: 90%; background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--secondary))); animation-delay: 0.35s;">
+            </div>
           </div>
         </div>
 
@@ -183,7 +187,9 @@
             <span class="percentage">85%</span>
           </div>
           <div class="skill-bar-outer">
-            <div class="skill-bar-inner" data-width="85%"></div>
+            <div class="skill-bar-inner"
+              style="width: 85%; background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--secondary))); animation-delay: 0.5s;">
+            </div>
           </div>
         </div>
 
@@ -193,41 +199,91 @@
             <span class="percentage">80%</span>
           </div>
           <div class="skill-bar-outer">
-            <div class="skill-bar-inner" data-width="80%"></div>
+            <div class="skill-bar-inner"
+              style="width: 80%; background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--secondary))); animation-delay: 0.65s;">
+            </div>
           </div>
         </div>
       </div>
 
       <!-- Right Column: Detail Stack Cloud -->
-      <div class="pixel-card flex flex-col justify-between">
+      <div class="pixel-card flex flex-col justify-between" style="gap: 2rem;">
         <div>
           <h3 class="mb-4">> Technology Stack</h3>
-          <p class="mb-4" style="font-size: 1.15rem; color: hsl(var(--muted-text));">
-            Technologies I use for core development workflows:
-          </p>
-          <div class="tag-cloud">
-            <span class="pixel-tag">TypeScript</span>
-            <span class="pixel-tag">React</span>
-            <span class="pixel-tag">Next.js</span>
-            <span class="pixel-tag">Tailwind CSS</span>
-            <span class="pixel-tag">Node.js</span>
-            <span class="pixel-tag">NestJS</span>
-            <span class="pixel-tag">Python</span>
-            <span class="pixel-tag">MongoDB</span>
-            <span class="pixel-tag">SQL</span>
-            <span class="pixel-tag">React Native</span>
-            <span class="pixel-tag">JavaScript</span>
-            <span class="pixel-tag">Express</span>
-            <span class="pixel-tag">PHP</span>
-            <span class="pixel-tag">Laravel</span>
+          <div class="tech-categories">
+
+            <div class="tech-category">
+              <h4 class="tech-group-title">Frontend</h4>
+              <div class="tag-cloud">
+                <span class="pixel-tag core-tech"><span class="tech-icon"
+                    style="--icon-url: url('https://cdn.simpleicons.org/react');"></span>React</span>
+                <span class="pixel-tag core-tech"><span class="tech-icon"
+                    style="--icon-url: url('https://cdn.simpleicons.org/nextdotjs');"></span>Next.js</span>
+                <span class="pixel-tag core-tech"><span class="tech-icon"
+                    style="--icon-url: url('https://cdn.simpleicons.org/typescript');"></span>TypeScript</span>
+                <span class="pixel-tag"><span class="tech-icon"
+                    style="--icon-url: url('https://cdn.simpleicons.org/tailwindcss');"></span>Tailwind CSS</span>
+              </div>
+            </div>
+
+            <div class="tech-category">
+              <h4 class="tech-group-title">Backend</h4>
+              <div class="tag-cloud">
+                <span class="pixel-tag core-tech"><span class="tech-icon"
+                    style="--icon-url: url('https://cdn.simpleicons.org/nodedotjs');"></span>Node.js</span>
+                <span class="pixel-tag"><span class="tech-icon"
+                    style="--icon-url: url('https://cdn.simpleicons.org/nestjs');"></span>NestJS</span>
+                <span class="pixel-tag"><span class="tech-icon"
+                    style="--icon-url: url('https://cdn.simpleicons.org/express');"></span>Express</span>
+                <span class="pixel-tag"><span class="tech-icon"
+                    style="--icon-url: url('https://cdn.simpleicons.org/php');"></span>PHP</span>
+                <span class="pixel-tag core-tech"><span class="tech-icon"
+                    style="--icon-url: url('https://cdn.simpleicons.org/laravel');"></span>Laravel</span>
+              </div>
+            </div>
+
+            <div class="tech-category">
+              <h4 class="tech-group-title">Database</h4>
+              <div class="tag-cloud">
+                <span class="pixel-tag"><span class="tech-icon"
+                    style="--icon-url: url('https://cdn.simpleicons.org/mongodb');"></span>MongoDB</span>
+                <span class="pixel-tag"><span class="tech-icon"
+                    style="--icon-url: url('https://cdn.simpleicons.org/mysql');"></span>SQL</span>
+              </div>
+            </div>
+
+            <div class="tech-category">
+              <h4 class="tech-group-title">Mobile</h4>
+              <div class="tag-cloud">
+                <span class="pixel-tag"><span class="tech-icon"
+                    style="--icon-url: url('https://cdn.simpleicons.org/react');"></span>React Native</span>
+              </div>
+            </div>
+
+            <div class="tech-category">
+              <h4 class="tech-group-title">Languages</h4>
+              <div class="tag-cloud">
+                <span class="pixel-tag"><span class="tech-icon"
+                    style="--icon-url: url('https://cdn.simpleicons.org/javascript');"></span>JavaScript</span>
+                <span class="pixel-tag"><span class="tech-icon"
+                    style="--icon-url: url('https://cdn.simpleicons.org/python');"></span>Python</span>
+              </div>
+            </div>
+
           </div>
         </div>
 
-        <div class="mt-8">
-          <p
-            style="font-weight:bold; font-size: 1.1rem; border: 2px dashed hsl(var(--border)); padding: 0.5rem; text-align:center;">
-            B.Tech — Computer Engineering @ Darshan University
-          </p>
+        <div class="edu-footer">
+          <h4 class="tech-group-title">Education</h4>
+          <div class="edu-content flex items-center gap-4">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="edu-icon">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c0 2 2.5 4 6 4s6-2 6-4v-5" />
+            </svg>
+            <div>
+              <p class="edu-degree">B.Tech Computer Engineering</p>
+              <p class="edu-school">Darshan University</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -360,7 +416,7 @@
             stock updates, and transaction handling.</p>
         </div>
         <div class="project-actions">
-          <a href="https://biiling-stock-mangement.vercel.app/" target="_blank" rel="noopener noreferrer"
+          <a href="https://bill-gilt-seven.vercel.app/" target="_blank" rel="noopener noreferrer"
             class="pixel-button">Launch</a>
           <button class="pixel-button secondary details-trigger-btn" data-target="billing-modal">Details</button>
         </div>
@@ -404,7 +460,7 @@
     <div class="certs-grid reveal">
       <!-- Certification 1 -->
       <div class="pixel-card cert-card hoverable">
-        <div class="cert-icon">🎓</div>
+        <div class="cert-icon"><i data-lucide="graduation-cap"></i></div>
         <div class="cert-info">
           <h3>B.Tech — Computer Engineering</h3>
           <p>Darshan University — Rajkot, IN (2023 – 2027)</p>
@@ -413,7 +469,7 @@
 
       <!-- Certification 2 -->
       <div class="pixel-card cert-card hoverable">
-        <div class="cert-icon">💼</div>
+        <div class="cert-icon"><i data-lucide="briefcase"></i></div>
         <div class="cert-info">
           <h3>Passionate Developer</h3>
           <p>Actively building scalable full-stack web and mobile applications.</p>
@@ -422,7 +478,7 @@
 
       <!-- Certification 3 -->
       <div class="pixel-card cert-card hoverable">
-        <div class="cert-icon">🚀</div>
+        <div class="cert-icon"><i data-lucide="rocket"></i></div>
         <div class="cert-info">
           <h3>5+ Projects Delivered</h3>
           <p>Consistently delivering solutions with 100% Client Satisfaction.</p>
@@ -479,7 +535,7 @@
   <footer>
     <div class="container footer-content">
       <div>
-        <div class="footer-logo">Tanish<span>Kagathara</span></div>
+        <div class="footer-logo">Tanish <span>Kagathara</span></div>
         <p style="margin-top:0.5rem; font-size:1.15rem; color: hsl(var(--muted-text));">Software Engineer specializing
           in robust web and mobile application development.</p>
       </div>
@@ -521,7 +577,7 @@
 
     <div class="container"
       style="text-align: center; margin-top: 2rem; font-size: 1rem; color: hsl(var(--muted-text));">
-      <p>Â© 2026 Tanish. Built in retro 8-bit style. All rights reserved.</p>
+      <p>© 2026 Tanish. Built in retro 8-bit style. All rights reserved.</p>
     </div>
   </footer>
 
@@ -580,6 +636,7 @@
       </div>
     </div>
   </div>
+
 
 
   <!-- Project 1 Details Modal -->
@@ -667,7 +724,7 @@
         </ul>
 
         <div class="modal-footer-buttons">
-          <a href="https://biiling-stock-mangement.vercel.app/" target="_blank" rel="noopener noreferrer"
+          <a href="https://bill-gilt-seven.vercel.app/" target="_blank" rel="noopener noreferrer"
             class="pixel-button">Launch App</a>
           <button class="pixel-button secondary close-project-modal">Close</button>
         </div>
@@ -706,11 +763,12 @@
   <!-- Animation Engines -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
-  
+  <script src="https://unpkg.com/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
   <script src="canvas-bg.js"></script>
-  <script src="script.js?v=5"></script>
-  <script src="animations.js"></script>
+  <script src="script.js?v=10"></script>
+  <script src="animations.js?v=10"></script>
 </body>
 
 </html>
