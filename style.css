@@ -5,45 +5,45 @@
 
 /* CSS Variables */
 :root {
-  --foreground-rgb: 244, 244, 244;
-  --background-start-rgb: 9, 11, 20;
+  --foreground-rgb: 15, 23, 42;
+  --background-start-rgb: 250, 251, 253;
   --pixel-size: 4px;
 
-  /* Theme color HSL coordinates - Light */
-  --background: 210 20% 98%;
+  /* Theme color HSL coordinates - Light Mode (Vibrant & Alive) */
+  --background: 220 33% 98%;
   --card: 0 0% 100%;
-  --foreground: 220 15% 15%;
-  --border: 220 15% 90%;
-  --primary: 210 80% 50%;
-  --secondary: 235 60% 65%;
-  --accent: 210 80% 50%;
-  --accent-blue: 210 80% 50%;
-  --success: 145 35% 40%;
-  --muted: 210 20% 94%;
-  --muted-text: 220 15% 40%;
+  --foreground: 222 47% 11%; /* Deep slate navy #0F172A */
+  --border: 220 25% 88%;
+  --primary: 239 84% 59%; /* #4F46E5 - Electric Indigo */
+  --secondary: 263 70% 58%; /* #7C3AED - Rich Vivid Purple (Makes tagline & badges pop!) */
+  --accent: 199 89% 48%; /* #0284C7 - Vivid Cyan */
+  --accent-blue: 217 91% 60%;
+  --success: 142 71% 45%;
+  --muted: 220 20% 94%;
+  --muted-text: 215 25% 35%; /* High contrast readable text */
 
-  --shadow-color: rgba(0, 0, 0, 0.04);
-  --crt-glow-start: 210 80% 50%;
-  --crt-glow-end: 235 60% 65%;
+  --shadow-color: rgba(15, 23, 42, 0.08);
+  --crt-glow-start: 239 84% 59%;
+  --crt-glow-end: 263 70% 58%;
 }
 
-/* Dark Theme Variables */
+/* Dark Theme Variables (#070B14, #101827, #06B6D4, #3B82F6, #8B5CF6, #FFFFFF) */
 .dark {
-  --background: 230 20% 8%;
-  --card: 230 20% 11%;
-  --foreground: 210 20% 90%;
-  --border: 230 20% 18%;
-  --primary: 190 90% 60%;
-  --secondary: 250 60% 65%;
-  --accent: 250 60% 65%;
-  --accent-blue: 190 90% 60%;
+  --background: 222 47% 5%; /* #070B14 */
+  --card: 217 42% 11%; /* #101827 */
+  --foreground: 0 0% 100%; /* #FFFFFF */
+  --border: 217 33% 18%;
+  --primary: 217 91% 60%; /* #3B82F6 */
+  --secondary: 263 70% 66%; /* #8B5CF6 */
+  --accent: 188 94% 43%; /* #06B6D4 */
+  --accent-blue: 217 91% 60%;
   --success: 145 35% 78%;
-  --muted: 230 20% 14%;
-  --muted-text: 210 20% 65%;
+  --muted: 217 33% 14%;
+  --muted-text: 215 20% 70%;
 
-  --shadow-color: rgba(0, 0, 0, 0.4);
-  --crt-glow-start: 190 90% 60%;
-  --crt-glow-end: 250 60% 65%;
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --crt-glow-start: 188 94% 43%;
+  --crt-glow-end: 263 70% 66%;
 }
 
 /* Global Reset & Base Styling */
@@ -232,7 +232,7 @@ h6 {
   width: 100%;
 }
 
-/* Premium Digital Terrain Background Containers */
+/* Premium Digital Workspace Background System */
 #bg-container {
   position: fixed;
   top: 0;
@@ -243,6 +243,19 @@ h6 {
   pointer-events: none;
   background-color: hsl(var(--background));
   overflow: hidden;
+  transition: background-color 0.5s ease;
+}
+
+/* Light mode multi-mesh gradient base overlay & geometric dot grid */
+body:not(.dark) #bg-container {
+  background-color: #FAFBFD;
+  background-image: 
+    radial-gradient(at 15% 15%, rgba(59, 130, 246, 0.12) 0px, transparent 55%),
+    radial-gradient(at 85% 20%, rgba(139, 92, 246, 0.10) 0px, transparent 50%),
+    radial-gradient(at 50% 60%, rgba(6, 182, 212, 0.08) 0px, transparent 55%),
+    radial-gradient(at 80% 85%, rgba(59, 130, 246, 0.09) 0px, transparent 45%),
+    radial-gradient(rgba(59, 130, 246, 0.14) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 28px 28px;
 }
 
 #webgl-canvas {
@@ -259,15 +272,31 @@ h6 {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 40vh;
-  background: linear-gradient(to top, rgba(59, 130, 246, 0.15), transparent);
-  filter: blur(40px);
+  height: 45vh;
+  background: linear-gradient(to top, rgba(59, 130, 246, 0.12), rgba(6, 182, 212, 0.08), transparent);
+  filter: blur(50px);
   z-index: 2;
-  transition: background 0.3s ease;
+  transition: background 0.5s ease;
 }
 
 .dark #bg-glow {
-  background: linear-gradient(to top, rgba(75, 0, 130, 0.12), transparent);
+  background: linear-gradient(to top, rgba(6, 182, 212, 0.1), rgba(139, 92, 246, 0.08), transparent);
+}
+
+#bg-spotlight {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(750px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(59, 130, 246, 0.12), rgba(6, 182, 212, 0.06) 45%, transparent 75%);
+  transition: background 0.15s ease-out;
+}
+
+.dark #bg-spotlight {
+  background: radial-gradient(750px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(59, 130, 246, 0.08), rgba(139, 92, 246, 0.05) 40%, transparent 75%);
 }
 
 @keyframes scanline-move {
@@ -281,14 +310,14 @@ h6 {
   left: 0;
   width: 100%;
   height: 15vh;
-  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.03) 50%, transparent);
+  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.02) 50%, transparent);
   z-index: 3;
   pointer-events: none;
-  animation: scanline-move 30s linear infinite;
+  animation: scanline-move 35s linear infinite;
 }
 
 .dark #bg-scanline {
-  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.03) 50%, transparent);
+  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.025) 50%, transparent);
 }
 
 #bg-grain {
@@ -298,8 +327,8 @@ h6 {
   width: 100%;
   height: 100%;
   z-index: 4;
-  opacity: 0.02;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.018;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
 /* Pixel Card Container */
@@ -312,7 +341,27 @@ h6 {
   image-rendering: pixelated;
   transform-style: preserve-3d;
   will-change: transform, opacity, box-shadow;
-  /* Removed CSS transitions for hover so GSAP can take over */
+}
+
+/* Premium Light Mode Card Elevation & Glassmorphism */
+body:not(.dark) .pixel-card {
+  background-color: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 
+    0 4px 20px -2px rgba(15, 23, 42, 0.05),
+    0 12px 30px -4px rgba(59, 130, 246, 0.08),
+    inset 0 1px 0 0 rgba(255, 255, 255, 1);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+body:not(.dark) .pixel-card.hoverable:hover {
+  border-color: rgba(59, 130, 246, 0.4);
+  box-shadow: 
+    0 20px 45px -6px rgba(59, 130, 246, 0.16),
+    0 0 25px rgba(6, 182, 212, 0.12),
+    inset 0 1px 0 0 rgba(255, 255, 255, 1);
 }
 
 /* Premium Scroll Progress Bar */

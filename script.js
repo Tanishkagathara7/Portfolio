@@ -570,53 +570,19 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ==========================================
-  // 10. Background Particle System (Pixel Dust)
+  // 10. Interactive Spotlight Cursor Tracker
   // ==========================================
-  const createPixelDust = () => {
-    if (document.getElementById("pixel-dust-container")) return;
+  const bgSpotlight = document.getElementById("bg-spotlight");
+  if (bgSpotlight) {
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
     
-    const container = document.createElement("div");
-    container.id = "pixel-dust-container";
-    container.style.position = "fixed";
-    container.style.top = "0";
-    container.style.left = "0";
-    container.style.width = "100%";
-    container.style.height = "100%";
-    container.style.pointerEvents = "none";
-    container.style.zIndex = "0";
-    document.body.appendChild(container);
-
-    const colors = [
-      "var(--primary)",
-      "var(--accent)",
-      "var(--accent-blue)",
-      "var(--secondary)"
-    ];
-    
-    const pixelCount = 15;
-    for (let i = 0; i < pixelCount; i++) {
-      const pixel = document.createElement("div");
-      pixel.className = "floating-pixel";
-      pixel.style.position = "absolute";
-      
-      const size = Math.floor(Math.random() * 5) + 4;
-      pixel.style.width = `${size}px`;
-      pixel.style.height = `${size}px`;
-      
-      const colorVar = colors[Math.floor(Math.random() * colors.length)];
-      pixel.style.backgroundColor = `hsl(${colorVar})`;
-      
-      pixel.style.left = `${Math.random() * 100}vw`;
-      pixel.style.top = `${Math.random() * 100}vh`;
-      
-      const duration = Math.random() * 15 + 15;
-      const delay = Math.random() * -30;
-      pixel.style.animation = `floatPixel ${duration}s linear infinite`;
-      pixel.style.animationDelay = `${delay}s`;
-      
-      container.appendChild(pixel);
-    }
-  };
-  createPixelDust();
+    window.addEventListener("mousemove", (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      document.documentElement.style.setProperty("--mouse-x", `${mouseX}px`);
+      document.documentElement.style.setProperty("--mouse-y", `${mouseY}px`);
+    });
+  }
 
 });
