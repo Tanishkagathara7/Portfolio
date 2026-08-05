@@ -80,15 +80,34 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ==========================================
-  // 3. Header Background on Scroll
+  // 3. Header Background on Scroll & Active Nav Section Highlights
   // ==========================================
   const header = document.getElementById("header");
+  const sectionsList = document.querySelectorAll("section");
+  const navLinksList = document.querySelectorAll(".nav-links a");
+
   window.addEventListener("scroll", () => {
     if (window.scrollY > 50) {
       header.classList.add("scrolled");
     } else {
       header.classList.remove("scrolled");
     }
+
+    let currentSectionId = "hero";
+    sectionsList.forEach(section => {
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.clientHeight;
+      if (window.scrollY >= (sectionTop - 150)) {
+        currentSectionId = section.getAttribute("id");
+      }
+    });
+
+    navLinksList.forEach(link => {
+      link.classList.remove("active");
+      if (link.getAttribute("href") === `#${currentSectionId}`) {
+        link.classList.add("active");
+      }
+    });
   });
 
   // ==========================================

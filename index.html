@@ -14,7 +14,7 @@
   <meta name="author" content="Tanish Kagathara">
 
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="style.css?v=21">
+  <link rel="stylesheet" href="style.css?v=22">
 </head>
 
 <body class="pixel-grid">
@@ -132,7 +132,10 @@
 
       <!-- Profile Picture Container -->
       <div class="hero-profile-container reveal active">
-        <div class="profile-frame">
+        <div class="profile-frame" data-aos="flip-left" data-aos-easing="ease-out-cubic" data-aos-duration="2000">
+          <div class="gradient-ring ring-1"></div>
+          <div class="gradient-ring ring-2"></div>
+          <div class="profile-particles-container"></div>
           <img src="profile-pic (1).png" alt="Tanish Kagathara" class="profile-img">
           <div class="badge-tag">ONLINE</div>
         </div>
@@ -216,58 +219,67 @@
             <div class="tech-category">
               <h4 class="tech-group-title">Frontend</h4>
               <div class="tag-cloud">
-                <span class="pixel-tag core-tech"><span class="tech-icon"
-                    style="--icon-url: url('https://cdn.simpleicons.org/react');"></span>React</span>
-                <span class="pixel-tag core-tech"><span class="tech-icon"
-                    style="--icon-url: url('https://cdn.simpleicons.org/nextdotjs');"></span>Next.js</span>
-                <span class="pixel-tag core-tech"><span class="tech-icon"
-                    style="--icon-url: url('https://cdn.simpleicons.org/typescript');"></span>TypeScript</span>
-                <span class="pixel-tag"><span class="tech-icon"
-                    style="--icon-url: url('https://cdn.simpleicons.org/tailwindcss');"></span>Tailwind CSS</span>
+                <span class="pixel-tag">HTML5</span>
+                <span class="pixel-tag">CSS3</span>
+                <span class="pixel-tag">JavaScript (ES6+)</span>
+                <span class="pixel-tag core-tech">TypeScript</span>
+                <span class="pixel-tag core-tech">React.js</span>
+                <span class="pixel-tag core-tech">Next.js</span>
+                <span class="pixel-tag">Tailwind CSS</span>
+                <span class="pixel-tag">Bootstrap</span>
+                <span class="pixel-tag">Material UI (MUI)</span>
+                <span class="pixel-tag">Redux Toolkit</span>
+                <span class="pixel-tag">React Router</span>
+                <span class="pixel-tag">Axios</span>
+                <span class="pixel-tag">Framer Motion</span>
+                <span class="pixel-tag">Responsive Web Design</span>
+                <span class="pixel-tag">REST API Integration</span>
               </div>
             </div>
 
             <div class="tech-category">
               <h4 class="tech-group-title">Backend</h4>
               <div class="tag-cloud">
-                <span class="pixel-tag core-tech"><span class="tech-icon"
-                    style="--icon-url: url('https://cdn.simpleicons.org/nodedotjs');"></span>Node.js</span>
-                <span class="pixel-tag"><span class="tech-icon"
-                    style="--icon-url: url('https://cdn.simpleicons.org/nestjs');"></span>NestJS</span>
-                <span class="pixel-tag"><span class="tech-icon"
-                    style="--icon-url: url('https://cdn.simpleicons.org/express');"></span>Express</span>
-                <span class="pixel-tag"><span class="tech-icon"
-                    style="--icon-url: url('https://cdn.simpleicons.org/php');"></span>PHP</span>
-                <span class="pixel-tag core-tech"><span class="tech-icon"
-                    style="--icon-url: url('https://cdn.simpleicons.org/laravel');"></span>Laravel</span>
+                <span class="pixel-tag core-tech">Node.js</span>
+                <span class="pixel-tag">Express.js</span>
+                <span class="pixel-tag">PHP</span>
+                <span class="pixel-tag core-tech">Laravel</span>
+                <span class="pixel-tag">RESTful APIs</span>
+                <span class="pixel-tag">JWT Authentication</span>
+                <span class="pixel-tag">OAuth Authentication</span>
+                <span class="pixel-tag">MVC Architecture</span>
+                <span class="pixel-tag">Eloquent ORM</span>
+                <span class="pixel-tag">Database Design</span>
+                <span class="pixel-tag">File Upload & Storage</span>
+                <span class="pixel-tag">Authentication & Authorization</span>
+                <span class="pixel-tag">API Integration</span>
+                <span class="pixel-tag">WebSockets (Socket.io)</span>
               </div>
             </div>
 
             <div class="tech-category">
               <h4 class="tech-group-title">Database</h4>
               <div class="tag-cloud">
-                <span class="pixel-tag"><span class="tech-icon"
-                    style="--icon-url: url('https://cdn.simpleicons.org/mongodb');"></span>MongoDB</span>
-                <span class="pixel-tag"><span class="tech-icon"
-                    style="--icon-url: url('https://cdn.simpleicons.org/mysql');"></span>SQL</span>
+                <span class="pixel-tag">MySQL</span>
+                <span class="pixel-tag">MongoDB</span>
+                <span class="pixel-tag">PostgreSQL</span>
+                <span class="pixel-tag">Redis</span>
+                <span class="pixel-tag">SQLite</span>
+                <span class="pixel-tag">Firebase Firestore</span>
               </div>
             </div>
 
-            <div class="tech-category">
-              <h4 class="tech-group-title">Mobile</h4>
-              <div class="tag-cloud">
-                <span class="pixel-tag"><span class="tech-icon"
-                    style="--icon-url: url('https://cdn.simpleicons.org/react');"></span>React Native</span>
-              </div>
-            </div>
+
 
             <div class="tech-category">
               <h4 class="tech-group-title">Languages</h4>
               <div class="tag-cloud">
-                <span class="pixel-tag"><span class="tech-icon"
-                    style="--icon-url: url('https://cdn.simpleicons.org/javascript');"></span>JavaScript</span>
-                <span class="pixel-tag"><span class="tech-icon"
-                    style="--icon-url: url('https://cdn.simpleicons.org/python');"></span>Python</span>
+                <span class="pixel-tag">JavaScript (ES6+)</span>
+                <span class="pixel-tag">TypeScript</span>
+                <span class="pixel-tag">PHP</span>
+                <span class="pixel-tag">SQL</span>
+                <span class="pixel-tag">HTML5</span>
+                <span class="pixel-tag">CSS3</span>
               </div>
             </div>
 
@@ -760,16 +772,16 @@
       </div>
     </div>
   </div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="js/libs/three.min.js"></script>
   <!-- Animation Engines -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  <script src="https://unpkg.com/lenis@1.0.42/dist/lenis.min.js"></script>
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="js/libs/gsap.min.js"></script>
+  <script src="js/libs/ScrollTrigger.min.js"></script>
+  <script src="js/libs/lenis.min.js"></script>
+  <script src="js/libs/lucide.min.js"></script>
 
-  <script src="canvas-bg.js"></script>
-  <script src="script.js?v=10"></script>
-  <script src="animations.js?v=10"></script>
+  <script src="canvas-bg.js?v=11"></script>
+  <script src="script.js?v=11"></script>
+  <script src="animations.js?v=11"></script>
 </body>
 
 </html>
