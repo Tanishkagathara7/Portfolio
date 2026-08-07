@@ -139,7 +139,10 @@ function initAnimations() {
                 particle.className = "profile-particle";
                 
                 const size = 2 + Math.random() * 4; // 2px to 6px
-                const orbitRadius = 140 + Math.random() * 100; // orbit radius between 140px and 240px
+                const isMobile = window.innerWidth <= 768;
+                const orbitRadius = isMobile 
+                    ? (50 + Math.random() * 30) // smaller radius on mobile (50px to 80px)
+                    : (140 + Math.random() * 100); // orbit radius between 140px and 240px
                 const duration = 8 + Math.random() * 8; // 8s to 16s slow orbit
                 const delay = Math.random() * -16; // distribute randomly across 360 deg path
                 
@@ -345,15 +348,6 @@ function initAnimations() {
         if (timeline) {
             const line = document.createElement('div');
             line.className = 'timeline-progress-line';
-            line.style.position = 'absolute';
-            line.style.left = '6px';
-            line.style.top = '0';
-            line.style.bottom = '0';
-            line.style.width = '4px';
-            line.style.backgroundColor = 'hsl(var(--primary))';
-            line.style.transformOrigin = 'top';
-            line.style.transform = 'scaleY(0)';
-            line.style.zIndex = '1';
             timeline.appendChild(line);
 
             gsap.to(line, {

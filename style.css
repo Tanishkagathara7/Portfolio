@@ -12,15 +12,20 @@
   /* Theme color HSL coordinates - Light Mode (Vibrant & Alive) */
   --background: 220 33% 98%;
   --card: 0 0% 100%;
-  --foreground: 222 47% 11%; /* Deep slate navy #0F172A */
+  --foreground: 222 47% 11%;
+  /* Deep slate navy #0F172A */
   --border: 220 25% 88%;
-  --primary: 239 84% 59%; /* #4F46E5 - Electric Indigo */
-  --secondary: 263 70% 58%; /* #7C3AED - Rich Vivid Purple (Makes tagline & badges pop!) */
-  --accent: 199 89% 48%; /* #0284C7 - Vivid Cyan */
+  --primary: 239 84% 59%;
+  /* #4F46E5 - Electric Indigo */
+  --secondary: 263 70% 58%;
+  /* #7C3AED - Rich Vivid Purple (Makes tagline & badges pop!) */
+  --accent: 199 89% 48%;
+  /* #0284C7 - Vivid Cyan */
   --accent-blue: 217 91% 60%;
   --success: 142 71% 45%;
   --muted: 220 20% 94%;
-  --muted-text: 215 25% 35%; /* High contrast readable text */
+  --muted-text: 215 25% 35%;
+  /* High contrast readable text */
 
   --shadow-color: rgba(15, 23, 42, 0.08);
   --crt-glow-start: 239 84% 59%;
@@ -29,13 +34,19 @@
 
 /* Dark Theme Variables (#070B14, #101827, #06B6D4, #3B82F6, #8B5CF6, #FFFFFF) */
 .dark {
-  --background: 222 47% 5%; /* #070B14 */
-  --card: 217 42% 11%; /* #101827 */
-  --foreground: 0 0% 100%; /* #FFFFFF */
+  --background: 222 47% 5%;
+  /* #070B14 */
+  --card: 217 42% 11%;
+  /* #101827 */
+  --foreground: 0 0% 100%;
+  /* #FFFFFF */
   --border: 217 33% 18%;
-  --primary: 217 91% 60%; /* #3B82F6 */
-  --secondary: 263 70% 66%; /* #8B5CF6 */
-  --accent: 188 94% 43%; /* #06B6D4 */
+  --primary: 217 91% 60%;
+  /* #3B82F6 */
+  --secondary: 263 70% 66%;
+  /* #8B5CF6 */
+  --accent: 188 94% 43%;
+  /* #06B6D4 */
   --accent-blue: 217 91% 60%;
   --success: 145 35% 78%;
   --muted: 217 33% 14%;
@@ -54,14 +65,13 @@
   border-color: hsl(var(--border));
 }
 
-html {
-  /* Removed scroll-behavior: smooth; to allow Lenis to handle it */
-}
+
 
 html,
 body {
   min-height: 100%;
   width: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -249,7 +259,7 @@ h6 {
 /* Light mode multi-mesh gradient base overlay & geometric dot grid */
 body:not(.dark) #bg-container {
   background-color: #FAFBFD;
-  background-image: 
+  background-image:
     radial-gradient(at 15% 15%, rgba(59, 130, 246, 0.12) 0px, transparent 55%),
     radial-gradient(at 85% 20%, rgba(139, 92, 246, 0.10) 0px, transparent 50%),
     radial-gradient(at 50% 60%, rgba(6, 182, 212, 0.08) 0px, transparent 55%),
@@ -300,8 +310,13 @@ body:not(.dark) #bg-container {
 }
 
 @keyframes scanline-move {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100vh); }
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(100vh);
+  }
 }
 
 #bg-scanline {
@@ -335,7 +350,7 @@ body:not(.dark) #bg-container {
 .pixel-card {
   border: 1px solid hsla(var(--border), 0.8);
   background-color: hsl(var(--card));
-  box-shadow: 0 4px 12px var(--shadow-color), 0 1px 3px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 12px var(--shadow-color), 0 1px 3px rgba(0, 0, 0, 0.05);
   border-radius: 12px;
   padding: 1.5rem;
   image-rendering: pixelated;
@@ -349,7 +364,7 @@ body:not(.dark) .pixel-card {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(226, 232, 240, 0.9);
-  box-shadow: 
+  box-shadow:
     0 4px 20px -2px rgba(15, 23, 42, 0.05),
     0 12px 30px -4px rgba(59, 130, 246, 0.08),
     inset 0 1px 0 0 rgba(255, 255, 255, 1);
@@ -358,7 +373,7 @@ body:not(.dark) .pixel-card {
 
 body:not(.dark) .pixel-card.hoverable:hover {
   border-color: rgba(59, 130, 246, 0.4);
-  box-shadow: 
+  box-shadow:
     0 20px 45px -6px rgba(59, 130, 246, 0.16),
     0 0 25px rgba(6, 182, 212, 0.12),
     inset 0 1px 0 0 rgba(255, 255, 255, 1);
@@ -395,6 +410,7 @@ body:not(.dark) .pixel-card.hoverable:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  height: 48px;
   background-color: hsl(var(--secondary));
   color: #12151c !important;
   border: 3px solid hsl(var(--border));
@@ -403,12 +419,13 @@ body:not(.dark) .pixel-card.hoverable:hover {
   font-family: 'VT323', monospace;
   font-size: 1.35rem;
   font-weight: bold;
-  padding: 0.5rem 1.4rem;
+  padding: 0 1.4rem;
   text-decoration: none;
   image-rendering: pixelated;
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, filter 0.3s ease;
   text-transform: uppercase;
   will-change: transform, box-shadow;
+  line-height: 1;
 }
 
 .pixel-button:hover {
@@ -607,6 +624,21 @@ header.scrolled {
 
 /* Mobile Menu overlay */
 @media (max-width: 768px) {
+  .logo-text {
+    font-size: 0.95rem;
+  }
+
+  .header-actions {
+    gap: 0.5rem;
+  }
+
+  .theme-btn,
+  .disc-btn,
+  .menu-btn {
+    width: 38px;
+    height: 38px;
+  }
+
   .nav-links {
     display: none;
     position: fixed;
@@ -741,9 +773,12 @@ header.scrolled {
 }
 
 @keyframes profile-float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-8px);
   }
@@ -779,6 +814,7 @@ header.scrolled {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -788,6 +824,7 @@ header.scrolled {
   0% {
     transform: rotate(360deg);
   }
+
   100% {
     transform: rotate(0deg);
   }
@@ -801,7 +838,8 @@ header.scrolled {
   width: 120%;
   height: 120%;
   pointer-events: none;
-  z-index: 6; /* sit above profile image but behind badge */
+  z-index: 6;
+  /* sit above profile image but behind badge */
   overflow: visible;
 }
 
@@ -820,10 +858,12 @@ header.scrolled {
     transform: rotate(0deg) translateX(var(--orbit-radius, 160px)) rotate(0deg) scale(0.8);
     opacity: 0.1;
   }
+
   50% {
     opacity: 0.95;
     transform: rotate(180deg) translateX(var(--orbit-radius, 160px)) rotate(-180deg) scale(1.3);
   }
+
   100% {
     transform: rotate(360deg) translateX(var(--orbit-radius, 160px)) rotate(-360deg) scale(0.8);
     opacity: 0.1;
@@ -849,10 +889,13 @@ header.scrolled {
 }
 
 @keyframes badge-bounce {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateX(-50%) scale(1);
     box-shadow: 0 6px 16px var(--shadow-color), 0 0 10px rgba(139, 92, 246, 0.4);
   }
+
   50% {
     transform: translateX(-50%) scale(1.05);
     box-shadow: 0 8px 20px var(--shadow-color), 0 0 18px rgba(139, 92, 246, 0.6);
@@ -924,8 +967,13 @@ header.scrolled {
 }
 
 @keyframes fillBar {
-  0% { width: 0; }
-  100% { /* Reaches inline width */ }
+  0% {
+    width: 0;
+  }
+
+  100% {
+    /* Reaches inline width */
+  }
 }
 
 .skill-bar-inner {
@@ -1049,12 +1097,25 @@ header.scrolled {
   background-color: hsl(var(--border));
 }
 
+.timeline-progress-line {
+  position: absolute;
+  left: 6px;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: hsl(var(--primary));
+  transform-origin: top;
+  transform: scaleY(0);
+  z-index: 1;
+}
+
 .timeline-item {
   position: relative;
   margin-bottom: 3rem;
 }
 
 .timeline-dot {
+  display: none;
   position: absolute;
   left: -2rem;
   top: 10px;
@@ -1161,22 +1222,51 @@ header.scrolled {
 }
 
 @keyframes float-bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
 }
 
 @keyframes rocket-launch {
-  0% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(4px, -4px) scale(1.1); }
-  100% { transform: translate(0, 0) scale(1); }
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate(4px, -4px) scale(1.1);
+  }
+
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
 }
 
 @keyframes briefcase-swing {
-  0% { transform: rotate(0deg); }
-  25% { transform: rotate(15deg); }
-  50% { transform: rotate(0deg); }
-  75% { transform: rotate(-15deg); }
-  100% { transform: rotate(0deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(15deg);
+  }
+
+  50% {
+    transform: rotate(0deg);
+  }
+
+  75% {
+    transform: rotate(-15deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
 }
 
 .cert-card:hover .cert-icon svg.lucide-graduation-cap {
@@ -1869,6 +1959,10 @@ footer p {
   }
 
   .timeline::before {
+    left: 2px;
+  }
+
+  .timeline-progress-line {
     left: 2px;
   }
 
