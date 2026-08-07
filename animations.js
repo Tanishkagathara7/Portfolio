@@ -129,59 +129,50 @@ function initAnimations() {
         const profileFrame = heroSection.querySelector('.profile-frame');
         const badgeTag = heroSection.querySelector('.badge-tag');
 
-        // Dynamically generate 15 glowing particles to orbit around the profile image in 360 degrees
-        const particlesContainer = heroSection.querySelector('.profile-particles-container');
-        if (particlesContainer) {
-            const particleCount = 15;
-            const colors = ["#3B82F6", "#06B6D4"];
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement("span");
-                particle.className = "profile-particle";
-                
-                const size = 2 + Math.random() * 4; // 2px to 6px
-                const isMobile = window.innerWidth <= 768;
-                const orbitRadius = isMobile 
-                    ? (50 + Math.random() * 30) // smaller radius on mobile (50px to 80px)
-                    : (140 + Math.random() * 100); // orbit radius between 140px and 240px
-                const duration = 8 + Math.random() * 8; // 8s to 16s slow orbit
-                const delay = Math.random() * -16; // distribute randomly across 360 deg path
-                
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                particle.style.setProperty('--orbit-radius', `${orbitRadius}px`);
-                particle.style.animationDuration = `${duration}s`;
-                particle.style.animationDelay = `${delay}s`;
-                particle.style.color = colors[Math.floor(Math.random() * colors.length)];
-                
-                particlesContainer.appendChild(particle);
-            }
-        }
+
 
         // Initial setup to make elements invisible immediately on script load
-        gsap.set(safeTargets([tag, titleLine1 || titleEl, titleLine2, tagline, desc, buttons]), { opacity: 0, y: 30 });
-        if (profileFrame) gsap.set(profileFrame, { scale: 0.92, opacity: 0, y: 30, transformPerspective: 1000 });
+        const socials = heroSection.querySelectorAll('.hero-social-link');
+        gsap.set(header, { opacity: 0, y: -45 });
+        gsap.set(safeTargets([tag, titleLine1 || titleEl, titleLine2, tagline, desc, buttons, socials]), { opacity: 0, y: 25 });
+        if (profileFrame) gsap.set(profileFrame, { scale: 0.1, opacity: 0, rotation: -360, y: 25, transformPerspective: 1000 });
         if (badgeTag) gsap.set(badgeTag, { opacity: 0, y: 15 });
 
         // Trigger Hero animation exactly after boot sequence hides (at 1600ms)
         setTimeout(() => {
             console.log("[Animations] Starting Hero Reveal sequence...");
             const tl = gsap.timeline();
-            if (tag) tl.to(tag, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" });
             
+            // 1. Navbar (Header)
+            if (header) tl.to(header, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" });
+            
+            // 2. Badge (Tag)
+            if (tag) tl.to(tag, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, "-=0.4");
+            
+            // 3. Name (Title)
             if (titleLine1) {
-                tl.to(titleLine1, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, "-=0.4");
-                if (titleLine2) tl.to(titleLine2, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, "-=0.4");
+                tl.to(titleLine1, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, "-=0.3");
+                if (titleLine2) tl.to(titleLine2, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, "-=0.3");
             } else if (titleEl) {
-                tl.to(titleEl, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, "-=0.4");
+                tl.to(titleEl, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, "-=0.3");
             }
 
-            if (tagline) tl.to(tagline, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, "-=0.4");
-            if (desc) tl.to(desc, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.4");
+            // 4. Subtitle (Tagline)
+            if (tagline) tl.to(tagline, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, "-=0.3");
             
+            // 5. Paragraph (Description)
+            if (desc) tl.to(desc, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, "-=0.3");
+            
+            // 6. Buttons
             const validButtons = safeTargets(buttons);
             if (validButtons.length > 0) {
-                tl.to(validButtons, { opacity: 1, y: 0, duration: 0.6, ease: "back.out(1.2)", stagger: 0.1 }, "-=0.5");
+                tl.to(validButtons, { opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.2)", stagger: 0.08 }, "-=0.3");
+            }
+
+            // 7. Social Icons
+            const validSocials = safeTargets(socials);
+            if (validSocials.length > 0) {
+                tl.to(validSocials, { opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.4)", stagger: 0.06 }, "-=0.3");
             }
 
             if (profileContainer) {
@@ -201,14 +192,15 @@ function initAnimations() {
                     tl.to(profileFrame, {
                         opacity: 1,
                         scale: 1,
+                        rotation: 0,
                         y: 0,
-                        duration: 0.9,
-                        ease: "back.out(1.2)",
+                        duration: 1.2,
+                        ease: "power2.out",
                         onComplete: () => {
                             // Start floating animation only after entrance finishes
                             profileFrame.classList.add("floating");
                         }
-                    }, "-=1.5");
+                    }, "-=0.35");
 
                     // Cursor 3D Tilt & scale Interaction on hover
                     profileFrame.addEventListener('mousemove', (e) => {
@@ -219,20 +211,18 @@ function initAnimations() {
                         const yc = rect.height / 2;
                         const angleX = (yc - y) / yc * 4; // max 4 degrees
                         const angleY = (x - xc) / xc * 4; // max 4 degrees
+                        const transX = (x - xc) / xc * 6; // max 6px translation
+                        const transY = (y - yc) / yc * 6;
 
                         gsap.to(profileFrame, {
                             rotationX: angleX,
                             rotationY: angleY,
+                            x: transX,
+                            y: transY,
                             scale: 1.03,
                             ease: "power2.out",
                             duration: 0.3,
                             overwrite: "auto"
-                        });
-
-                        // Make particles float slightly faster on hover
-                        const particles = profileFrame.querySelectorAll('.profile-particle');
-                        particles.forEach(p => {
-                            p.style.animationDuration = "2s";
                         });
                     });
 
@@ -240,16 +230,12 @@ function initAnimations() {
                         gsap.to(profileFrame, {
                             rotationX: 0,
                             rotationY: 0,
+                            x: 0,
+                            y: 0,
                             scale: 1,
                             ease: "power3.out",
                             duration: 0.5,
                             overwrite: "auto"
-                        });
-
-                        // Restore original float speed for particles
-                        const particles = profileFrame.querySelectorAll('.profile-particle');
-                        particles.forEach(p => {
-                            p.style.animationDuration = "";
                         });
                     });
                 }
@@ -355,8 +341,8 @@ function initAnimations() {
                 ease: "none",
                 scrollTrigger: {
                     trigger: timeline,
-                    start: "top 60%",
-                    end: "bottom 80%",
+                    start: "top 70%",
+                    end: "bottom 30%",
                     scrub: true
                 }
             });

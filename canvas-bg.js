@@ -237,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Fade into horizon (z distance)
                 float distFade = smoothstep(-100.0, -10.0, vWorldPosition.z) * smoothstep(60.0, 0.0, vWorldPosition.z);
                 
-                float baseAlpha = uIsDark > 0.5 ? 0.12 : 0.18;
+                float baseAlpha = uIsDark > 0.5 ? 0.05 : 0.08;
                 float finalAlpha = line * baseAlpha * distFade * uHeroWeight;
                 
                 gl_FragColor = vec4(uColor, finalAlpha);
@@ -454,7 +454,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // =========================================================================
     // 8. GLOBAL DYNAMIC PARTICLES ENGINE (Glowing Micro-Dots & Hexagons)
     // =========================================================================
-    const particleCount = isMobile ? 40 : 90;
+    const particleCount = isMobile ? 20 : 45;
     const pPositions = new Float32Array(particleCount * 3);
     const pSpeeds = [];
     const pSizes = [];

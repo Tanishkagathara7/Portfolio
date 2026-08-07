@@ -22,6 +22,24 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 10);
   });
   
+  // Typewriter effect for Hero Subtitle
+  const typewriterText = document.getElementById("typewriter-text");
+  if (typewriterText) {
+    const textToType = "Building scalable web applications with Laravel, React & Node.js.";
+    let charIndex = 0;
+    
+    function typeEffect() {
+      if (charIndex < textToType.length) {
+        typewriterText.textContent += textToType.charAt(charIndex);
+        charIndex++;
+        setTimeout(typeEffect, 50 + Math.random() * 30);
+      }
+    }
+    
+    // Start typing after boot sequence hides (takes ~1.5s)
+    setTimeout(typeEffect, 1800);
+  }
+
   // ==========================================
   // 1. Theme Toggle (Light / Dark Mode)
   // ==========================================
