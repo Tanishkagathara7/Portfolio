@@ -665,6 +665,15 @@ header.scrolled {
 
 /* Mobile Menu overlay */
 @media (max-width: 768px) {
+  header {
+    width: 95%;
+    padding: 0.6rem 0.8rem;
+  }
+
+  header .container {
+    padding: 0 0.25rem;
+  }
+
   .logo-text {
     font-size: 0.95rem;
   }
