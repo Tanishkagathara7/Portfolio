@@ -57,6 +57,8 @@
           <li><a href="#projects">Projects</a></li>
           <li><a href="#certs">Education</a></li>
           <li><a href="#terminal">Terminal</a></li>
+          <li><a href="#arcade">Arcade</a></li>
+          <li><a href="#contact" id="contact-btn">Contact</a></li>
         </ul>
       </nav>
 
@@ -570,6 +572,36 @@
     </div>
   </section>
 
+  <!-- Divider -->
+  <div class="pixel-divider">
+    <div class="pixel-dot"></div>
+    <div class="pixel-dot"></div>
+    <div class="pixel-bar"></div>
+    <div class="pixel-dot"></div>
+    <div class="pixel-dot"></div>
+  </div>
+
+  <!-- Arcade Game Section -->
+  <section class="container py-16" id="arcade">
+    <div class="terminal-section reveal">
+      <h2 style="text-align:center; margin-bottom: 2rem;">Retro CRT Arcade</h2>
+      <div class="game-container">
+        <div class="game-header-bar">
+          <div class="terminal-buttons">
+            <span class="term-btn red"></span>
+            <span class="term-btn yellow"></span>
+            <span class="term-btn green"></span>
+          </div>
+          <span>SNAKE_GAME.EXE</span>
+          <span>x</span>
+        </div>
+        <div class="game-screen-wrapper">
+          <canvas id="game-canvas" width="580" height="420" tabindex="0" aria-label="Snake Game Board"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Footer -->
   <footer class="site-footer">
     <div class="container footer-content">
@@ -643,6 +675,24 @@
     </div>
   </div>
 
+  <!-- Game Win/Lose Modal -->
+  <div id="game-modal" class="modal-overlay">
+    <div class="pixel-card modal-container" style="max-width: 450px; text-align: center;">
+      <div class="modal-header-bar">
+        <span>GAME_RESULT.EXE</span>
+        <button id="close-game-modal" class="modal-close-btn" aria-label="Close modal">X</button>
+      </div>
+      <div class="modal-body">
+        <h3 id="game-modal-title" class="modal-title" style="margin-bottom: 1.5rem;">> GAME OVER</h3>
+        <p id="game-modal-desc" class="modal-desc" style="margin-bottom: 2rem;"></p>
+        <div class="modal-footer-buttons" style="justify-content: center; gap: 1rem;">
+          <button id="game-modal-action-btn" class="pixel-button">Hire Me</button>
+          <button id="game-modal-close-btn" class="pixel-button secondary">Play Again</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Contact Modal -->
   <div id="contact-modal" class="modal-overlay">
     <div class="pixel-card modal-container">
@@ -657,14 +707,14 @@
 
         <div class="contact-details">
           <div class="contact-item">
-            <span class="contact-icon">ðŸ“§</span>
+            <span class="contact-icon">📧</span>
             <div class="contact-info">
               <span class="contact-label">EMAIL</span>
               <a href="mailto:kagatharatanish@gmail.com" class="contact-link">kagatharatanish@gmail.com</a>
             </div>
           </div>
           <div class="contact-item">
-            <span class="contact-icon">ðŸ“ž</span>
+            <span class="contact-icon">📞</span>
             <div class="contact-info">
               <span class="contact-label">PHONE</span>
               <a href="tel:+919328978130" class="contact-link">+91 9328978130</a>

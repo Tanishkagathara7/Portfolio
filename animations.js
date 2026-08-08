@@ -320,7 +320,7 @@ function initAnimations() {
                 scale: 1,
                 duration: 0.5,
                 ease: "back.out(1.2)",
-                stagger: 0.05
+                stagger: 0.01
             }, "-=1.0");
         }
     }

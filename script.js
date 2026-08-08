@@ -307,8 +307,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.key === "Enter") {
       const inputVal = termInput.value.trim().toLowerCase();
       
-      // Display user prompt in history
-      addTerminalLine(`<span style="color:#00ffff;">tanish@portfolio:~$</span> ${termInput.value}`);
+      // Display user prompt in history (escaped to prevent XSS)
+      const escapedInput = termInput.value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      addTerminalLine(`<span style="color:#00ffff;">tanish@portfolio:~$</span> ${escapedInput}`);
       
       // Clear input
       termInput.value = "";
@@ -335,18 +336,68 @@ document.addEventListener("DOMContentLoaded", () => {
   const gameCanvas = document.getElementById("game-canvas");
   const gameCtx = gameCanvas ? gameCanvas.getContext("2d") : null;
 
-  const gridScale = 10;
+  const gridScale = 20;
   const cols = gameCanvas ? gameCanvas.width / gridScale : 0; // 29 columns
   const rows = gameCanvas ? gameCanvas.height / gridScale : 0; // 21 rows
 
   let snake = [];
   let direction = { x: 1, y: 0 };
   let nextDirection = { x: 1, y: 0 };
+  let hasTurnedThisTick = false;
   let food = { x: 0, y: 0 };
   let score = 0;
-  let gameState = "START"; // START, PLAYING, GAMEOVER
+  let gameState = "START"; // START, PLAYING, GAMEOVER, WON
   let gameInterval = null;
   const gameSpeed = 120; // Milliseconds per tick
+
+  // Modal selector for game result popup
+  const gameModal = document.getElementById("game-modal");
+  const gameModalTitle = document.getElementById("game-modal-title");
+  const gameModalDesc = document.getElementById("game-modal-desc");
+  const gameModalActionBtn = document.getElementById("game-modal-action-btn");
+  const gameModalCloseBtn = document.getElementById("game-modal-close-btn");
+  const closeGameModalX = document.getElementById("close-game-modal");
+
+  function showGameModal(isWin) {
+    if (!gameModal) return;
+    if (isWin) {
+      if (gameModalTitle) {
+        gameModalTitle.textContent = "> YOU WON!";
+        gameModalTitle.style.color = "hsl(var(--success))";
+      }
+      if (gameModalDesc) gameModalDesc.textContent = "You should hire me, you won the game!";
+    } else {
+      if (gameModalTitle) {
+        gameModalTitle.textContent = "> GAME OVER";
+        gameModalTitle.style.color = "#e59a9c"; // Muted Rose
+      }
+      if (gameModalDesc) gameModalDesc.textContent = "You lose, now you have to hire me!";
+    }
+    gameModal.classList.add("active");
+  }
+
+  const hideGameModal = () => {
+    if (gameModal) gameModal.classList.remove("active");
+  };
+
+  if (gameModalActionBtn) {
+    gameModalActionBtn.addEventListener("click", () => {
+      hideGameModal();
+      const contactModal = document.getElementById("contact-modal");
+      if (contactModal) {
+        contactModal.classList.add("active");
+        addTerminalLine("> System: Opening CONTACT_ME.EXE window.");
+      }
+    });
+  }
+
+  if (gameModalCloseBtn) gameModalCloseBtn.addEventListener("click", hideGameModal);
+  if (closeGameModalX) closeGameModalX.addEventListener("click", hideGameModal);
+  if (gameModal) {
+    gameModal.addEventListener("click", (e) => {
+      if (e.target === gameModal) hideGameModal();
+    });
+  }
 
   // Render text helper
   function drawText(text, x, y, size, color, align = "center") {
@@ -378,6 +429,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
     direction = { x: 1, y: 0 };
     nextDirection = { x: 1, y: 0 };
+    hasTurnedThisTick = false;
     score = 0;
     generateFood();
     gameState = "PLAYING";
@@ -392,6 +444,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function updateGame() {
     if (gameState !== "PLAYING") return;
 
+    hasTurnedThisTick = false;
     direction = nextDirection;
     const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
 
@@ -415,10 +468,25 @@ document.addEventListener("DOMContentLoaded", () => {
       score += 10;
       generateFood();
       playBeep(880, 60); // Retro coin collections sound
+      if (score >= 100) {
+        winSnakeGame();
+      }
     } else {
       snake.pop();
     }
 
+    drawGame();
+  }
+
+  function winSnakeGame() {
+    gameState = "WON";
+    clearInterval(gameInterval);
+    playBeep(523.25, 100);
+    setTimeout(() => playBeep(659.25, 150), 100);
+    setTimeout(() => playBeep(783.99, 300), 250);
+    
+    addTerminalLine(`> System: Game Won! Score achieved: ${score}`);
+    showGameModal(true);
     drawGame();
   }
 
@@ -429,6 +497,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // Log final score to terminal CLI
     addTerminalLine(`> System: Game Over. Score achieved: ${score}`);
+    showGameModal(false);
     drawGame();
   }
 
@@ -461,16 +530,24 @@ document.addEventListener("DOMContentLoaded", () => {
     gameCtx.fillRect(0, 0, gameCanvas.width, gameCanvas.height);
 
     if (gameState === "START") {
-      drawText("SNAKE GAME", gameCanvas.width / 2, 70, 16, "#fdf0c9"); // Banana Cream
-      drawText("CLICK TO START", gameCanvas.width / 2, 120, 16, "#cbbef7"); // Lavender
-      drawText("USE WASD OR ARROW KEYS TO CONTROL", gameCanvas.width / 2, 165, 12, "#e1e2e5"); // Soft Silver
+      drawText("SNAKE GAME", gameCanvas.width / 2, 120, 28, "#fdf0c9"); // Banana Cream
+      drawText("CLICK SCREEN TO START", gameCanvas.width / 2, 220, 20, "#cbbef7"); // Lavender
+      drawText("USE WASD / ARROWS TO CONTROL", gameCanvas.width / 2, 300, 16, "#e1e2e5"); // Soft Silver
+      drawText("FOCUS SCREEN TO BIND KEYS", gameCanvas.width / 2, 340, 14, "#e1e2e5");
       return;
     }
 
     if (gameState === "GAMEOVER") {
-      drawText("GAME OVER", gameCanvas.width / 2, 70, 18, "#e59a9c"); // Muted Rose
-      drawText(`SCORE: ${score}`, gameCanvas.width / 2, 115, 16, "#e1e2e5");
-      drawText("CLICK TO PLAY AGAIN", gameCanvas.width / 2, 160, 14, "#cbbef7");
+      drawText("GAME OVER", gameCanvas.width / 2, 140, 32, "#e59a9c"); // Muted Rose
+      drawText(`SCORE: ${score}`, gameCanvas.width / 2, 230, 24, "#e1e2e5");
+      drawText("CLICK TO PLAY AGAIN", gameCanvas.width / 2, 320, 20, "#cbbef7");
+      return;
+    }
+
+    if (gameState === "WON") {
+      drawText("YOU WON!", gameCanvas.width / 2, 140, 32, "#bfe5ca"); // Sage Green
+      drawText(`SCORE: ${score}`, gameCanvas.width / 2, 230, 24, "#e1e2e5");
+      drawText("CLICK TO PLAY AGAIN", gameCanvas.width / 2, 320, 20, "#cbbef7");
       return;
     }
 
@@ -491,15 +568,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Draw score hud
     gameCtx.fillStyle = "#e1e2e5";
-    gameCtx.font = "14px 'VT323', monospace";
+    gameCtx.font = "20px 'VT323', monospace";
     gameCtx.textAlign = "left";
-    gameCtx.fillText(`SCORE: ${score}`, 10, 20);
+    gameCtx.fillText(`SCORE: ${score}`, 15, 30);
   }
 
   // Start the game on screen click
   if (gameCanvas) {
     gameCanvas.addEventListener("click", () => {
-      if (gameState === "START" || gameState === "GAMEOVER") {
+      if (gameState === "START" || gameState === "GAMEOVER" || gameState === "WON") {
         startSnakeGame();
       }
     });
@@ -508,8 +585,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Watch for keyboard arrow key controls
   if (gameCanvas) {
     window.addEventListener("keydown", (e) => {
-      // Only control snake if terminal input is not focused
-      if (document.activeElement === termInput) return;
+      // Only control snake if gameCanvas has focus
+      if (document.activeElement !== gameCanvas) return;
 
       const key = e.key;
 
@@ -519,17 +596,24 @@ document.addEventListener("DOMContentLoaded", () => {
           e.preventDefault();
         }
 
+        if (hasTurnedThisTick) return;
+
         if ((key === "ArrowUp" || key === "w" || key === "W") && direction.y === 0) {
           nextDirection = { x: 0, y: -1 };
+          hasTurnedThisTick = true;
         } else if ((key === "ArrowDown" || key === "s" || key === "S") && direction.y === 0) {
           nextDirection = { x: 0, y: 1 };
+          hasTurnedThisTick = true;
         } else if ((key === "ArrowLeft" || key === "a" || key === "A") && direction.x === 0) {
           nextDirection = { x: -1, y: 0 };
+          hasTurnedThisTick = true;
         } else if ((key === "ArrowRight" || key === "d" || key === "D") && direction.x === 0) {
           nextDirection = { x: 1, y: 0 };
+          hasTurnedThisTick = true;
         }
       } else {
         if (key === "Enter" || key === " ") {
+          e.preventDefault();
           startSnakeGame();
         }
       }
@@ -555,7 +639,10 @@ document.addEventListener("DOMContentLoaded", () => {
       addTerminalLine("> System: Closed contact details.");
     };
 
-    contactBtn.addEventListener("click", openModal);
+    contactBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      openModal();
+    });
     
     if (closeModalBtn1) closeModalBtn1.addEventListener("click", closeModal);
     if (closeModalBtn2) closeModalBtn2.addEventListener("click", closeModal);
@@ -569,8 +656,29 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ==========================================
-  // 9. Project Details Modals
+  // 9. Project Details Modals Close Listeners Setup (Once)
   // ==========================================
+  const projectModals = document.querySelectorAll(".project-detail-modal, #chess-modal, #plagiarism-modal, #billing-modal, #cricket-modal");
+  
+  projectModals.forEach(modal => {
+    // Find closing buttons inside this modal
+    const closeButtons = modal.querySelectorAll(".close-project-modal");
+    closeButtons.forEach(closeBtn => {
+      closeBtn.addEventListener("click", () => {
+        modal.classList.remove("active");
+        addTerminalLine(`> System: Closed project details.`);
+      });
+    });
+
+    // Close on click outside
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        modal.classList.remove("active");
+        addTerminalLine(`> System: Closed project details.`);
+      }
+    });
+  });
+
   const detailsTriggers = document.querySelectorAll(".details-trigger-btn");
   
   detailsTriggers.forEach(btn => {
@@ -580,23 +688,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (modal) {
         modal.classList.add("active");
         addTerminalLine(`> System: Opening detail file: ${targetId}.SYS`);
-        
-        // Find closing buttons inside this modal
-        const closeButtons = modal.querySelectorAll(".close-project-modal");
-        closeButtons.forEach(closeBtn => {
-          closeBtn.addEventListener("click", () => {
-            modal.classList.remove("active");
-            addTerminalLine(`> System: Closed project details.`);
-          }, { once: true });
-        });
-
-        // Close on click outside
-        modal.addEventListener("click", (e) => {
-          if (e.target === modal) {
-            modal.classList.remove("active");
-            addTerminalLine(`> System: Closed project details.`);
-          }
-        }, { once: true });
       }
     });
   });
