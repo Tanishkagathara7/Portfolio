@@ -872,6 +872,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const offsetY = (window.innerHeight / 2 - e.clientY) * 0.015;
       ctaDecorations.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
     });
+  }
+
   // ==========================================
   // 11. Direct Form Submission via FormSubmit AJAX
   // ==========================================
