@@ -3545,6 +3545,7 @@ body:not(.dark) .tagline-tech {
 .method-details {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .method-label {
@@ -3558,6 +3559,7 @@ body:not(.dark) .tagline-tech {
   font-size: 1.05rem;
   font-weight: 600;
   color: hsl(var(--foreground));
+  word-break: break-all;
 }
 
 /* Contact Form Styling */
