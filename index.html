@@ -14,7 +14,7 @@
   <meta name="author" content="Tanish Kagathara">
 
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="style.css?v=22">
+  <link rel="stylesheet" href="style.css?v=37">
 </head>
 
 <body class="pixel-grid">
@@ -51,14 +51,15 @@
       <!-- Nav Links -->
       <nav>
         <ul class="nav-links" id="nav-links">
-          <li><a href="#hero">Home</a></li>
-          <li><a href="#skills">Skills</a></li>
-          <li><a href="#experience">Experience</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#certs">Education</a></li>
-          <li><a href="#terminal">Terminal</a></li>
-          <li><a href="#arcade">Arcade</a></li>
-          <li><a href="#contact" id="contact-btn">Contact</a></li>
+          <li><a href="#hero"><span class="menu-num">01</span><span class="menu-txt">Home</span></a></li>
+          <li><a href="#skills"><span class="menu-num">02</span><span class="menu-txt">Skills</span></a></li>
+          <li><a href="#experience"><span class="menu-num">03</span><span class="menu-txt">Experience</span></a></li>
+          <li><a href="#projects"><span class="menu-num">04</span><span class="menu-txt">Projects</span></a></li>
+          <li class="menu-divider"></li>
+          <li><a href="#certs"><span class="menu-num">05</span><span class="menu-txt">Education</span></a></li>
+          <li><a href="#terminal"><span class="menu-num">06</span><span class="menu-txt">Terminal</span></a></li>
+          <li><a href="#arcade"><span class="menu-num">07</span><span class="menu-txt">Arcade</span></a></li>
+          <li><a href="#contact" id="contact-btn"><span class="menu-num">08</span><span class="menu-txt">Contact</span></a></li>
         </ul>
       </nav>
 
@@ -104,37 +105,59 @@
         <!-- Mobile Menu Toggle Button -->
         <button id="menu-toggle" class="menu-btn" aria-label="Open Mobile Navigation Menu">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M4 6h16" stroke-linecap="round" stroke-linejoin="round" class="line-top" />
+            <path d="M4 12h16" stroke-linecap="round" stroke-linejoin="round" class="line-mid" />
+            <path d="M4 18h16" stroke-linecap="round" stroke-linejoin="round" class="line-bot" />
           </svg>
         </button>
       </div>
     </div>
   </header>
 
+  <!-- Mobile Menu Backdrop Overlay -->
+  <div id="mobile-menu-backdrop" class="mobile-backdrop-overlay"></div>
+
   <!-- Hero Section -->
   <section class="hero-section container" id="hero" style="padding-top: 100px !important;">
     <div class="grid grid-cols-1 lg-grid-cols-2 gap-8 items-center">
       <div class="reveal active">
-        <div class="hero-tag">SOFTWARE ENGINEER & DEVELOPER</div>
+        <div class="hero-tag"><span class="tag-code">&lt;/&gt;</span> SOFTWARE ENGINEER & DEVELOPER</div>
         <h1 class="hero-title">Tanish Kagathara</h1>
         <p class="hero-tagline"><span id="typewriter-text"></span><span class="typewriter-cursor">|</span></p>
         <p class="hero-summary">
           I build high-performance, scalable systems using Laravel, React, and Node.js. Focused on clean architecture, optimized performance, and crafting polished user experiences that solve complex engineering problems.
         </p>
-        <div class="hero-buttons">
-          <a href="#projects" class="pixel-button primary-cta">View Projects</a>
-          <a href="Tanish_Resume.pdf" target="_blank" rel="noopener noreferrer" class="pixel-button secondary secondary-cta">Download Resume</a>
-        </div>
-        <div class="hero-socials">
-          <a href="https://github.com/Tanishkagathara7" target="_blank" rel="noopener noreferrer" class="hero-social-link" title="GitHub">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-          </a>
-          <a href="https://www.linkedin.com/in/tanish-kagathara-83ba26229/" target="_blank" rel="noopener noreferrer" class="hero-social-link" title="LinkedIn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-          </a>
-          <a href="mailto:kagatharatanish@gmail.com" class="hero-social-link" title="Email">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          </a>
+        <div class="cta-container">
+          <!-- Background/Decoration squares -->
+          <div class="cta-decorations">
+            <div class="decor-square square-1"></div>
+            <div class="decor-square square-2"></div>
+            <div class="decor-square square-3"></div>
+          </div>
+
+          <div class="cta-buttons-row">
+            <a href="#projects" class="cta-primary-btn">View Projects <span class="cta-arrow">→</span></a>
+            <a href="Tanish_Resume.pdf" target="_blank" rel="noopener noreferrer" class="cta-secondary-btn">Download Resume <i data-lucide="download" class="cta-download-icon"></i></a>
+          </div>
+
+
+
+          <div class="cta-connect-section">
+            <span class="connect-title">Connect with me</span>
+            <div class="social-row-container">
+              <a href="https://github.com/Tanishkagathara7" target="_blank" rel="noopener noreferrer" class="social-btn-round" title="GitHub" aria-label="GitHub">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+              </a>
+              <span class="social-btn-divider">|</span>
+              <a href="https://www.linkedin.com/in/tanish-kagathara-83ba26229/" target="_blank" rel="noopener noreferrer" class="social-btn-round" title="LinkedIn" aria-label="LinkedIn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+              </a>
+              <span class="social-btn-divider">|</span>
+              <a href="mailto:kagatharatanish@gmail.com" class="social-btn-round" title="Email" aria-label="Email">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -598,6 +621,17 @@
         <div class="game-screen-wrapper">
           <canvas id="game-canvas" width="580" height="420" tabindex="0" aria-label="Snake Game Board"></canvas>
         </div>
+        <!-- Mobile D-pad Controls -->
+        <div class="mobile-game-controls">
+          <div class="control-row">
+            <button id="btn-up" class="control-btn">▲</button>
+          </div>
+          <div class="control-row">
+            <button id="btn-left" class="control-btn">◀</button>
+            <button id="btn-down" class="control-btn">▼</button>
+            <button id="btn-right" class="control-btn">▶</button>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -669,7 +703,7 @@
           chiptune music.</p>
         <div class="modal-footer-buttons" style="justify-content: center; gap: 1rem;">
           <button id="start-music-btn" class="pixel-button">Enable Music</button>
-          <button id="skip-music-btn" class="pixel-button secondary">Skip</button>
+          <button id="skip-music-btn" class="pixel-button secondary skip-button">Skip</button>
         </div>
       </div>
     </div>
@@ -859,9 +893,9 @@
   <script src="js/libs/lenis.min.js"></script>
   <script src="js/libs/lucide.min.js"></script>
 
-  <script src="canvas-bg.js?v=11"></script>
-  <script src="script.js?v=11"></script>
-  <script src="animations.js?v=11"></script>
+  <script src="canvas-bg.js?v=17"></script>
+  <script src="script.js?v=17"></script>
+  <script src="animations.js?v=17"></script>
 </body>
 
 </html>

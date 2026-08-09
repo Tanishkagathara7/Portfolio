@@ -124,7 +124,7 @@ function initAnimations() {
         const titleLine2 = heroSection.querySelector('.hero-title .line-2');
         const tagline = heroSection.querySelector('.hero-tagline');
         const desc = heroSection.querySelector('.hero-summary');
-        const buttons = heroSection.querySelectorAll('.pixel-button');
+        const buttons = heroSection.querySelectorAll('.cta-primary-btn, .cta-secondary-btn');
         const profileContainer = heroSection.querySelector('.hero-profile-container');
         const profileFrame = heroSection.querySelector('.profile-frame');
         const badgeTag = heroSection.querySelector('.badge-tag');
@@ -132,14 +132,13 @@ function initAnimations() {
 
 
         // Initial setup to make elements invisible immediately on script load
-        const socials = heroSection.querySelectorAll('.hero-social-link');
+        const socialsSection = heroSection.querySelector('.cta-connect-section');
         gsap.set(header, { opacity: 0, y: -45 });
-        gsap.set(safeTargets([tag, titleLine1 || titleEl, titleLine2, tagline, desc, buttons, socials]), { opacity: 0, y: 25 });
+        gsap.set(safeTargets([tag, titleLine1 || titleEl, titleLine2, tagline, desc, buttons, socialsSection]), { opacity: 0, y: 25 });
         if (profileFrame) gsap.set(profileFrame, { scale: 0.1, opacity: 0, rotation: -360, y: 25, transformPerspective: 1000 });
         if (badgeTag) gsap.set(badgeTag, { opacity: 0, y: 15 });
 
-        // Trigger Hero animation exactly after boot sequence hides (at 1600ms)
-        setTimeout(() => {
+        const triggerHeroReveal = () => {
             console.log("[Animations] Starting Hero Reveal sequence...");
             const tl = gsap.timeline();
             
@@ -169,10 +168,9 @@ function initAnimations() {
                 tl.to(validButtons, { opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.2)", stagger: 0.08 }, "-=0.3");
             }
 
-            // 7. Social Icons
-            const validSocials = safeTargets(socials);
-            if (validSocials.length > 0) {
-                tl.to(validSocials, { opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.4)", stagger: 0.06 }, "-=0.3");
+            // 7. Social Section
+            if (socialsSection) {
+                tl.to(socialsSection, { opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.4)" }, "-=0.3");
             }
 
             if (profileContainer) {
@@ -248,7 +246,17 @@ function initAnimations() {
                     }, "-=0.6");
                 }
             }
-        }, 1600);
+
+            // Dispatch event to start typewriter
+            window.dispatchEvent(new CustomEvent('startTypewriter'));
+        };
+
+        const needsMusicPrompt = true;
+        if (needsMusicPrompt) {
+            window.addEventListener('startHeroReveal', triggerHeroReveal, { once: true });
+        } else {
+            setTimeout(triggerHeroReveal, 1600);
+        }
     }
 
     // --- Skills Section Reveal ---

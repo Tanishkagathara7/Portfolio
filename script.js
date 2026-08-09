@@ -25,19 +25,31 @@ document.addEventListener("DOMContentLoaded", () => {
   // Typewriter effect for Hero Subtitle
   const typewriterText = document.getElementById("typewriter-text");
   if (typewriterText) {
-    const textToType = "Building scalable web applications with Laravel, React & Node.js.";
+    const textToType = '<span class="tagline-blue">Building scalable web applications</span><br><span class="tagline-purple">with Laravel, React & Node.js.</span>';
     let charIndex = 0;
     
     function typeEffect() {
       if (charIndex < textToType.length) {
-        typewriterText.textContent += textToType.charAt(charIndex);
+        if (textToType.charAt(charIndex) === '<') {
+          const tagEnd = textToType.indexOf('>', charIndex);
+          if (tagEnd !== -1) {
+            charIndex = tagEnd + 1;
+          }
+        }
+        typewriterText.innerHTML = textToType.substring(0, charIndex);
         charIndex++;
-        setTimeout(typeEffect, 50 + Math.random() * 30);
+        setTimeout(typeEffect, 30 + Math.random() * 15);
       }
     }
     
-    // Start typing after boot sequence hides (takes ~1.5s)
-    setTimeout(typeEffect, 1800);
+    const needsMusicPrompt = true;
+    if (needsMusicPrompt) {
+      window.addEventListener('startTypewriter', () => {
+        setTimeout(typeEffect, 200);
+      }, { once: true });
+    } else {
+      setTimeout(typeEffect, 1800);
+    }
   }
 
   // ==========================================
@@ -84,17 +96,46 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================================
   const menuToggleBtn = document.getElementById("menu-toggle");
   const navLinks = document.getElementById("nav-links");
+  const mobileBackdrop = document.getElementById("mobile-menu-backdrop");
 
-  menuToggleBtn.addEventListener("click", () => {
-    navLinks.classList.toggle("active");
-  });
+  const toggleMenu = () => {
+    const isOpen = navLinks.classList.toggle("active");
+    menuToggleBtn.classList.toggle("active", isOpen);
+    if (mobileBackdrop) mobileBackdrop.classList.toggle("active", isOpen);
+    menuToggleBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+  };
+
+  const closeMenu = () => {
+    navLinks.classList.remove("active");
+    menuToggleBtn.classList.remove("active");
+    if (mobileBackdrop) mobileBackdrop.classList.remove("active");
+    menuToggleBtn.setAttribute("aria-expanded", "false");
+  };
+
+  if (menuToggleBtn) {
+    menuToggleBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggleMenu();
+    });
+  }
+
+  if (mobileBackdrop) {
+    mobileBackdrop.addEventListener("click", closeMenu);
+  }
 
   // Close mobile menu when nav link is clicked
   const navItems = navLinks.querySelectorAll("a");
   navItems.forEach(item => {
-    item.addEventListener("click", () => {
-      navLinks.classList.remove("active");
-    });
+    item.addEventListener("click", closeMenu);
+  });
+
+  // Close menu when clicking outside of links and menu button
+  document.addEventListener("click", (e) => {
+    if (navLinks.classList.contains("active")) {
+      if (!navLinks.contains(e.target) && !menuToggleBtn.contains(e.target)) {
+        closeMenu();
+      }
+    }
   });
 
   // ==========================================
@@ -173,16 +214,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const skipMusicBtn = document.getElementById("skip-music-btn");
   const closeMusicModal = document.getElementById("close-music-modal");
 
-  if (musicModal && !sessionStorage.getItem("musicPromptShown")) {
-    // Show after the boot sequence completes (boot takes ~2.7s)
+  const needsMusicPrompt = true;
+
+  if (musicModal && needsMusicPrompt) {
+    // Show immediately after the boot sequence completes (at 1600ms)
     setTimeout(() => {
       musicModal.classList.add("active");
-      sessionStorage.setItem("musicPromptShown", "true");
-    }, 3000); 
+    }, 1600); 
   }
 
   const hideMusicModal = () => {
     if (musicModal) musicModal.classList.remove("active");
+    window.dispatchEvent(new CustomEvent('startHeroReveal'));
   };
 
   if (startMusicBtn) {
@@ -620,6 +663,68 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Mobile D-pad & Swipe controls mapping
+  const changeDirectionMobile = (dirKey) => {
+    if (gameState === "START" || gameState === "GAMEOVER" || gameState === "WON") {
+      startSnakeGame();
+      return;
+    }
+    if (hasTurnedThisTick) return;
+
+    if (dirKey === "up" && direction.y === 0) {
+      nextDirection = { x: 0, y: -1 };
+      hasTurnedThisTick = true;
+    } else if (dirKey === "down" && direction.y === 0) {
+      nextDirection = { x: 0, y: 1 };
+      hasTurnedThisTick = true;
+    } else if (dirKey === "left" && direction.x === 0) {
+      nextDirection = { x: -1, y: 0 };
+      hasTurnedThisTick = true;
+    } else if (dirKey === "right" && direction.x === 0) {
+      nextDirection = { x: 1, y: 0 };
+      hasTurnedThisTick = true;
+    }
+  };
+
+  // Bind D-pad Buttons
+  const btnUp = document.getElementById("btn-up");
+  const btnDown = document.getElementById("btn-down");
+  const btnLeft = document.getElementById("btn-left");
+  const btnRight = document.getElementById("btn-right");
+
+  if (btnUp) btnUp.addEventListener("click", () => changeDirectionMobile("up"));
+  if (btnDown) btnDown.addEventListener("click", () => changeDirectionMobile("down"));
+  if (btnLeft) btnLeft.addEventListener("click", () => changeDirectionMobile("left"));
+  if (btnRight) btnRight.addEventListener("click", () => changeDirectionMobile("right"));
+
+  // Bind Swipe Gestures on Canvas
+  if (gameCanvas) {
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    gameCanvas.addEventListener("touchstart", (e) => {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+
+    gameCanvas.addEventListener("touchend", (e) => {
+      if (gameState !== "PLAYING") return;
+      const touchEndX = e.changedTouches[0].clientX;
+      const touchEndY = e.changedTouches[0].clientY;
+      const dx = touchEndX - touchStartX;
+      const dy = touchEndY - touchStartY;
+
+      // Threshold to detect swipe
+      if (Math.abs(dx) > 30 || Math.abs(dy) > 30) {
+        if (Math.abs(dx) > Math.abs(dy)) {
+          changeDirectionMobile(dx > 0 ? "right" : "left");
+        } else {
+          changeDirectionMobile(dy > 0 ? "down" : "up");
+        }
+      }
+    }, { passive: true });
+  }
+
   // ==========================================
   // 8. Contact Modal Dialog
   // ==========================================
@@ -710,6 +815,16 @@ document.addEventListener("DOMContentLoaded", () => {
       mouseY = e.clientY;
       document.documentElement.style.setProperty("--mouse-x", `${mouseX}px`);
       document.documentElement.style.setProperty("--mouse-y", `${mouseY}px`);
+    });
+  }
+
+  // CTA Decorations subtle mouse parallax
+  const ctaDecorations = document.querySelector(".cta-decorations");
+  if (ctaDecorations) {
+    window.addEventListener("mousemove", (e) => {
+      const offsetX = (window.innerWidth / 2 - e.clientX) * 0.015;
+      const offsetY = (window.innerHeight / 2 - e.clientY) * 0.015;
+      ctaDecorations.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
     });
   }
 
