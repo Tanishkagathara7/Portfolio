@@ -25,20 +25,61 @@ document.addEventListener("DOMContentLoaded", () => {
   // Typewriter effect for Hero Subtitle
   const typewriterText = document.getElementById("typewriter-text");
   if (typewriterText) {
-    const textToType = '<span class="tagline-blue">Building scalable web applications</span><br><span class="tagline-purple">with Laravel, React & Node.js.</span>';
-    let charIndex = 0;
-    
-    function typeEffect() {
-      if (charIndex < textToType.length) {
-        if (textToType.charAt(charIndex) === '<') {
-          const tagEnd = textToType.indexOf('>', charIndex);
-          if (tagEnd !== -1) {
-            charIndex = tagEnd + 1;
+    const phrases = [
+      '<span class="tagline-blue">Building scalable web applications</span><br><span class="tagline-purple">with Laravel, React & Node.js.</span>',
+      '<span class="tagline-blue">Building Desktop, Mobile app</span><br><span class="tagline-purple">with Electron & React Native.</span>'
+    ];
+    let phraseIndex = 0;
+    let tokenIndex = 0;
+    let tokens = parseHTMLToTokens(phrases[phraseIndex]);
+    let isDeleting = false;
+
+    function parseHTMLToTokens(html) {
+      const result = [];
+      let i = 0;
+      while (i < html.length) {
+        if (html[i] === '<') {
+          const end = html.indexOf('>', i);
+          if (end !== -1) {
+            result.push({ type: 'tag', value: html.substring(i, end + 1) });
+            i = end + 1;
+            continue;
           }
         }
-        typewriterText.innerHTML = textToType.substring(0, charIndex);
-        charIndex++;
-        setTimeout(typeEffect, 30 + Math.random() * 15);
+        result.push({ type: 'char', value: html[i] });
+        i++;
+      }
+      return result;
+    }
+
+    function typeEffect() {
+      if (!isDeleting) {
+        if (tokenIndex < tokens.length) {
+          while (tokenIndex < tokens.length && tokens[tokenIndex].type === 'tag') {
+            tokenIndex++;
+          }
+          tokenIndex++;
+          typewriterText.innerHTML = tokens.slice(0, tokenIndex).map(t => t.value).join('');
+          setTimeout(typeEffect, 30 + Math.random() * 15);
+        } else {
+          isDeleting = true;
+          setTimeout(typeEffect, 2000);
+        }
+      } else {
+        if (tokenIndex > 0) {
+          tokenIndex--;
+          while (tokenIndex > 0 && tokens[tokenIndex - 1].type === 'tag') {
+            tokenIndex--;
+          }
+          typewriterText.innerHTML = tokens.slice(0, tokenIndex).map(t => t.value).join('');
+          setTimeout(typeEffect, 15);
+        } else {
+          isDeleting = false;
+          phraseIndex = (phraseIndex + 1) % phrases.length;
+          tokens = parseHTMLToTokens(phrases[phraseIndex]);
+          tokenIndex = 0;
+          setTimeout(typeEffect, 500);
+        }
       }
     }
     

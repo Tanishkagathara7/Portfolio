@@ -3123,10 +3123,23 @@ body:not(.dark) .tagline-purple {
 
 @media (max-width: 768px) {
   .hero-title {
-    font-size: 1.8rem;
+    font-size: 2.2rem !important;
+    line-height: 1.5 !important;
+  }
+  .hero-title .line-1,
+  .hero-title .line-2 {
+    display: block !important;
+    width: 100%;
   }
   .tagline-blue, .tagline-purple {
     font-size: 1.15rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 1.65rem !important;
+    line-height: 1.4 !important;
   }
 }
 
