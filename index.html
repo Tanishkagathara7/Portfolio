@@ -57,8 +57,8 @@
           <li><a href="#projects"><span class="menu-num">04</span><span class="menu-txt">Projects</span></a></li>
           <li class="menu-divider"></li>
           <li><a href="#certs"><span class="menu-num">05</span><span class="menu-txt">Education</span></a></li>
-          <li><a href="#terminal"><span class="menu-num">06</span><span class="menu-txt">Terminal</span></a></li>
-          <li><a href="#arcade"><span class="menu-num">07</span><span class="menu-txt">Arcade</span></a></li>
+          <li class="nav-secondary-item"><a href="#terminal"><span class="menu-num">06</span><span class="menu-txt">Terminal</span></a></li>
+          <li class="nav-secondary-item"><a href="#arcade"><span class="menu-num">07</span><span class="menu-txt">Arcade</span></a></li>
           <li><a href="#contact" id="contact-btn"><span class="menu-num">08</span><span class="menu-txt">Contact</span></a></li>
         </ul>
       </nav>
@@ -125,7 +125,7 @@
         <h1 class="hero-title">Tanish Kagathara</h1>
         <p class="hero-tagline"><span id="typewriter-text"></span><span class="typewriter-cursor">|</span></p>
         <p class="hero-summary">
-          I build high-performance, scalable systems using Laravel, React, and Node.js. Focused on clean architecture, optimized performance, and crafting polished user experiences that solve complex engineering problems.
+          I build production-ready web, desktop, and mobile applications with Laravel, React, and Node.js — turning complex requirements into fast, intuitive products.
         </p>
         <div class="cta-container">
           <!-- Background/Decoration squares -->
@@ -168,7 +168,7 @@
           <div class="gradient-ring ring-2"></div>
           <div class="profile-particles-container"></div>
           <img src="profile-pic (1).png" alt="Tanish Kagathara" class="profile-img">
-          <div class="badge-tag"><span class="badge-tag-dot"></span> Available for Opportunities</div>
+          <div class="badge-tag"><span class="badge-tag-dot"></span> Open to Opportunities</div>
         </div>
       </div>
     </div>
@@ -432,12 +432,15 @@
         <div class="slot-content align-left">
           <div class="project-tags">
             <span class="proj-tag">React</span>
-            <span class="proj-tag">JavaScript</span>
-            <span class="proj-tag">Data Viz</span>
+            <span class="proj-tag">Tailwind</span>
+            <span class="proj-tag">Chart.js</span>
           </div>
           <h3>Chess Result Tracker</h3>
-          <p class="project-brief">A chess results tracking and analysis system that processes game data and presents
-            structured insights on player performance.</p>
+          <p class="project-brief">A chess results tracking and analysis system that processes game data and presents structured insights on player performance.</p>
+          <ul class="project-highlights">
+            <li><strong>Challenge:</strong> Processing bulk match logs smoothly.</li>
+            <li><strong>Outcome:</strong> Fast, real-time performance rendering.</li>
+          </ul>
         </div>
         <div class="project-actions">
           <a href="https://chess-results-xi.vercel.app/" target="_blank" rel="noopener noreferrer"
@@ -452,12 +455,15 @@
         <div class="slot-content align-left">
           <div class="project-tags">
             <span class="proj-tag">React</span>
-            <span class="proj-tag">JavaScript</span>
+            <span class="proj-tag">Node.js</span>
             <span class="proj-tag">NLP</span>
           </div>
           <h3>Plagiarism Control</h3>
-          <p class="project-brief">A plagiarism detection web application that analyzes textual similarity between
-            inputs and generates a similarity score.</p>
+          <p class="project-brief">A plagiarism detection web application that analyzes textual similarity between inputs and generates a similarity score.</p>
+          <ul class="project-highlights">
+            <li><strong>Challenge:</strong> Optimizing string diff algorithms.</li>
+            <li><strong>Outcome:</strong> Under 500ms check time for large blocks.</li>
+          </ul>
         </div>
         <div class="project-actions">
           <a href="https://plagiarism-control.vercel.app/" target="_blank" rel="noopener noreferrer"
@@ -472,12 +478,15 @@
         <div class="slot-content align-left">
           <div class="project-tags">
             <span class="proj-tag">React</span>
-            <span class="proj-tag">JavaScript</span>
-            <span class="proj-tag">System</span>
+            <span class="proj-tag">Express</span>
+            <span class="proj-tag">MongoDB</span>
           </div>
-          <h3>Billing & Inventory Management</h3>
-          <p class="project-brief">Developed a billing and inventory management system to streamline product tracking,
-            stock updates, and transaction handling.</p>
+          <h3>Billing & Inventory</h3>
+          <p class="project-brief">Developed a billing and inventory management system to streamline product tracking, stock updates, and transaction handling.</p>
+          <ul class="project-highlights">
+            <li><strong>Challenge:</strong> Synchronizing multi-terminal sales logs.</li>
+            <li><strong>Outcome:</strong> 100% accurate inventory tracking.</li>
+          </ul>
         </div>
         <div class="project-actions">
           <a href="https://bill-gilt-seven.vercel.app/" target="_blank" rel="noopener noreferrer"
@@ -492,12 +501,15 @@
         <div class="slot-content align-left">
           <div class="project-tags">
             <span class="proj-tag">React</span>
-            <span class="proj-tag">JavaScript</span>
-            <span class="proj-tag">Booking</span>
+            <span class="proj-tag">Laravel</span>
+            <span class="proj-tag">MySQL</span>
           </div>
           <h3>Box Cricket Booking</h3>
-          <p class="project-brief">A comprehensive booking platform designed to streamline box cricket turf
-            reservations.</p>
+          <p class="project-brief">A comprehensive booking platform designed to streamline box cricket turf reservations.</p>
+          <ul class="project-highlights">
+            <li><strong>Challenge:</strong> Handling real-time slot conflict resolutions.</li>
+            <li><strong>Outcome:</strong> Fluid, double-booking-proof system.</li>
+          </ul>
         </div>
         <div class="project-actions">
           <a href="https://boxcricket-booking.vercel.app/" target="_blank" rel="noopener noreferrer"
@@ -516,6 +528,8 @@
     <div class="pixel-dot"></div>
     <div class="pixel-dot"></div>
   </div>
+
+
 
   <!-- Certifications & Achievements Section -->
   <section class="certs-section container py-16" id="certs">
@@ -632,6 +646,64 @@
             <button id="btn-right" class="control-btn">▶</button>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Divider -->
+  <div class="pixel-divider">
+    <div class="pixel-dot"></div>
+    <div class="pixel-dot"></div>
+    <div class="pixel-bar"></div>
+    <div class="pixel-dot"></div>
+    <div class="pixel-dot"></div>
+  </div>
+
+  <!-- Dedicated Contact Section -->
+  <section class="contact-section container py-16" id="contact">
+    <h2 class="reveal">> Get in Touch</h2>
+    <div class="contact-grid reveal">
+      <div class="pixel-card contact-info-card">
+        <h3>Available for Projects</h3>
+        <p>I'm looking for new full-stack engineering opportunities. Let's build something fast and user-friendly.</p>
+        
+        <div class="contact-methods">
+          <a href="mailto:kagatharatanish@gmail.com" class="contact-method-item">
+            <span class="method-icon">📧</span>
+            <div class="method-details">
+              <span class="method-label">EMAIL</span>
+              <span class="method-value">kagatharatanish@gmail.com</span>
+            </div>
+          </a>
+          <a href="tel:+919328978130" class="contact-method-item">
+            <span class="method-icon">📞</span>
+            <div class="method-details">
+              <span class="method-label">PHONE</span>
+              <span class="method-value">+91 9328978130</span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="pixel-card contact-form-card">
+        <form action="https://formsubmit.co/kagatharatanish@gmail.com" method="POST" class="direct-contact-form">
+          <!-- Hidden configurations for FormSubmit -->
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_subject" value="New message from your developer portfolio!">
+          <div class="form-group">
+            <label for="form-name">Name</label>
+            <input type="text" id="form-name" name="name" placeholder="Your Name" required class="form-input">
+          </div>
+          <div class="form-group">
+            <label for="form-email">Email Address</label>
+            <input type="email" id="form-email" name="email" placeholder="Your Email" required class="form-input">
+          </div>
+          <div class="form-group">
+            <label for="form-body">Message</label>
+            <textarea id="form-body" name="message" placeholder="Describe your project details..." required class="form-input form-textarea"></textarea>
+          </div>
+          <button type="submit" class="pixel-button">Send Direct Email</button>
+        </form>
       </div>
     </div>
   </section>

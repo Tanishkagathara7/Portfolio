@@ -668,7 +668,6 @@ function autoTypeTerminal() {
 
     const command = "help";
     let index = 0;
-    inputField.focus();
 
     function type() {
         if (index < command.length) {

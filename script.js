@@ -26,8 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const typewriterText = document.getElementById("typewriter-text");
   if (typewriterText) {
     const phrases = [
-      '<span class="tagline-blue">Building scalable web applications</span><br><span class="tagline-purple">with Laravel, React & Node.js.</span>',
-      '<span class="tagline-blue">Building Desktop, Mobile app</span><br><span class="tagline-purple">with Electron & React Native.</span>'
+      '<span class="tagline-blue">Building scalable web, desktop</span><br><span class="tagline-purple">& mobile experiences.</span><br><span class="tagline-tech">Laravel · React · Node.js · Electron · React Native</span>'
     ];
     let phraseIndex = 0;
     let tokenIndex = 0;
@@ -62,8 +61,8 @@ document.addEventListener("DOMContentLoaded", () => {
           typewriterText.innerHTML = tokens.slice(0, tokenIndex).map(t => t.value).join('');
           setTimeout(typeEffect, 30 + Math.random() * 15);
         } else {
-          isDeleting = true;
-          setTimeout(typeEffect, 2000);
+          // Keep tagline static after typing completes
+          return;
         }
       } else {
         if (tokenIndex > 0) {
@@ -787,7 +786,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     contactBtn.addEventListener("click", (e) => {
       e.preventDefault();
-      openModal();
+      const contactSection = document.getElementById("contact");
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: "smooth" });
+        addTerminalLine("> System: Navigating to direct contact section.");
+      } else {
+        openModal();
+      }
     });
     
     if (closeModalBtn1) closeModalBtn1.addEventListener("click", closeModal);
@@ -866,6 +871,62 @@ document.addEventListener("DOMContentLoaded", () => {
       const offsetX = (window.innerWidth / 2 - e.clientX) * 0.015;
       const offsetY = (window.innerHeight / 2 - e.clientY) * 0.015;
       ctaDecorations.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+    });
+  // ==========================================
+  // 11. Direct Form Submission via FormSubmit AJAX
+  // ==========================================
+  const contactForm = document.querySelector('.direct-contact-form');
+  if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const submitBtn = contactForm.querySelector('button[type="submit"]');
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = "Sending...";
+      submitBtn.disabled = true;
+      
+      const formData = {
+        name: document.getElementById('form-name').value,
+        email: document.getElementById('form-email').value,
+        message: document.getElementById('form-body').value,
+        _subject: "New Message from Developer Portfolio!"
+      };
+      
+      fetch("https://formsubmit.co/ajax/kagatharatanish@gmail.com", {
+        method: "POST",
+        headers: { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        submitBtn.textContent = "Message Sent Successfully!";
+        submitBtn.style.backgroundColor = "hsl(var(--success))";
+        contactForm.reset();
+        if (typeof addTerminalLine === 'function') {
+          addTerminalLine("> System: Message sent successfully via form endpoint.");
+        }
+        setTimeout(() => {
+          submitBtn.textContent = originalText;
+          submitBtn.disabled = false;
+          submitBtn.style.backgroundColor = "";
+        }, 4000);
+      })
+      .catch(error => {
+        console.error(error);
+        submitBtn.textContent = "Error Sending Message";
+        submitBtn.style.backgroundColor = "#ff4b4b";
+        if (typeof addTerminalLine === 'function') {
+          addTerminalLine("> System: ERROR sending message. Check network connection.", "#ff4b4b");
+        }
+        setTimeout(() => {
+          submitBtn.textContent = originalText;
+          submitBtn.disabled = false;
+          submitBtn.style.backgroundColor = "";
+        }, 4000);
+      });
     });
   }
 
