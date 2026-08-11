@@ -698,47 +698,29 @@ function initAnimations() {
                 gsap.set(bar, { scaleX: 0 });
                 if (validDots.length > 0) gsap.set(validDots, { opacity: 0, scale: 0 });
 
-                const rect = div.getBoundingClientRect();
-                const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
-
-                if (isInViewport) {
-                    // Animate immediately with a delay matching the hero reveal sequence
-                    gsap.delayedCall(idx === 0 ? 1.8 : 0.2, () => {
-                        scatterDividerParticles(div);
-                        gsap.to(bar, { scaleX: 1, duration: 1.0, ease: "expo.out" });
-                        if (validDots.length > 0) {
-                            gsap.to(validDots, { opacity: 1, scale: 1, duration: 0.4, stagger: 0.08, ease: "back.out(1.5)" });
-                        }
-                        gsap.to(bar, {
-                            boxShadow: "0 0 15px rgba(139, 92, 246, 0.8)",
-                            duration: 0.3,
-                            yoyo: true,
-                            repeat: 1
-                        });
-                    });
-                } else {
-                    const tl = gsap.timeline({
-                        scrollTrigger: {
-                            trigger: div,
-                            start: "top bottom-=80px",
-                            once: true,
-                            onEnter: () => {
-                                scatterDividerParticles(div);
+                ScrollTrigger.create({
+                    trigger: div,
+                    start: "top 95%",
+                    once: true,
+                    onEnter: () => {
+                        const delayTime = idx === 0 ? 1.8 : 0.05;
+                        gsap.delayedCall(delayTime, () => {
+                            scatterDividerParticles(div);
+                            
+                            const tl = gsap.timeline();
+                            tl.to(bar, { scaleX: 1, duration: 1.0, ease: "expo.out" });
+                            if (validDots.length > 0) {
+                                tl.to(validDots, { opacity: 1, scale: 1, duration: 0.4, stagger: 0.08, ease: "back.out(1.5)" }, "-=0.6");
                             }
-                        }
-                    });
-
-                    tl.to(bar, { scaleX: 1, duration: 1.0, ease: "expo.out" });
-                    if (validDots.length > 0) {
-                        tl.to(validDots, { opacity: 1, scale: 1, duration: 0.4, stagger: 0.08, ease: "back.out(1.5)" }, "-=0.6");
+                            tl.to(bar, {
+                                boxShadow: "0 0 15px rgba(139, 92, 246, 0.8)",
+                                duration: 0.3,
+                                yoyo: true,
+                                repeat: 1
+                            }, "-=0.3");
+                        });
                     }
-                    tl.to(bar, {
-                        boxShadow: "0 0 15px rgba(139, 92, 246, 0.8)",
-                        duration: 0.3,
-                        yoyo: true,
-                        repeat: 1
-                    }, "-=0.3");
-                }
+                });
             }
         });
     }
