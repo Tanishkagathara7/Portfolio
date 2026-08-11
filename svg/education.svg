@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" fill="none">
+  <defs>
+    <!-- Shared glow filter -->
+    <filter id="edu-glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="edu-soft-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="5"/>
+    </filter>
+    <!-- Cyan gradient -->
+    <linearGradient id="edu-cyan-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#18E7FF"/>
+      <stop offset="100%" stop-color="#1677FF"/>
+    </linearGradient>
+    <!-- Violet accent gradient -->
+    <linearGradient id="edu-violet-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6D4AFF"/>
+      <stop offset="100%" stop-color="#7A4DFF" stop-opacity="0.6"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Ambient glow backdrop -->
+  <ellipse class="icon-glow" cx="80" cy="85" rx="38" ry="32" fill="#18E7FF" opacity="0.06" filter="url(#edu-soft-glow)"/>
+
+  <!-- HUD orbital arc (left) -->
+  <path class="icon-orbit" d="M28 105 Q20 80 35 55" stroke="#1677FF" stroke-width="0.8" stroke-opacity="0.35" fill="none" stroke-linecap="round"/>
+  <!-- HUD orbital arc (right) -->
+  <path class="icon-orbit" d="M132 55 Q145 80 130 105" stroke="#6D4AFF" stroke-width="0.8" stroke-opacity="0.25" fill="none" stroke-linecap="round"/>
+
+  <!-- Small HUD bracket left -->
+  <path d="M32 68 L28 72 L32 76" stroke="#18E7FF" stroke-width="0.7" stroke-opacity="0.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Small HUD bracket right -->
+  <path d="M128 68 L132 72 L128 76" stroke="#6D4AFF" stroke-width="0.7" stroke-opacity="0.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Tiny particle dots -->
+  <circle class="icon-particle" cx="42" cy="48" r="1.2" fill="#18E7FF" opacity="0.5"/>
+  <circle class="icon-particle" cx="120" cy="45" r="1" fill="#6D4AFF" opacity="0.4"/>
+  <circle class="icon-particle" cx="135" cy="95" r="0.8" fill="#1677FF" opacity="0.3"/>
+  <circle class="icon-particle" cx="25" cy="92" r="1" fill="#18E7FF" opacity="0.35"/>
+
+  <!-- === MAIN COMPOSITION === -->
+
+  <!-- Stacked books base -->
+  <g class="icon-core" transform="translate(50, 88)">
+    <!-- Bottom book -->
+    <rect x="0" y="18" width="60" height="10" rx="2" fill="#0A1628" stroke="#1677FF" stroke-width="1" stroke-opacity="0.5"/>
+    <line x1="4" y1="23" x2="20" y2="23" stroke="#1677FF" stroke-width="0.6" stroke-opacity="0.3"/>
+    <!-- Middle book (slightly offset) -->
+    <rect x="3" y="8" width="54" height="10" rx="2" fill="#0C1A30" stroke="#18E7FF" stroke-width="1" stroke-opacity="0.4"/>
+    <line x1="7" y1="13" x2="28" y2="13" stroke="#18E7FF" stroke-width="0.6" stroke-opacity="0.25"/>
+    <!-- Top book spine highlight -->
+    <rect x="6" y="0" width="48" height="8" rx="1.5" fill="#0E1E38" stroke="#6D4AFF" stroke-width="0.8" stroke-opacity="0.4"/>
+    <!-- Code symbol on top book -->
+    <text x="18" y="6.5" font-family="monospace" font-size="5" fill="#18E7FF" opacity="0.6">&lt;/&gt;</text>
+  </g>
+
+  <!-- Circuit traces from books -->
+  <path d="M65 108 L65 118 L55 118" stroke="#1677FF" stroke-width="0.6" stroke-opacity="0.3" fill="none"/>
+  <circle cx="55" cy="118" r="1.5" fill="#1677FF" opacity="0.4"/>
+  <path d="M95 108 L95 115 L105 115" stroke="#18E7FF" stroke-width="0.6" stroke-opacity="0.25" fill="none"/>
+  <circle cx="105" cy="115" r="1.2" fill="#18E7FF" opacity="0.35"/>
+
+  <!-- Graduation cap -->
+  <g class="icon-core" transform="translate(80, 52)">
+    <!-- Cap board (diamond shape) -->
+    <polygon points="0,-8 -30,0 0,8 30,0" fill="url(#edu-cyan-grad)" opacity="0.85" filter="url(#edu-glow)"/>
+    <!-- Cap board top highlight -->
+    <polygon points="0,-6 -24,0 0,6 24,0" fill="#18E7FF" opacity="0.15"/>
+    <!-- Cap base/band -->
+    <path d="M-18,2 L-18,8 Q0,16 18,8 L18,2 Q0,10 -18,2Z" fill="#0A1628" stroke="#1677FF" stroke-width="0.8" stroke-opacity="0.5"/>
+    <!-- Tassel -->
+    <line x1="22" y1="-2" x2="32" y2="12" stroke="#FFB52E" stroke-width="1.2" stroke-linecap="round"/>
+    <circle cx="32" cy="13" r="2" fill="#FFB52E" opacity="0.8"/>
+    <!-- Button on top -->
+    <circle cx="0" cy="-4" r="2.5" fill="#061225" stroke="#18E7FF" stroke-width="0.8"/>
+  </g>
+
+  <!-- Academic structure silhouette (subtle) -->
+  <g opacity="0.2" transform="translate(80, 125)">
+    <!-- Pillars -->
+    <rect x="-25" y="-8" width="4" height="8" fill="#1677FF"/>
+    <rect x="-12" y="-8" width="4" height="8" fill="#1677FF"/>
+    <rect x="8" y="-8" width="4" height="8" fill="#1677FF"/>
+    <rect x="21" y="-8" width="4" height="8" fill="#1677FF"/>
+    <!-- Pediment -->
+    <polygon points="-30,-8 0,-16 30,-8" fill="none" stroke="#18E7FF" stroke-width="0.8"/>
+    <!-- Base -->
+    <line x1="-30" y1="0" x2="30" y2="0" stroke="#1677FF" stroke-width="0.6"/>
+  </g>
+
+  <!-- Floating code bracket (top-right) -->
+  <g transform="translate(115, 38)" opacity="0.45">
+    <text font-family="monospace" font-size="10" fill="#18E7FF">{</text>
+  </g>
+  <g transform="translate(118, 62)" opacity="0.3">
+    <text font-family="monospace" font-size="10" fill="#6D4AFF">}</text>
+  </g>
+
+  <!-- Small geometric hexagon accent -->
+  <polygon points="40,42 44,39 48,42 48,47 44,50 40,47" fill="none" stroke="#18E7FF" stroke-width="0.6" stroke-opacity="0.3"/>
+
+  <!-- Tiny horizontal tech lines -->
+  <line x1="45" y1="130" x2="60" y2="130" stroke="#1677FF" stroke-width="0.5" stroke-opacity="0.2"/>
+  <line x1="100" y1="132" x2="115" y2="132" stroke="#6D4AFF" stroke-width="0.5" stroke-opacity="0.15"/>
+</svg>

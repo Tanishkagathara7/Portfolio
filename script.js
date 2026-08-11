@@ -179,14 +179,58 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ==========================================
-  // 3. Header Background on Scroll & Active Nav Section Highlights
+  // 3. Global Layout Cache & Active Nav Highlights
   // ==========================================
-  const header = document.getElementById("header");
+  window.PortfolioLayout = {};
   const sectionsList = document.querySelectorAll("section");
+  const header = document.getElementById("header");
   const navLinksList = document.querySelectorAll(".nav-links a");
 
+  function updateLayoutCache() {
+    sectionsList.forEach(section => {
+      const id = section.getAttribute("id");
+      if (id) {
+        let offsetTop = 0;
+        let el = section;
+        while (el) {
+          offsetTop += el.offsetTop;
+          el = el.offsetParent;
+        }
+        window.PortfolioLayout[id] = {
+          top: offsetTop,
+          height: section.offsetHeight,
+          bottom: offsetTop + section.offsetHeight
+        };
+      }
+    });
+
+    const footerEl = document.querySelector("footer");
+    if (footerEl) {
+      let offsetTop = 0;
+      let el = footerEl;
+      while (el) {
+        offsetTop += el.offsetTop;
+        el = el.offsetParent;
+      }
+      window.PortfolioLayout["footer"] = {
+        top: offsetTop,
+        height: footerEl.offsetHeight,
+        bottom: offsetTop + footerEl.offsetHeight
+      };
+    }
+    window.dispatchEvent(new CustomEvent('layoutCached'));
+  }
+
+  // Initialize and register layout update listeners
+  updateLayoutCache();
+  window.addEventListener('load', updateLayoutCache);
+  window.addEventListener('resize', updateLayoutCache);
+  setTimeout(updateLayoutCache, 1000);
+  setTimeout(updateLayoutCache, 3000);
+
   window.addEventListener("scroll", () => {
-    if (window.scrollY > 50) {
+    const scrollY = window.scrollY;
+    if (scrollY > 50) {
       header.classList.add("scrolled");
     } else {
       header.classList.remove("scrolled");
@@ -194,10 +238,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let currentSectionId = "hero";
     sectionsList.forEach(section => {
-      const sectionTop = section.offsetTop;
-      const sectionHeight = section.clientHeight;
-      if (window.scrollY >= (sectionTop - 150)) {
-        currentSectionId = section.getAttribute("id");
+      const id = section.getAttribute("id");
+      const cached = window.PortfolioLayout[id];
+      if (cached && scrollY >= (cached.top - 150)) {
+        currentSectionId = id;
       }
     });
 
@@ -207,9 +251,7 @@ document.addEventListener("DOMContentLoaded", () => {
         link.classList.add("active");
       }
     });
-  });
-
-  // ==========================================
+  }, { passive: true });
   // 4. Scroll Reveal Animations & Skill Bars
   // ==========================================
   // Legacy CSS reveal logic removed. Animations are now handled by GSAP in animations.js

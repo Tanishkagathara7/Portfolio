@@ -65,9 +65,18 @@ document.addEventListener('DOMContentLoaded', () => {
     sectionIds.forEach(id => {
         sectionElements[id] = document.getElementById(id) || document.querySelector(id);
     });
-
     // Environmental weights (0 to 1) for cross-fading section effects
     const envWeights = {
+        hero: 1,
+        skills: 0,
+        experience: 0,
+        projects: 0,
+        certs: 0,
+        terminal: 0,
+        footer: 0
+    };
+
+    const targetEnvWeights = {
         hero: 1,
         skills: 0,
         experience: 0,
@@ -85,32 +94,44 @@ document.addEventListener('DOMContentLoaded', () => {
         if (pageHeight <= 0) return;
 
         sectionIds.forEach(id => {
-            const el = sectionElements[id];
-            if (!el) return;
-            const rect = el.getBoundingClientRect();
-            const center = rect.top + rect.height / 2;
-            const targetCenter = viewportHeight / 2;
-            const dist = Math.abs(center - targetCenter);
-            const range = viewportHeight * 0.8;
-            
-            let weight = 1 - Math.min(dist / range, 1);
-            weight = Math.max(0, Math.min(1, weight));
-            // Smooth ease for weights
-            envWeights[id] = weight * weight * (3 - 2 * weight);
+            const cached = window.PortfolioLayout && window.PortfolioLayout[id];
+            if (!cached) return;
+
+            const rectTop = cached.top - scrollY;
+            const rectBottom = cached.bottom - scrollY;
+            const sectionHeight = cached.height;
+
+            let weight = 0;
+
+            if (rectTop < viewportHeight && rectBottom > 0) {
+                // Determine responsive range for fading in/out
+                const fadeRange = Math.min(viewportHeight * 0.6, sectionHeight * 0.5);
+                let opacity = 1;
+
+                if (rectTop > viewportHeight - fadeRange) {
+                    opacity = (viewportHeight - rectTop) / fadeRange;
+                } else if (rectBottom < fadeRange) {
+                    opacity = rectBottom / fadeRange;
+                }
+
+                weight = Math.max(0, Math.min(1, opacity));
+            }
+
+            targetEnvWeights[id] = weight * weight * (3 - 2 * weight);
         });
 
-        // Special handling for top (Hero) and bottom (Footer)
-        if (scrollY < 100) {
-            envWeights.hero = 1;
+        // Sticky thresholds for Hero and Footer extremes
+        if (scrollY < 50) {
+            targetEnvWeights.hero = 1;
         }
-        if (scrollY + viewportHeight >= document.documentElement.scrollHeight - 50) {
-            envWeights.footer = 1;
+        if (scrollY + viewportHeight >= document.documentElement.scrollHeight - 60) {
+            targetEnvWeights.footer = 1;
         }
     }
 
     window.addEventListener('scroll', updateSectionWeights, { passive: true });
+    window.addEventListener('layoutCached', updateSectionWeights);
     updateSectionWeights();
-
     // =========================================================================
     // 2. LAYER 1: CINEMATIC AURORA BACKGROUND SHADER PLANE
     // =========================================================================
@@ -547,7 +568,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // =========================================================================
     const clock = new THREE.Clock();
     let time = 0;
-
     function animate() {
         if (document.hidden) {
             requestAnimationFrame(animate);
@@ -556,6 +576,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const delta = Math.min(clock.getDelta(), 0.1);
         time += delta;
+
+        // Smoothly interpolate weights towards targets to prevent pops/flashes
+        sectionIds.forEach(id => {
+            envWeights[id] += (targetEnvWeights[id] - envWeights[id]) * 0.08;
+        });
 
         // A. Update Shaders Uniform Time & Weights
         auroraMat.uniforms.uTime.value = time;
@@ -569,7 +594,7 @@ document.addEventListener('DOMContentLoaded', () => {
         nodeMat.opacity = skillsWeight * (isDarkMode ? 0.8 : 0.95);
         lineMat.opacity = skillsWeight * (isDarkMode ? 0.4 : 0.65);
 
-        if (skillsWeight > 0.01) {
+        if (skillsWeight > 0.005) {
             const pArr = nodeGeo.attributes.position.array;
             for (let i = 0; i < nodeCount; i++) {
                 pArr[i * 3] += nodeVelocities[i][0];

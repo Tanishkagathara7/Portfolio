@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" fill="none">
+  <defs>
+    <filter id="dev-glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="dev-soft-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="5"/>
+    </filter>
+    <filter id="dev-screen-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2"/>
+    </filter>
+    <linearGradient id="dev-cyan-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#18E7FF"/>
+      <stop offset="100%" stop-color="#1677FF"/>
+    </linearGradient>
+    <linearGradient id="dev-screen-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0C1A30"/>
+      <stop offset="100%" stop-color="#061225"/>
+    </linearGradient>
+    <linearGradient id="dev-violet-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6D4AFF"/>
+      <stop offset="100%" stop-color="#7A4DFF"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Ambient glow -->
+  <ellipse class="icon-glow" cx="80" cy="78" rx="40" ry="35" fill="#18E7FF" opacity="0.05" filter="url(#dev-soft-glow)"/>
+
+  <!-- HUD orbital arc -->
+  <path class="icon-orbit" d="M25 110 Q15 75 30 45" stroke="#1677FF" stroke-width="0.8" stroke-opacity="0.3" fill="none" stroke-linecap="round"/>
+  <path class="icon-orbit" d="M135 45 Q148 75 133 110" stroke="#6D4AFF" stroke-width="0.8" stroke-opacity="0.22" fill="none" stroke-linecap="round"/>
+
+  <!-- Tiny particle dots -->
+  <circle class="icon-particle" cx="38" cy="38" r="1.2" fill="#18E7FF" opacity="0.45"/>
+  <circle class="icon-particle" cx="125" cy="42" r="1" fill="#6D4AFF" opacity="0.35"/>
+  <circle class="icon-particle" cx="30" cy="100" r="0.8" fill="#1677FF" opacity="0.3"/>
+  <circle class="icon-particle" cx="138" cy="98" r="1" fill="#18E7FF" opacity="0.3"/>
+  <circle class="icon-particle" cx="80" cy="28" r="0.9" fill="#FFB52E" opacity="0.4"/>
+
+  <!-- HUD brackets -->
+  <path d="M30 58 L26 62 L30 66" stroke="#18E7FF" stroke-width="0.7" stroke-opacity="0.35" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M130 58 L134 62 L130 66" stroke="#6D4AFF" stroke-width="0.7" stroke-opacity="0.28" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- === MAIN COMPOSITION === -->
+
+  <!-- Developer silhouette (viewed from behind) -->
+  <g class="icon-core" transform="translate(80, 58)">
+    <!-- Head -->
+    <circle cx="0" cy="-18" r="9" fill="#0A1628" stroke="#1677FF" stroke-width="1" stroke-opacity="0.5"/>
+    <!-- Hair detail -->
+    <path d="M-7,-24 Q0,-30 7,-24" fill="#0C1A30" stroke="#18E7FF" stroke-width="0.6" stroke-opacity="0.3"/>
+    <!-- Shoulders/torso -->
+    <path d="M-16,0 Q-16,-8 -8,-10 L8,-10 Q16,-8 16,0 L14,12 L-14,12Z" fill="#0A1628" stroke="#1677FF" stroke-width="0.8" stroke-opacity="0.45"/>
+    <!-- Collar detail -->
+    <path d="M-4,-8 L0,-4 L4,-8" stroke="#18E7FF" stroke-width="0.6" stroke-opacity="0.35" fill="none"/>
+    <!-- Headphones -->
+    <path d="M-10,-22 Q-14,-22 -14,-16" stroke="#6D4AFF" stroke-width="1.5" stroke-opacity="0.5" fill="none" stroke-linecap="round"/>
+    <path d="M10,-22 Q14,-22 14,-16" stroke="#6D4AFF" stroke-width="1.5" stroke-opacity="0.5" fill="none" stroke-linecap="round"/>
+    <rect x="-16" y="-18" width="4" height="6" rx="2" fill="#6D4AFF" opacity="0.45"/>
+    <rect x="12" y="-18" width="4" height="6" rx="2" fill="#6D4AFF" opacity="0.45"/>
+  </g>
+
+  <!-- Monitor/Screen -->
+  <g class="icon-screen" transform="translate(80, 95)">
+    <!-- Monitor body -->
+    <rect x="-32" y="-14" width="64" height="38" rx="3" fill="url(#dev-screen-grad)" stroke="#1677FF" stroke-width="1" stroke-opacity="0.5"/>
+    <!-- Screen inner -->
+    <rect x="-28" y="-10" width="56" height="30" rx="1.5" fill="#061225"/>
+    <!-- Screen glow -->
+    <rect x="-28" y="-10" width="56" height="30" rx="1.5" fill="#18E7FF" opacity="0.04" filter="url(#dev-screen-glow)"/>
+
+    <!-- Code lines on screen -->
+    <line x1="-22" y1="-4" x2="-8" y2="-4" stroke="#18E7FF" stroke-width="1.2" stroke-opacity="0.6" stroke-linecap="round"/>
+    <line x1="-4" y1="-4" x2="8" y2="-4" stroke="#6D4AFF" stroke-width="1.2" stroke-opacity="0.45" stroke-linecap="round"/>
+    <line x1="-18" y1="1" x2="0" y2="1" stroke="#1677FF" stroke-width="1" stroke-opacity="0.5" stroke-linecap="round"/>
+    <line x1="4" y1="1" x2="16" y2="1" stroke="#18E7FF" stroke-width="1" stroke-opacity="0.35" stroke-linecap="round"/>
+    <line x1="-22" y1="6" x2="-12" y2="6" stroke="#FFB52E" stroke-width="1" stroke-opacity="0.45" stroke-linecap="round"/>
+    <line x1="-8" y1="6" x2="5" y2="6" stroke="#6D4AFF" stroke-width="1" stroke-opacity="0.35" stroke-linecap="round"/>
+    <line x1="-18" y1="11" x2="-2" y2="11" stroke="#1677FF" stroke-width="1" stroke-opacity="0.4" stroke-linecap="round"/>
+    <line x1="2" y1="11" x2="20" y2="11" stroke="#18E7FF" stroke-width="1" stroke-opacity="0.3" stroke-linecap="round"/>
+    <line x1="-22" y1="16" x2="-14" y2="16" stroke="#18E7FF" stroke-width="1" stroke-opacity="0.25" stroke-linecap="round"/>
+
+    <!-- Monitor stand -->
+    <rect x="-6" y="24" width="12" height="4" rx="1" fill="#0A1628" stroke="#1677FF" stroke-width="0.6" stroke-opacity="0.35"/>
+    <rect x="-14" y="28" width="28" height="3" rx="1.5" fill="#0C1A30" stroke="#1677FF" stroke-width="0.5" stroke-opacity="0.3"/>
+  </g>
+
+  <!-- Coffee mug (desk element, right side) -->
+  <g transform="translate(125, 112)" opacity="0.5">
+    <rect x="0" y="0" width="8" height="10" rx="1.5" fill="#0A1628" stroke="#FFB52E" stroke-width="0.8"/>
+    <!-- Handle -->
+    <path d="M8,2 Q12,2 12,5 Q12,8 8,8" fill="none" stroke="#FFB52E" stroke-width="0.7"/>
+    <!-- Steam -->
+    <path d="M2,-2 Q3,-5 2,-7" stroke="#18E7FF" stroke-width="0.5" stroke-opacity="0.3" fill="none" stroke-linecap="round"/>
+    <path d="M5,-2 Q6,-4 5,-6" stroke="#18E7FF" stroke-width="0.5" stroke-opacity="0.2" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- Floating UI panel (top-left) -->
+  <g class="icon-code" transform="translate(32, 52)" opacity="0.4">
+    <rect x="0" y="0" width="22" height="14" rx="2" fill="#061225" stroke="#18E7FF" stroke-width="0.6"/>
+    <line x1="3" y1="4" x2="12" y2="4" stroke="#18E7FF" stroke-width="0.7" stroke-opacity="0.6" stroke-linecap="round"/>
+    <line x1="3" y1="7" x2="8" y2="7" stroke="#6D4AFF" stroke-width="0.6" stroke-opacity="0.5" stroke-linecap="round"/>
+    <line x1="3" y1="10" x2="15" y2="10" stroke="#1677FF" stroke-width="0.6" stroke-opacity="0.4" stroke-linecap="round"/>
+  </g>
+
+  <!-- Floating UI panel (top-right) -->
+  <g class="icon-code" transform="translate(112, 48)" opacity="0.35">
+    <rect x="0" y="0" width="18" height="12" rx="2" fill="#061225" stroke="#6D4AFF" stroke-width="0.6"/>
+    <circle cx="5" cy="4" r="1.2" fill="#18E7FF" opacity="0.5"/>
+    <line x1="9" y1="4" x2="14" y2="4" stroke="#6D4AFF" stroke-width="0.6" stroke-opacity="0.5" stroke-linecap="round"/>
+    <line x1="3" y1="8" x2="12" y2="8" stroke="#1677FF" stroke-width="0.5" stroke-opacity="0.4" stroke-linecap="round"/>
+  </g>
+
+  <!-- Network/cloud symbol (subtle) -->
+  <g transform="translate(80, 35)" opacity="0.3">
+    <circle cx="-6" cy="0" r="3" fill="none" stroke="#18E7FF" stroke-width="0.6"/>
+    <circle cx="6" cy="0" r="3" fill="none" stroke="#18E7FF" stroke-width="0.6"/>
+    <circle cx="0" cy="-4" r="3.5" fill="none" stroke="#1677FF" stroke-width="0.6"/>
+    <!-- Connection lines -->
+    <line x1="-6" y1="3" x2="-6" y2="8" stroke="#18E7FF" stroke-width="0.4" stroke-opacity="0.4" stroke-dasharray="1 2"/>
+    <line x1="6" y1="3" x2="6" y2="8" stroke="#18E7FF" stroke-width="0.4" stroke-opacity="0.4" stroke-dasharray="1 2"/>
+  </g>
+
+  <!-- </> code tag floating -->
+  <g transform="translate(46, 85)" opacity="0.35">
+    <text font-family="monospace" font-size="8" fill="#18E7FF">&lt;/&gt;</text>
+  </g>
+
+  <!-- Tiny tech lines -->
+  <line x1="42" y1="138" x2="58" y2="138" stroke="#1677FF" stroke-width="0.5" stroke-opacity="0.18"/>
+  <line x1="102" y1="140" x2="118" y2="140" stroke="#6D4AFF" stroke-width="0.5" stroke-opacity="0.14"/>
+
+  <!-- Small hexagon accent -->
+  <polygon points="125,34 129,31 133,34 133,39 129,42 125,39" fill="none" stroke="#18E7FF" stroke-width="0.6" stroke-opacity="0.25"/>
+</svg>

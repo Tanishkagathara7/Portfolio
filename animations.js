@@ -262,74 +262,190 @@ function initAnimations() {
     // --- Skills Section Reveal ---
     const skillsSection = document.getElementById('skills');
     if (skillsSection) {
+        const eyebrow = skillsSection.querySelector('.tech-eyebrow');
         const title = skillsSection.querySelector('h2');
-        const leftCard = skillsSection.querySelector('.skills-grid > div:first-child');
-        const rightCard = skillsSection.querySelector('.skills-grid > div:last-child');
-        const skillBars = skillsSection.querySelectorAll('.skill-bar-wrapper');
-        const techBadges = skillsSection.querySelectorAll('.pixel-tag');
+        const introText = skillsSection.querySelector('.tech-intro-text');
+        const coreHeading = skillsSection.querySelector('.core-stack-heading');
+        const coreCards = skillsSection.querySelectorAll('.core-tech-card');
+        const categoryPanels = skillsSection.querySelectorAll('.category-panel');
+        const languagesRow = skillsSection.querySelector('.languages-row');
+        const capabilitiesRow = skillsSection.querySelector('.capabilities-row');
 
-        gsap.set(safeTargets([title, leftCard, rightCard]), { opacity: 0 });
-        if (title) gsap.set(title, { y: 30 });
-        if (leftCard) gsap.set(leftCard, { x: -50 });
-        if (rightCard) gsap.set(rightCard, { x: 50 });
-        
-        const validBadges = safeTargets(techBadges);
-        if (validBadges.length > 0) gsap.set(validBadges, { opacity: 0, scale: 0.8 });
+        // Set initial states (resilient to JS failure since CSS leaves them visible by default)
+        if (eyebrow) gsap.set(eyebrow, { opacity: 0, y: 15 });
+        if (title) gsap.set(title, { opacity: 0, y: 25, filter: "blur(4px)" });
+        if (introText) gsap.set(introText, { opacity: 0, y: 15 });
+        if (coreHeading) gsap.set(coreHeading, { opacity: 0, y: 20 });
 
-        const tl = gsap.timeline({
+        const validCards = safeTargets(coreCards);
+        if (validCards.length > 0) {
+            validCards.forEach(card => {
+                gsap.set(card, { opacity: 0, y: 25 });
+                const iconWrap = card.querySelector('.core-tech-icon-wrap');
+                const name = card.querySelector('.core-tech-name');
+                const desc = card.querySelector('.core-tech-desc');
+                if (iconWrap) gsap.set(iconWrap, { opacity: 0, scale: 0.9, y: 8 });
+                if (name) gsap.set(name, { opacity: 0 });
+                if (desc) gsap.set(desc, { opacity: 0 });
+            });
+        }
+
+        const validPanels = safeTargets(categoryPanels);
+        if (validPanels.length > 0) {
+            validPanels.forEach(panel => {
+                gsap.set(panel, { opacity: 0, scale: 0.98, y: 15 });
+                const items = panel.querySelectorAll('.category-tech-item');
+                const validItems = safeTargets(items);
+                if (validItems.length > 0) {
+                    gsap.set(validItems, { opacity: 0, y: 8, scale: 0.95 });
+                }
+            });
+        }
+
+        if (languagesRow) {
+            gsap.set(languagesRow, { opacity: 0, y: 20 });
+            const langItems = languagesRow.querySelectorAll('.language-name-item');
+            const validLangs = safeTargets(langItems);
+            if (validLangs.length > 0) {
+                gsap.set(validLangs, { opacity: 0, y: 8 });
+            }
+        }
+
+        if (capabilitiesRow) {
+            gsap.set(capabilitiesRow, { opacity: 0, y: 20 });
+            const chips = capabilitiesRow.querySelectorAll('.capability-chip');
+            const validChips = safeTargets(chips);
+            if (validChips.length > 0) {
+                gsap.set(validChips, { opacity: 0, y: 12, scale: 0.95 });
+            }
+        }
+
+        // 1. Heading & Intro Timeline
+        const headerTl = gsap.timeline({
             scrollTrigger: {
                 trigger: skillsSection,
                 start: "top bottom-=80px",
                 once: true
             }
         });
+        if (eyebrow) headerTl.to(eyebrow, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" });
+        if (title) headerTl.to(title, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.8, ease: "power3.out" }, "-=0.35");
+        if (introText) headerTl.to(introText, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, "-=0.55");
 
-        if (title) tl.to(title, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" });
-        
-        const cardsToAnimate = safeTargets([leftCard, rightCard]);
-        if (cardsToAnimate.length > 0) {
-            tl.to(cardsToAnimate, { opacity: 1, x: 0, duration: 1.0, ease: "power3.out", stagger: 0.15 }, "-=0.4");
+        // 2. Core Stack Timeline
+        const coreWrapper = skillsSection.querySelector('.core-stack-wrapper');
+        if (coreWrapper) {
+            const coreTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: coreWrapper,
+                    start: "top bottom-=80px",
+                    once: true
+                }
+            });
+
+            if (coreHeading) coreTl.to(coreHeading, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" });
+            
+            if (validCards.length > 0) {
+                validCards.forEach((card, i) => {
+                    const cardOffset = i === 0 ? 0 : "-=0.35";
+                    coreTl.to(card, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, cardOffset);
+                    
+                    const iconWrap = card.querySelector('.core-tech-icon-wrap');
+                    const name = card.querySelector('.core-tech-name');
+                    const desc = card.querySelector('.core-tech-desc');
+                    
+                    if (iconWrap) coreTl.to(iconWrap, { opacity: 1, scale: 1, y: 0, duration: 0.45, ease: "back.out(1.2)" }, "-=0.45");
+                    if (name) coreTl.to(name, { opacity: 1, duration: 0.35, ease: "power2.out" }, "-=0.35");
+                    if (desc) coreTl.to(desc, { opacity: 1, duration: 0.35, ease: "power2.out" }, "-=0.35");
+                });
+            }
         }
 
-        // Skill bars progress animation & numbers count upward
-        if (skillBars.length > 0) {
-            skillBars.forEach((bar) => {
-                const inner = bar.querySelector('.skill-bar-inner');
-                const percentText = bar.querySelector('.percentage');
-                if (inner && percentText) {
-                    const targetVal = parseInt(percentText.textContent) || 100;
-                    gsap.set(inner, { width: "0%" });
-                    inner.style.animation = "none"; // Disable CSS animation
+        // 3. Category Panels Timeline
+        const categoriesGrid = skillsSection.querySelector('.tech-categories-grid');
+        if (categoriesGrid && validPanels.length > 0) {
+            const categoriesTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: categoriesGrid,
+                    start: "top bottom-=80px",
+                    once: true
+                }
+            });
 
-                    tl.to(inner, {
-                        width: `${targetVal}%`,
-                        duration: 1.5,
+            validPanels.forEach((panel, panelIdx) => {
+                const items = panel.querySelectorAll('.category-tech-item');
+                const validItems = safeTargets(items);
+                
+                categoriesTl.to(panel, {
+                    opacity: 1,
+                    scale: 1,
+                    y: 0,
+                    duration: 0.7,
+                    ease: "power3.out"
+                }, panelIdx === 0 ? 0 : "-=0.5");
+
+                if (validItems.length > 0) {
+                    categoriesTl.to(validItems, {
+                        opacity: 1,
+                        y: 0,
+                        scale: 1,
+                        duration: 0.45,
+                        stagger: 0.04,
                         ease: "power2.out"
-                    }, "-=0.8");
-
-                    // Counter animation
-                    const counter = { val: 0 };
-                    tl.to(counter, {
-                        val: targetVal,
-                        duration: 1.5,
-                        ease: "power2.out",
-                        onUpdate: () => {
-                            percentText.textContent = `${Math.floor(counter.val)}%`;
-                        }
-                    }, "-=1.5");
+                    }, "-=0.48");
                 }
             });
         }
 
-        // Stagger tech badges
-        if (validBadges.length > 0) {
-            tl.to(validBadges, {
-                opacity: 1,
-                scale: 1,
-                duration: 0.5,
-                ease: "back.out(1.2)",
-                stagger: 0.01
-            }, "-=1.0");
+        // 4. Languages Timeline
+        if (languagesRow) {
+            const langItems = languagesRow.querySelectorAll('.language-name-item');
+            const validLangs = safeTargets(langItems);
+
+            const langTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: languagesRow,
+                    start: "top bottom-=80px",
+                    once: true
+                }
+            });
+
+            langTl.to(languagesRow, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" });
+            if (validLangs.length > 0) {
+                langTl.to(validLangs, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.5,
+                    stagger: 0.08,
+                    ease: "power2.out"
+                }, "-=0.4");
+            }
+        }
+
+        // 5. Capabilities Timeline
+        if (capabilitiesRow) {
+            const chips = capabilitiesRow.querySelectorAll('.capability-chip');
+            const validChips = safeTargets(chips);
+
+            const capTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: capabilitiesRow,
+                    start: "top bottom-=80px",
+                    once: true
+                }
+            });
+
+            capTl.to(capabilitiesRow, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" });
+            if (validChips.length > 0) {
+                capTl.to(validChips, {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    duration: 0.5,
+                    stagger: 0.05,
+                    ease: "power2.out"
+                }, "-=0.4");
+            }
         }
     }
 
@@ -573,7 +689,7 @@ function initAnimations() {
     // --- Dividers Animate & Dynamic Pixel Particles Scatter ---
     const dividers = document.querySelectorAll('.pixel-divider');
     if (dividers.length > 0) {
-        dividers.forEach((div) => {
+        dividers.forEach((div, idx) => {
             const bar = div.querySelector('.pixel-bar');
             const dots = div.querySelectorAll('.pixel-dot');
             const validDots = safeTargets(dots);
@@ -582,28 +698,47 @@ function initAnimations() {
                 gsap.set(bar, { scaleX: 0 });
                 if (validDots.length > 0) gsap.set(validDots, { opacity: 0, scale: 0 });
 
-                const tl = gsap.timeline({
-                    scrollTrigger: {
-                        trigger: div,
-                        start: "top bottom-=80px",
-                        once: true,
-                        onEnter: () => {
-                            // Generate and scatter pixel particles
-                            scatterDividerParticles(div);
-                        }
-                    }
-                });
+                const rect = div.getBoundingClientRect();
+                const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
 
-                tl.to(bar, { scaleX: 1, duration: 1.0, ease: "expo.out" });
-                if (validDots.length > 0) {
-                    tl.to(validDots, { opacity: 1, scale: 1, duration: 0.4, stagger: 0.08, ease: "back.out(1.5)" }, "-=0.6");
+                if (isInViewport) {
+                    // Animate immediately with a delay matching the hero reveal sequence
+                    gsap.delayedCall(idx === 0 ? 1.8 : 0.2, () => {
+                        scatterDividerParticles(div);
+                        gsap.to(bar, { scaleX: 1, duration: 1.0, ease: "expo.out" });
+                        if (validDots.length > 0) {
+                            gsap.to(validDots, { opacity: 1, scale: 1, duration: 0.4, stagger: 0.08, ease: "back.out(1.5)" });
+                        }
+                        gsap.to(bar, {
+                            boxShadow: "0 0 15px rgba(139, 92, 246, 0.8)",
+                            duration: 0.3,
+                            yoyo: true,
+                            repeat: 1
+                        });
+                    });
+                } else {
+                    const tl = gsap.timeline({
+                        scrollTrigger: {
+                            trigger: div,
+                            start: "top bottom-=80px",
+                            once: true,
+                            onEnter: () => {
+                                scatterDividerParticles(div);
+                            }
+                        }
+                    });
+
+                    tl.to(bar, { scaleX: 1, duration: 1.0, ease: "expo.out" });
+                    if (validDots.length > 0) {
+                        tl.to(validDots, { opacity: 1, scale: 1, duration: 0.4, stagger: 0.08, ease: "back.out(1.5)" }, "-=0.6");
+                    }
+                    tl.to(bar, {
+                        boxShadow: "0 0 15px rgba(139, 92, 246, 0.8)",
+                        duration: 0.3,
+                        yoyo: true,
+                        repeat: 1
+                    }, "-=0.3");
                 }
-                tl.to(bar, {
-                    boxShadow: "0 0 15px rgba(139, 92, 246, 0.8)",
-                    duration: 0.3,
-                    yoyo: true,
-                    repeat: 1
-                }, "-=0.3");
             }
         });
     }
