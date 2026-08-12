@@ -1382,16 +1382,6 @@ body:not(.dark) header.scrolled {
   align-items: stretch;
 }
 
-.tech-eyebrow {
-  display: block;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 0.9rem;
-  color: hsl(var(--secondary));
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  margin-bottom: 0.75rem;
-}
-
 .skills-section h2 {
   text-align: center;
   font-size: 3.2rem;
@@ -1399,6 +1389,12 @@ body:not(.dark) header.scrolled {
   font-weight: 700;
   letter-spacing: -0.02em;
   margin-bottom: 1rem;
+  background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--secondary)), hsl(var(--accent)));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+  width: 100%;
 }
 
 .tech-intro-text {
@@ -1504,7 +1500,7 @@ body:not(.dark) header.scrolled {
 }
 
 .core-tech-card:hover .core-tech-name {
-  color: #fff;
+  color: hsl(var(--primary));
 }
 
 /* Category Sections */
@@ -1585,7 +1581,7 @@ body:not(.dark) header.scrolled {
 }
 
 .category-tech-item:hover span {
-  color: #fff;
+  color: hsl(var(--primary));
 }
 
 .category-tech-item:hover .cat-tech-icon {
@@ -1639,7 +1635,7 @@ body:not(.dark) header.scrolled {
 }
 
 .language-name-item:hover {
-  color: #fff;
+  color: hsl(var(--primary));
   transform: translateY(-2px);
 }
 
@@ -1685,7 +1681,7 @@ body:not(.dark) header.scrolled {
 }
 
 .capability-chip:hover {
-  color: #fff;
+  color: hsl(var(--primary));
   border-color: hsla(var(--primary), 0.55);
   background: hsla(var(--primary), 0.08);
   box-shadow: 0 4px 10px rgba(59, 130, 246, 0.05);
@@ -3847,6 +3843,21 @@ body:not(.dark) .tagline-tech {
 
 .method-icon {
   font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-icon-img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+
+.dark .contact-icon-img {
+  filter: invert(1);
+  mix-blend-mode: screen;
 }
 
 .method-details {
