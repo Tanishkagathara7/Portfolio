@@ -324,7 +324,7 @@ function initAnimations() {
         const headerTl = gsap.timeline({
             scrollTrigger: {
                 trigger: skillsSection,
-                start: "top bottom-=80px",
+                start: "top 85%",
                 once: true
             }
         });
@@ -338,7 +338,7 @@ function initAnimations() {
             const coreTl = gsap.timeline({
                 scrollTrigger: {
                     trigger: coreWrapper,
-                    start: "top bottom-=80px",
+                    start: "top 85%",
                     once: true
                 }
             });
@@ -367,7 +367,7 @@ function initAnimations() {
             const categoriesTl = gsap.timeline({
                 scrollTrigger: {
                     trigger: categoriesGrid,
-                    start: "top bottom-=80px",
+                    start: "top 85%",
                     once: true
                 }
             });
@@ -405,7 +405,7 @@ function initAnimations() {
             const langTl = gsap.timeline({
                 scrollTrigger: {
                     trigger: languagesRow,
-                    start: "top bottom-=80px",
+                    start: "top 85%",
                     once: true
                 }
             });
@@ -430,7 +430,7 @@ function initAnimations() {
             const capTl = gsap.timeline({
                 scrollTrigger: {
                     trigger: capabilitiesRow,
-                    start: "top bottom-=80px",
+                    start: "top 85%",
                     once: true
                 }
             });
@@ -700,25 +700,22 @@ function initAnimations() {
 
                 ScrollTrigger.create({
                     trigger: div,
-                    start: "top 95%",
+                    start: "top 80%",
                     once: true,
                     onEnter: () => {
-                        const delayTime = idx === 0 ? 1.8 : 0.05;
-                        gsap.delayedCall(delayTime, () => {
-                            scatterDividerParticles(div);
-                            
-                            const tl = gsap.timeline();
-                            tl.to(bar, { scaleX: 1, duration: 1.0, ease: "expo.out" });
-                            if (validDots.length > 0) {
-                                tl.to(validDots, { opacity: 1, scale: 1, duration: 0.4, stagger: 0.08, ease: "back.out(1.5)" }, "-=0.6");
-                            }
-                            tl.to(bar, {
-                                boxShadow: "0 0 15px rgba(139, 92, 246, 0.8)",
-                                duration: 0.3,
-                                yoyo: true,
-                                repeat: 1
-                            }, "-=0.3");
-                        });
+                        scatterDividerParticles(div);
+                        
+                        const tl = gsap.timeline();
+                        tl.to(bar, { scaleX: 1, duration: 1.0, ease: "expo.out" });
+                        if (validDots.length > 0) {
+                            tl.to(validDots, { opacity: 1, scale: 1, duration: 0.4, stagger: 0.08, ease: "back.out(1.5)" }, "-=0.6");
+                        }
+                        tl.to(bar, {
+                            boxShadow: "0 0 15px rgba(139, 92, 246, 0.8)",
+                            duration: 0.3,
+                            yoyo: true,
+                            repeat: 1
+                        }, "-=0.3");
                     }
                 });
             }

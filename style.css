@@ -1385,7 +1385,7 @@ body:not(.dark) header.scrolled {
 .tech-eyebrow {
   display: block;
   font-family: 'Press Start 2P', monospace;
-  font-size: 0.7rem;
+  font-size: 0.9rem;
   color: hsl(var(--secondary));
   text-transform: uppercase;
   letter-spacing: 0.15em;
@@ -1394,7 +1394,7 @@ body:not(.dark) header.scrolled {
 
 .skills-section h2 {
   text-align: center;
-  font-size: 2.2rem;
+  font-size: 3.2rem;
   font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -1402,9 +1402,9 @@ body:not(.dark) header.scrolled {
 }
 
 .tech-intro-text {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   color: hsl(var(--muted-text));
-  max-width: 650px;
+  max-width: 750px;
   margin: 0.5rem auto 0 auto;
   line-height: 1.6;
 }
@@ -1436,7 +1436,7 @@ body:not(.dark) header.scrolled {
   background: hsla(var(--card), 0.15);
   border: 1px solid hsla(var(--border), 0.35);
   border-radius: 8px;
-  padding: 1.5rem 1rem;
+  padding: 1.8rem 1.2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1457,8 +1457,8 @@ body:not(.dark) header.scrolled {
 }
 
 .core-tech-icon-wrap {
-  width: 52px;
-  height: 52px;
+  width: 64px;
+  height: 64px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1474,7 +1474,7 @@ body:not(.dark) header.scrolled {
 
 .core-tech-name {
   font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.35rem;
   font-weight: 650;
   color: hsla(var(--foreground), 0.9);
   margin-bottom: 0.25rem;
@@ -1482,7 +1482,7 @@ body:not(.dark) header.scrolled {
 }
 
 .core-tech-desc {
-  font-size: 0.85rem;
+  font-size: 0.92rem;
   color: hsl(var(--muted-text));
   line-height: 1.3;
   font-weight: 500;
@@ -1597,8 +1597,8 @@ body:not(.dark) header.scrolled {
   margin-bottom: 5rem;
   text-align: center;
   padding: 2.5rem 0;
-  border-top: 1px dashed hsla(var(--border), 0.25);
-  border-bottom: 1px dashed hsla(var(--border), 0.25);
+  border-top: 1px dashed hsla(var(--foreground), 0.15);
+  border-bottom: 1px dashed hsla(var(--foreground), 0.15);
 }
 
 .languages-heading {
@@ -1789,7 +1789,7 @@ body:not(.dark) header.scrolled {
   justify-content: space-between;
   align-items: flex-start;
   flex-wrap: wrap;
-  border-bottom: 2px dashed hsl(var(--border));
+  border-bottom: 2px dashed hsla(var(--foreground), 0.18);
   padding-bottom: 0.75rem;
   margin-bottom: 1rem;
 }
@@ -2333,7 +2333,7 @@ footer.site-footer {
   display: flex;
   align-items: center;
   gap: 1rem;
-  border: 2px dashed hsl(var(--border));
+  border: 2px dashed hsla(var(--foreground), 0.18);
   border-radius: 8px;
   padding: 0.75rem 1rem;
   background-color: hsla(var(--primary), 0.05);
@@ -3924,4 +3924,12 @@ body:not(.dark) .form-input {
 body:not(.dark) .form-input:focus {
   border-color: #0066FF;
   box-shadow: 0 0 10px rgba(0, 102, 255, 0.15);
+}
+
+/* Invert black/dark icons in dark mode to make them white */
+.dark img[src*="Next.js"],
+.dark img[src*="Express"],
+.dark img[src*="Socket.io"],
+.dark img[src*="Three.js"] {
+  filter: invert(1) brightness(2);
 }
