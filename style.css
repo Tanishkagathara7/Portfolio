@@ -3984,7 +3984,7 @@ body:not(.dark) .footer-copyright-sub {
   color: hsla(var(--foreground), 0.55);
   font-weight: 500;
   letter-spacing: 0.05em;
-  display: inline-block;
+  display: inline;
   margin-top: 0.4rem;
 }
 
