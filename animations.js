@@ -534,9 +534,9 @@ function initAnimations() {
             gsap.to(validCards, {
                 opacity: 1,
                 y: 0,
-                duration: 1.2,
-                ease: "expo.out",
-                stagger: 0.12, // stagger cards by 120ms
+                duration: 1.0,
+                ease: "power3.out",
+                stagger: 0.1, // stagger cards by 100ms
                 scrollTrigger: {
                     trigger: grid || projectsSection,
                     start: "top bottom-=80px",
@@ -552,15 +552,15 @@ function initAnimations() {
                     const y = e.clientY - rect.top;
                     const xc = rect.width / 2;
                     const yc = rect.height / 2;
-                    const angleX = (yc - y) / yc * 5; // max 5 degrees
-                    const angleY = (x - xc) / xc * 5; // max 5 degrees
+                    const angleX = (yc - y) / yc * 6; // max 6 degrees
+                    const angleY = (x - xc) / xc * 6; // max 6 degrees
 
                     gsap.to(card, {
                         rotationX: angleX,
                         rotationY: angleY,
-                        scale: 1.03,
+                        scale: 1.025,
                         ease: "power2.out",
-                        duration: 0.3,
+                        duration: 0.25,
                         overwrite: "auto"
                     });
                 });
@@ -665,26 +665,48 @@ function initAnimations() {
     // --- Footer Section Reveal ---
     const footer = document.querySelector('footer');
     if (footer) {
+        const idLeft     = footer.querySelector('.footer-identity-left');
+        const idRight    = footer.querySelector('.footer-identity-right');
+        const navLinks   = footer.querySelectorAll('.footer-nav-link');
+        const socialIcons = footer.querySelectorAll('.footer-social-icon');
+        const copyright  = footer.querySelector('.footer-copyright-inner');
+
+        // Set initial invisible states
+        const setInvis = (el, extra = {}) => { if (el) gsap.set(el, { opacity: 0, y: 24, ...extra }); };
+        const setInvisAll = (els, extra = {}) => { const arr = safeTargets(els); if (arr.length > 0) gsap.set(arr, { opacity: 0, ...extra }); };
+
+        setInvis(idLeft, { y: 20 });
+        setInvis(idRight, { y: 20 });
+        setInvisAll(navLinks, { y: 8 });
+        setInvisAll(socialIcons, { scale: 0.75, y: 6 });
+        if (copyright) gsap.set(copyright, { opacity: 0, y: 12 });
+
         const tl = gsap.timeline({
             scrollTrigger: {
                 trigger: footer,
-                start: "top bottom-=50px",
+                start: 'top bottom-=60px',
                 once: true
             }
         });
 
-        const content = footer.querySelector('.footer-content');
-        const socialBtns = footer.querySelectorAll('.social-btn');
-        const validBtns = safeTargets(socialBtns);
-
-        if (content) gsap.set(content, { opacity: 0, y: 30 });
-        if (validBtns.length > 0) gsap.set(validBtns, { opacity: 0, scale: 0.8 });
-
-        if (content) tl.to(content, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" });
-        if (validBtns.length > 0) {
-            tl.to(validBtns, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.5)", stagger: 0.1 }, "-=0.4");
+        // 1. Identity left (name/tagline/badge)
+        if (idLeft)  tl.to(idLeft, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' });
+        // 2. Identity right (nav + socials)
+        if (idRight) tl.to(idRight, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, '-=0.45');
+        // 3. Nav links stagger
+        const validNavLinks = safeTargets(navLinks);
+        if (validNavLinks.length > 0) {
+            tl.to(validNavLinks, { opacity: 1, y: 0, duration: 0.4, stagger: 0.05, ease: 'power2.out' }, '-=0.4');
         }
+        // 4. Social icons spring in
+        const validSocials = safeTargets(socialIcons);
+        if (validSocials.length > 0) {
+            tl.to(validSocials, { opacity: 1, scale: 1, y: 0, duration: 0.45, stagger: 0.08, ease: 'back.out(1.6)' }, '-=0.35');
+        }
+        // 5. Copyright
+        if (copyright) tl.to(copyright, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, '-=0.25');
     }
+
 
     // --- Dividers Animate & Dynamic Pixel Particles Scatter ---
     const dividers = document.querySelectorAll('.pixel-divider');

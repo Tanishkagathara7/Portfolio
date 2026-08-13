@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // WebGL Renderer Setup
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(isMobile ? 1.0 : Math.min(window.devicePixelRatio, 2));
     renderer.setSize(window.innerWidth, window.innerHeight);
 
     // Scene & Perspective Camera
@@ -258,7 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Fade into horizon (z distance)
                 float distFade = smoothstep(-100.0, -10.0, vWorldPosition.z) * smoothstep(60.0, 0.0, vWorldPosition.z);
                 
-                float baseAlpha = uIsDark > 0.5 ? 0.05 : 0.08;
+                float baseAlpha = uIsDark > 0.5 ? 0.05 : 0.015;
                 float finalAlpha = line * baseAlpha * distFade * uHeroWeight;
                 
                 gl_FragColor = vec4(uColor, finalAlpha);
@@ -275,7 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // =========================================================================
     // 4. LAYER 3: SKILLS NEURAL NETWORK GRAPH SYSTEM
     // =========================================================================
-    const nodeCount = isMobile ? 25 : 50;
+    const nodeCount = isMobile ? 12 : 50;
     const nodePositions = new Float32Array(nodeCount * 3);
     const nodeVelocities = [];
 
@@ -485,9 +485,10 @@ document.addEventListener('DOMContentLoaded', () => {
         pPositions[i * 3 + 1] = (Math.random() - 0.5) * 50;
         pPositions[i * 3 + 2] = (Math.random() - 0.5) * 60;
         pSpeeds.push({
-            x: (Math.random() - 0.5) * 0.01,
-            y: 0.015 + Math.random() * 0.02,
-            z: (Math.random() - 0.5) * 0.01
+            x: (Math.random() - 0.5) * 0.015,
+            y: 0.01 + Math.random() * 0.015,
+            z: (Math.random() - 0.5) * 0.015,
+            noiseOffset: Math.random() * 100
         });
         pSizes.push(1.5 + Math.random() * 2.5);
     }
@@ -528,18 +529,35 @@ document.addEventListener('DOMContentLoaded', () => {
         auroraMat.uniforms.uColor2.value.setHex(currentColors.secondary);
         auroraMat.uniforms.uColor3.value.setHex(currentColors.primary);
         auroraMat.uniforms.uIsDark.value = isDarkMode ? 1.0 : 0.0;
+        auroraMat.blending = isDarkMode ? THREE.AdditiveBlending : THREE.NormalBlending;
+        auroraMat.needsUpdate = true;
 
         heroGrid.material.uniforms.uColor.value.setHex(currentColors.primary);
         heroGrid.material.uniforms.uIsDark.value = isDarkMode ? 1.0 : 0.0;
 
         nodePoints.material.color.setHex(currentColors.accent);
+        nodePoints.material.blending = isDarkMode ? THREE.AdditiveBlending : THREE.NormalBlending;
+        nodePoints.material.needsUpdate = true;
+
         lineSegments.material.color.setHex(currentColors.primary);
+        lineSegments.material.blending = isDarkMode ? THREE.AdditiveBlending : THREE.NormalBlending;
+        lineSegments.material.needsUpdate = true;
 
         floorMesh.material.uniforms.uColor.value.setHex(currentColors.secondary);
         floorMesh.material.uniforms.uIsDark.value = isDarkMode ? 1.0 : 0.0;
 
         starField.material.uniforms.uColor.value.setHex(currentColors.star);
+        starField.material.blending = isDarkMode ? THREE.AdditiveBlending : THREE.NormalBlending;
+        starField.material.needsUpdate = true;
+
         particles.material.color.setHex(currentColors.particle1);
+        particles.material.blending = isDarkMode ? THREE.AdditiveBlending : THREE.NormalBlending;
+        particles.material.needsUpdate = true;
+
+        beamGroup.children.forEach(beam => {
+            beam.material.blending = isDarkMode ? THREE.AdditiveBlending : THREE.NormalBlending;
+            beam.material.needsUpdate = true;
+        });
     }
 
     const themeObserver = new MutationObserver(updateThemeColors);
@@ -657,12 +675,15 @@ document.addEventListener('DOMContentLoaded', () => {
         // F. Global Particles Movement
         const ptPositions = particleGeo.attributes.position.array;
         for (let i = 0; i < particleCount; i++) {
+            pSpeeds[i].noiseOffset += 0.005;
+            const sway = Math.sin(pSpeeds[i].noiseOffset) * 0.008;
             ptPositions[i * 3 + 1] += pSpeeds[i].y;
-            ptPositions[i * 3] += pSpeeds[i].x;
-            ptPositions[i * 3 + 2] += pSpeeds[i].z;
-
+            ptPositions[i * 3] += pSpeeds[i].x + sway;
+            ptPositions[i * 3 + 2] += pSpeeds[i].z + Math.cos(pSpeeds[i].noiseOffset) * 0.004;
+ 
             if (ptPositions[i * 3 + 1] > 30) {
                 ptPositions[i * 3 + 1] = -25;
+                ptPositions[i * 3] = (Math.random() - 0.5) * 100;
             }
         }
         particleGeo.attributes.position.needsUpdate = true;
