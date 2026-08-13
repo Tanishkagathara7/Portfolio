@@ -752,11 +752,11 @@ body:not(.dark) header.scrolled {
   }
 
   .logo-text {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
   }
 
   .header-actions {
-    gap: 0.5rem;
+    gap: 0.35rem;
     display: flex;
     align-items: center;
   }
@@ -764,8 +764,8 @@ body:not(.dark) header.scrolled {
   .theme-btn,
   .disc-btn,
   .menu-btn {
-    width: 42px !important;
-    height: 42px !important;
+    width: 36px !important;
+    height: 36px !important;
     border-radius: 8px !important;
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
     background: rgba(255, 255, 255, 0.04) !important;
@@ -3049,9 +3049,10 @@ body:not(.dark) .footer-copyright-sub {
   }
 
   .hero-tagline {
-    font-size: 1rem;
+    font-size: 0.9rem;
     margin-bottom: 1.25rem;
     line-height: 1.4;
+    padding-left: 12px;
   }
 
   .hero-summary {
