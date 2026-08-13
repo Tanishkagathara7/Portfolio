@@ -4289,7 +4289,8 @@ body:not(.dark) .contact-method-item:hover .phone-icon {
   font-size: 1.05rem;
   font-weight: 600;
   color: hsl(var(--foreground));
-  word-break: break-all;
+  word-break: normal;
+  overflow-wrap: anywhere;
 }
 
 /* Contact Form Styling */
@@ -4947,5 +4948,12 @@ body:not(.dark) #boot-sequence p:nth-child(4) {
   body:not(.dark) .timeline-card.pixel-card {
     transform: none !important;
     transition: box-shadow 200ms ease, border-color 200ms ease !important;
+  }
+}
+
+/* Adjust email font-size on extra small screens to prevent layout wrap */
+@media (max-width: 480px) {
+  .method-value {
+    font-size: 0.9rem !important;
   }
 }
