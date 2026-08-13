@@ -4951,9 +4951,13 @@ body:not(.dark) #boot-sequence p:nth-child(4) {
   }
 }
 
-/* Adjust email font-size on extra small screens to prevent layout wrap */
+/* Adjust email font-size and padding on extra small screens to prevent layout wrap */
 @media (max-width: 480px) {
+  .contact-method-item {
+    padding: 0.75rem 0.6rem !important;
+    gap: 0.6rem !important;
+  }
   .method-value {
-    font-size: 0.9rem !important;
+    font-size: 0.8rem !important;
   }
 }
