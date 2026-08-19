@@ -21,6 +21,16 @@
 </head>
 
 <body class="pixel-grid">
+  <!-- Inline Script to apply dark mode immediately and prevent flash -->
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem("theme");
+      const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (savedTheme === "dark" || (!savedTheme && systemPrefersDark)) {
+        document.body.classList.add("dark");
+      }
+    })();
+  </script>
   <!-- Premium Scroll Progress -->
   <div id="scroll-progress-container">
     <div id="scroll-progress-bar"></div>
