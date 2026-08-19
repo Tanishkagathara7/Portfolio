@@ -146,6 +146,12 @@ function initAnimations() {
         const triggerHeroReveal = () => {
             console.log("[Animations] Starting Hero Reveal sequence...");
             lenis.start();
+            
+            // Ensure parent containers hidden by CSS defaults are visible for child animations
+            if (titleEl) gsap.set(titleEl, { opacity: 1 });
+            const buttonsRow = heroSection.querySelector('.cta-buttons-row');
+            if (buttonsRow) gsap.set(buttonsRow, { opacity: 1 });
+
             const tl = gsap.timeline();
             
             // 1. Navbar (Header)
