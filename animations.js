@@ -62,6 +62,11 @@ function initAnimations() {
     });
     gsap.ticker.lagSmoothing(0);
 
+    // Pause scrolling until hero reveal is triggered
+    if (!window.heroRevealTriggered) {
+        lenis.stop();
+    }
+
     // 2. Global Scroll Progress Bar
     const progressBar = document.getElementById('scroll-progress-bar');
     if (progressBar) {
@@ -140,10 +145,11 @@ function initAnimations() {
 
         const triggerHeroReveal = () => {
             console.log("[Animations] Starting Hero Reveal sequence...");
+            lenis.start();
             const tl = gsap.timeline();
             
             // 1. Navbar (Header)
-            if (header) tl.to(header, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" });
+            if (header) tl.to(header, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out", clearProps: "transform" });
             
             // 2. Badge (Tag)
             if (tag) tl.to(tag, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, "-=0.4");
@@ -253,7 +259,11 @@ function initAnimations() {
 
         const needsMusicPrompt = true;
         if (needsMusicPrompt) {
-            window.addEventListener('startHeroReveal', triggerHeroReveal, { once: true });
+            if (window.heroRevealTriggered) {
+                triggerHeroReveal();
+            } else {
+                window.addEventListener('startHeroReveal', triggerHeroReveal, { once: true });
+            }
         } else {
             setTimeout(triggerHeroReveal, 1600);
         }
@@ -487,6 +497,7 @@ function initAnimations() {
                         y: 0,
                         duration: 1.0,
                         ease: "power3.out",
+                        clearProps: "transform",
                         scrollTrigger: {
                             trigger: item,
                             start: "top bottom-=80px",
@@ -537,6 +548,7 @@ function initAnimations() {
                 duration: 1.0,
                 ease: "power3.out",
                 stagger: 0.1, // stagger cards by 100ms
+                clearProps: "transform",
                 scrollTrigger: {
                     trigger: grid || projectsSection,
                     start: "top bottom-=80px",
@@ -601,7 +613,8 @@ function initAnimations() {
                 y: 0,
                 duration: 0.8,
                 ease: "power3.out",
-                stagger: 0.15
+                stagger: 0.15,
+                clearProps: "transform"
             });
 
             // Rotate icons slightly while entering

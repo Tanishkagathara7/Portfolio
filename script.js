@@ -307,6 +307,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const hideMusicModal = () => {
     if (musicModal) musicModal.classList.remove("active");
+    window.heroRevealTriggered = true;
     window.dispatchEvent(new CustomEvent('startHeroReveal'));
   };
 
@@ -323,6 +324,14 @@ document.addEventListener("DOMContentLoaded", () => {
   
   if (closeMusicModal) {
     closeMusicModal.addEventListener("click", hideMusicModal);
+  }
+
+  if (musicModal) {
+    musicModal.addEventListener("click", (e) => {
+      if (e.target === musicModal) {
+        hideMusicModal();
+      }
+    });
   }
 
 
