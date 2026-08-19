@@ -10,6 +10,8 @@ if (document.readyState === "complete") {
 }
 
 function initAnimations() {
+    if (window.animationsInitialized) return;
+    window.animationsInitialized = true;
     console.log("[Animations] Initializing animations...");
     // Ensure libraries loaded
     if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined' || typeof Lenis === 'undefined') {
